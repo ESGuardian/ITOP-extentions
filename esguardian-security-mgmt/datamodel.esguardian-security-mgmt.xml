@@ -1200,7 +1200,31 @@
           <target_attcode>name</target_attcode>
         </field>
       </fields>
-      <methods/>
+		<methods>
+			<method id="DBInsert">
+                <comment>/**
+	            * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
+	            * in case an extension attempts to redefine this function...	 
+	            */</comment>
+                <static>false</static>
+                <access>public</access>
+                <type>Overload-DBObject</type>
+                <code><![CDATA[	public function DBInsert(){
+							$this->DBInsertNoReload();
+							$this->Reload();
+                            $oMyClone = clone $this;
+                            $mem_left = $oMyClone->Get('left_securityrole_id');
+							$mem_right = $oMyClone->Get('right_securityrole_id');
+							$oMyClone->Set('left_securityrole_id',$mem_right);
+							$oMyClone->Set('right_securityrole_id',$mem_left);
+							$oMyClone->DBInsertNoReload();
+							$oMyClone->Reload();
+							return $this->m_iKey;
+				} ]]></code>
+            </method>
+			
+		</methods>
+
       <presentation>
         <details>
           <items>
