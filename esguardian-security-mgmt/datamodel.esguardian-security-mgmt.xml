@@ -9,14 +9,14 @@
             <category>bizmodel,searchable</category>
             <abstract>true</abstract>
             <db_table>securityrole</db_table>
-		    <db_key_field>id</db_key_field>
-			<db_final_class_field>finalclass</db_final_class_field>
-			<naming>
-			    <attributes>
-				    <attribute id="name"/>
-			    </attributes>
-			</naming>
-			<display_template/>
+            <db_key_field>id</db_key_field>
+            <db_final_class_field>finalclass</db_final_class_field>
+            <naming>
+                <attributes>
+                    <attribute id="name"/>
+                </attributes>
+            </naming>
+            <display_template/>
             <reconciliation>
                 <attributes>
                     <attribute id="name"/>
@@ -29,67 +29,67 @@
         <methods>
             <method id="GetRelationQueries">
                 <comment>/**
-	            * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
-	            * in case an extension attempts to redefine this function...	 
-	            */</comment>
+                * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
+                * in case an extension attempts to redefine this function...     
+                */</comment>
                 <static>true</static>
                 <access>public</access>
                 <type>Overload-DBObject</type>
-                <code><![CDATA[	public static function GetRelationQueries($sRelCode){return parent::GetRelationQueries($sRelCode);} ]]></code>
+                <code><![CDATA[ public static function GetRelationQueries($sRelCode){return parent::GetRelationQueries($sRelCode);} ]]></code>
             </method>
             <method id="DisplayBareRelations">
                 <static>false</static>
                 <access>public</access>
                 <type>Overload-cmdbAbstractObject</type>
-                <code><![CDATA[	function DisplayBareRelations(WebPage $oPage, $bEditMode = false)
-	                {
-		                parent::DisplayBareRelations($oPage, $bEditMode);
+                <code><![CDATA[ function DisplayBareRelations(WebPage $oPage, $bEditMode = false)
+                    {
+                        parent::DisplayBareRelations($oPage, $bEditMode);
 
-		                $sTicketListAttCode = 'tickets_list';
+                        $sTicketListAttCode = 'tickets_list';
 
-		                if (MetaModel::IsValidAttCode(get_class($this), $sTicketListAttCode))
-		                {
-			                // Display one list per leaf class (the only way to display the status as of now)
+                        if (MetaModel::IsValidAttCode(get_class($this), $sTicketListAttCode))
+                        {
+                            // Display one list per leaf class (the only way to display the status as of now)
 
-			                $oAttDef = MetaModel::GetAttributeDef(get_class($this), $sTicketListAttCode);
-			                $sLnkClass = $oAttDef->GetLinkedClass();
-			                $sExtKeyToMe = $oAttDef->GetExtKeyToMe();
-			                $sExtKeyToRemote = $oAttDef->GetExtKeyToRemote();
+                            $oAttDef = MetaModel::GetAttributeDef(get_class($this), $sTicketListAttCode);
+                            $sLnkClass = $oAttDef->GetLinkedClass();
+                            $sExtKeyToMe = $oAttDef->GetExtKeyToMe();
+                            $sExtKeyToRemote = $oAttDef->GetExtKeyToRemote();
 
-			                $iTotal = 0;
-			                $aSearches = array();
+                            $iTotal = 0;
+                            $aSearches = array();
 
-			                foreach (MetaModel::EnumChildClasses('Ticket') as $sSubClass)
-			                {
-				                if (!MetaModel::HasChildrenClasses($sSubClass))
-				                {
-					                $sStateAttCode = MetaModel::GetStateAttributeCode($sSubClass);
-					                if ($sStateAttCode != '')
-					                {
-						                $oSearch = DBSearch::FromOQL("SELECT $sSubClass AS t JOIN $sLnkClass AS lnk ON lnk.$sExtKeyToRemote = t.id WHERE $sExtKeyToMe = :myself AND $sStateAttCode NOT IN ('rejected', 'resolved', 'closed')", array('myself' => $this->GetKey()));
-						                $aSearches[$sSubClass] = $oSearch;
+                            foreach (MetaModel::EnumChildClasses('Ticket') as $sSubClass)
+                            {
+                                if (!MetaModel::HasChildrenClasses($sSubClass))
+                                {
+                                    $sStateAttCode = MetaModel::GetStateAttributeCode($sSubClass);
+                                    if ($sStateAttCode != '')
+                                    {
+                                        $oSearch = DBSearch::FromOQL("SELECT $sSubClass AS t JOIN $sLnkClass AS lnk ON lnk.$sExtKeyToRemote = t.id WHERE $sExtKeyToMe = :myself AND $sStateAttCode NOT IN ('rejected', 'resolved', 'closed')", array('myself' => $this->GetKey()));
+                                        $aSearches[$sSubClass] = $oSearch;
 
-						                $oSet = new DBObjectSet($oSearch);
-						                $iTotal += $oSet->Count();
-					                }
-				                }
-			                }
+                                        $oSet = new DBObjectSet($oSearch);
+                                        $iTotal += $oSet->Count();
+                                    }
+                                }
+                            }
 
-			                $sCount = ($iTotal > 0) ? ' ('.$iTotal.')' : '';
-			                $oPage->SetCurrentTab(Dict::S('Class:SecurityRole/Tab:OpenedTickets').$sCount);
+                            $sCount = ($iTotal > 0) ? ' ('.$iTotal.')' : '';
+                            $oPage->SetCurrentTab(Dict::S('Class:SecurityRole/Tab:OpenedTickets').$sCount);
 
-			                foreach ($aSearches as $sSubClass => $oSearch)
-			                {
-				                $sBlockId = __class__.'_opened_'.$sSubClass;
-		
-				                $oPage->add('<fieldset>');
-				                $oPage->add('<legend>'.MetaModel::GetName($sSubClass).'</legend>');
-				                $oBlock = new DisplayBlock($oSearch, 'list', false);
-				                $oBlock->Display($oPage, $sBlockId, array('menu' => false));
-				                $oPage->add('</fieldset>');
-			                }
-		                }
-	                }]]></code>
+                            foreach ($aSearches as $sSubClass => $oSearch)
+                            {
+                                $sBlockId = __class__.'_opened_'.$sSubClass;
+        
+                                $oPage->add('<fieldset>');
+                                $oPage->add('<legend>'.MetaModel::GetName($sSubClass).'</legend>');
+                                $oBlock = new DisplayBlock($oSearch, 'list', false);
+                                $oBlock->Display($oPage, $sBlockId, array('menu' => false));
+                                $oPage->add('</fieldset>');
+                            }
+                        }
+                    }]]></code>
             </method>
         </methods>
         <fields>
@@ -129,7 +129,7 @@
                 <ext_key_to_remote>document_id</ext_key_to_remote>
                 <duplicates/>
             </field>
-			<field id="conflictingroles_list" xsi:type="AttributeLinkedSetIndirect">
+            <field id="conflictingroles_list" xsi:type="AttributeLinkedSetIndirect">
                 <linked_class>lnkSecurityRoleBidirectional</linked_class>
                 <ext_key_to_me>left_securityrole_id</ext_key_to_me>
                 <count_min>0</count_min>
@@ -192,14 +192,14 @@
             <category>bizmodel,searchable</category>
             <abstract>false</abstract>
             <db_table>applicationrole</db_table>
-		    <db_key_field>id</db_key_field>
-			<db_final_class_field/>
-			<naming>
-			    <attributes>
-				    <attribute id="name"/>
-			    </attributes>
-			</naming>
-			<display_template/>
+            <db_key_field>id</db_key_field>
+            <db_final_class_field/>
+            <naming>
+                <attributes>
+                    <attribute id="name"/>
+                </attributes>
+            </naming>
+            <display_template/>
             <reconciliation>
                 <attributes>
                     <attribute id="name"/>
@@ -211,16 +211,16 @@
         <methods/>
         <fields>
             <field id="applicationsolution_id" xsi:type="AttributeExternalKey">
-			    <sql>applicationsolution_id</sql>
-			    <default_value/>
-			    <is_null_allowed>true</is_null_allowed>
-			    <on_target_delete>DEL_AUTO</on_target_delete>
-			    <target_class>ApplicationSolution</target_class>
-			    <filter>SELECT ApplicationSolution WHERE org_id = :this->org_id</filter>
-			    <dependencies>
-				    <attribute id="org_id" />
-			    </dependencies>
-		    </field>
+                <sql>applicationsolution_id</sql>
+                <default_value/>
+                <is_null_allowed>true</is_null_allowed>
+                <on_target_delete>DEL_AUTO</on_target_delete>
+                <target_class>ApplicationSolution</target_class>
+                <filter>SELECT ApplicationSolution WHERE org_id = :this->org_id</filter>
+                <dependencies>
+                    <attribute id="org_id" />
+                </dependencies>
+            </field>
             <field id="applicationsolution_name" xsi:type="AttributeExternalField">
                 <extkey_attcode>applicationsolution_id</extkey_attcode>
                 <target_attcode>name</target_attcode>
@@ -257,7 +257,7 @@
                 </items>
             </details>
             <search>
-				<items>
+                <items>
                     <item id="org_id">
                         <rank>10</rank>
                     </item>
@@ -266,11 +266,11 @@
                     </item>
                     <item id="name">
                         <rank>30</rank>
-                    </item>				
-				</items>
+                    </item>             
+                </items>
             </search>
-			<list>
-				<items>
+            <list>
+                <items>
                     <item id="org_id">
                         <rank>10</rank>
                     </item>
@@ -279,26 +279,26 @@
                     </item>
                     <item id="name">
                         <rank>30</rank>
-                    </item>				
-				</items>
-			</list>
+                    </item>             
+                </items>
+            </list>
         </presentation>
     </class>
     
-	<class id="BusinessRole"  _delta="define">
+    <class id="BusinessRole"  _delta="define">
         <parent>SecurityRole</parent>
         <properties>
             <category>bizmodel,searchable</category>
             <abstract>false</abstract>
             <db_table>businessrole</db_table>
-		    <db_key_field>id</db_key_field>
-			<db_final_class_field/>
-			<naming>
-			    <attributes>
-				    <attribute id="name"/>
-			    </attributes>
-			</naming>
-			<display_template/>
+            <db_key_field>id</db_key_field>
+            <db_final_class_field/>
+            <naming>
+                <attributes>
+                    <attribute id="name"/>
+                </attributes>
+            </naming>
+            <display_template/>
             <reconciliation>
                 <attributes>
                     <attribute id="name"/>
@@ -310,16 +310,16 @@
         <methods/>
         <fields>
             <field id="businessprocess_id" xsi:type="AttributeExternalKey">
-			    <sql>businessprocess_id</sql>
-			    <default_value/>
-			    <is_null_allowed>true</is_null_allowed>
-			    <on_target_delete>DEL_AUTO</on_target_delete>
-			    <target_class>BusinessProcess</target_class>
-			    <filter>SELECT BusinessProcess WHERE org_id = :this->org_id</filter>
-			    <dependencies>
-				    <attribute id="org_id" />
-			    </dependencies>
-		    </field>
+                <sql>businessprocess_id</sql>
+                <default_value/>
+                <is_null_allowed>true</is_null_allowed>
+                <on_target_delete>DEL_AUTO</on_target_delete>
+                <target_class>BusinessProcess</target_class>
+                <filter>SELECT BusinessProcess WHERE org_id = :this->org_id</filter>
+                <dependencies>
+                    <attribute id="org_id" />
+                </dependencies>
+            </field>
             <field id="businessprocess_name" xsi:type="AttributeExternalField">
                 <extkey_attcode>businessprocess_id</extkey_attcode>
                 <target_attcode>name</target_attcode>
@@ -355,7 +355,7 @@
                 </items>
             </details>
             <search>
-				<items>
+                <items>
                     <item id="org_id">
                         <rank>10</rank>
                     </item>
@@ -364,11 +364,11 @@
                     </item>
                     <item id="name">
                         <rank>30</rank>
-                    </item>				
-				</items>
+                    </item>             
+                </items>
             </search>
-			<list>
-				<items>
+            <list>
+                <items>
                     <item id="org_id">
                         <rank>10</rank>
                     </item>
@@ -377,18 +377,18 @@
                     </item>
                     <item id="name">
                         <rank>30</rank>
-                    </item>				
-				</items>
-			</list>
+                    </item>             
+                </items>
+            </list>
         </presentation>
     </class>
 
     <class id="ApplicationSolution">
         <fields>
             <field id="roles_list" xsi:type="AttributeLinkedSet" _delta="define">
-		        <linked_class>ApplicationRole</linked_class>
-		        <ext_key_to_me>applicationsolution_id</ext_key_to_me>
-	        </field>
+                <linked_class>ApplicationRole</linked_class>
+                <ext_key_to_me>applicationsolution_id</ext_key_to_me>
+            </field>
         </fields>
         <presentation>
             <details _delta="redefine">
@@ -440,9 +440,9 @@
     <class id="BusinessProcess">
         <fields>
             <field id="roles_list" xsi:type="AttributeLinkedSet" _delta="define">
-		        <linked_class>BusinessRole</linked_class>
-		        <ext_key_to_me>businessprocess_id</ext_key_to_me>
-	        </field>
+                <linked_class>BusinessRole</linked_class>
+                <ext_key_to_me>businessprocess_id</ext_key_to_me>
+            </field>
         </fields>
         <presentation>
             <details  _delta="redefine">
@@ -1200,30 +1200,52 @@
           <target_attcode>name</target_attcode>
         </field>
       </fields>
-		<methods>
-			<method id="DBInsert">
+        <methods>
+            <method id="DBInsert">
                 <comment>/**
-	            * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
-	            * in case an extension attempts to redefine this function...	 
-	            */</comment>
+                * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
+                * in case an extension attempts to redefine this function...     
+                */</comment>
                 <static>false</static>
                 <access>public</access>
                 <type>Overload-DBObject</type>
-                <code><![CDATA[	public function DBInsert(){
-							$this->DBInsertNoReload();
-							$this->Reload();
+                <code><![CDATA[ public function DBInsert(){
+                            $this->DBInsertNoReload();
+                            $this->Reload();
                             $oMyClone = clone $this;
                             $mem_left = $oMyClone->Get('left_securityrole_id');
-							$mem_right = $oMyClone->Get('right_securityrole_id');
-							$oMyClone->Set('left_securityrole_id',$mem_right);
-							$oMyClone->Set('right_securityrole_id',$mem_left);
-							$oMyClone->DBInsertNoReload();
-							$oMyClone->Reload();
-							return $this->m_iKey;
-				} ]]></code>
+                            $mem_right = $oMyClone->Get('right_securityrole_id');
+                            $oMyClone->Set('left_securityrole_id',$mem_right);
+                            $oMyClone->Set('right_securityrole_id',$mem_left);
+                            $oMyClone->DBInsertNoReload();
+                            $oMyClone->Reload();
+                            return $this->m_iKey;
+                } ]]></code>
             </method>
-			
-		</methods>
+            <method id="AfterDelete">
+                <comment>/**
+                * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
+                * in case an extension attempts to redefine this function...     
+                */</comment>
+                <static>false</static>
+                <access>protected</access>
+                <type>Overload-DBObject</type>
+                <code><![CDATA[ protected function AfterDelete(){
+                        $mem_left = $this->Get('right_securityrole_id');
+                        $mem_right = $this->Get('left_securityrole_id');
+                        $oObjectSet = new DBObjectSet(DBObjectSearch::FromOQL("SELECT lnkSecurityRoleBidirectional WHERE left_securityrole_id='$mem_left' AND  right_securityrole_id='$mem_right'"));
+                        $oObjectSet->Seek(0);
+		                while ($oObject = $oObjectSet->Fetch())
+		                {
+                            $oObject->DBDeleteSingleObject();
+                        }
+                        $sDeleteSQL = "DELETE FROM lnksecurityrolebidirectional WHERE left_securityrole_id='$mem_left' AND  right_securityrole_id='$mem_right'";
+		                CMDBSource::DeleteFrom($sDeleteSQL);
+                        return;
+                } ]]></code>
+            </method>
+            
+        </methods>
 
       <presentation>
         <details>
