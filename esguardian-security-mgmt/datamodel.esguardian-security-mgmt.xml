@@ -1584,8 +1584,55 @@
     </menus>
   <user_rights>
     <groups>
+        <group id="Ticketing">
+            <classes>
+                <class id="lnkSecurityRoleToTicket"/>
+            </classes>
+        </group>
+    <group id="SecurityRole" _delta="define">
+            <classes>
+                <class id="BusinessRole"/>
+                <class id="ApplicationRole"/>
+                <class id="lnkSecurityRoleBidirectional"/>
+                <class id="lnkDocumentToSecurityRole"/>
+                <class id="lnkPersonToSecurityRole"/>
+            </classes>
+        </group>
     </groups>
     <profiles>
+    <profile id="301" _delta="define">
+        <name>Role Manager</name>
+        <description>Person in charge of the documentation of the managed Security Roles</description>
+        <groups>
+            <group id="General">
+                <actions>
+                    <action id="action:write">allow</action>
+                    <action id="action:bulk write">allow</action>
+                    <action id="action:delete">allow</action>
+                </actions>
+            </group>
+            <group id="Documentation">
+                <actions>
+                    <action id="action:write">allow</action>
+                    <action id="action:bulk write">allow</action>
+                    <action id="action:delete">allow</action>
+                </actions>
+            </group>
+            <group id="SecurityRole">
+                <actions>
+                    <action id="action:write">allow</action>
+                    <action id="action:bulk write">allow</action>
+                    <action id="action:delete">allow</action>
+                </actions>
+            </group>
+            <group id="*">
+                <actions>
+                    <action id="action:read">allow</action>
+                    <action id="action:bulk read">allow</action>
+                </actions>
+            </group>
+        </groups>
+      </profile>
     </profiles>
   </user_rights>
 </itop_design>
