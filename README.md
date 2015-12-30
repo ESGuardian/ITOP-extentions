@@ -1,6 +1,6 @@
 # README #
 
-Это модуль расширения для ITOP (Open Source ITSM http://www.combodo.com/).
+Это модуль расширения для iTop (Open Source ITSM http://www.combodo.com/).
 
 ### Зачем? ###
 
@@ -18,10 +18,11 @@
 
 ### Что нужно для установки ###
 
-* Скопируйте папку esguardian-security-mgmt со всем содержимым в каталог itop/extensions на вашем веб-сервере ITOP
-* Установите права write на php файл конфигурации itop (обычно /var/www/html/itop/conf/production/config-itop.php
-* Запустите процесс апдейта ITOP в веб-браузере (http://www.yourhost.dom/itop/setup)
-* В шагах мастера установки выберите модуль Security Objects Management когда он появится. 
+* Скопируйте папку esguardian-security-mgmt со всем содержимым в каталог itop/extensions на вашем веб-сервере iTop
+* Установите права write на php файл конфигурации iTop (обычно /var/www/html/itop/conf/production/config-itop.php
+* Запустите процесс апдейта iTop в веб-браузере (http://www.yourhost.dom/itop/setup)
+* В шагах мастера установки выберите модуль Security Objects Configuration Management когда он появится. 
+* Для управления правами пользователю должен быть назначен профиль Role Manager (Добавляется в iTop после установки).
 
 ### Связаться с автором ###
 * esguardian@outlook.com
