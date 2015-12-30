@@ -11,6 +11,7 @@ Dict::Add('EN US', 'English', 'English', array(
 	'Class:BusinessProcess/Attribute:roles_list' => 'Roles',
 	'Class:Person/Attribute:roles_list' => 'Roles',
 	'Class:Ticket/Attribute:securityroles_list' => 'affected roles',
+    'Class:Person/Tab:ConflictingRoles' => 'Conflicts',
 ));
 
 

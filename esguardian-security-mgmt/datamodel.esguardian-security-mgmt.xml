@@ -995,6 +995,104 @@
                 <duplicates/>
             </field>
         </fields>
+        <methods>
+            <method id="GetPersonConflictingRoles" _delta="define">
+                <comment>/**
+                * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
+                * in case an extension attempts to redefine this function...     
+                */</comment>
+                <static>false</static>
+                <access>public</access>
+                <type>Custom</type>
+                <code><![CDATA[ public function GetPersonConflictingRoles()
+                {
+                    $sRoleListAttCode = 'roles_list';
+                    $oResultSet = DBObjectSet::FromScratch('lnkSecurityRoleBidirectional');
+                    if (MetaModel::IsValidAttCode(get_class($this), $sRoleListAttCode))
+                    {
+                        $oAttDef = MetaModel::GetAttributeDef(get_class($this), $sRoleListAttCode);
+                        $sLnkClass = $oAttDef->GetLinkedClass();
+                        $sExtKeyToMe = $oAttDef->GetExtKeyToMe();
+                        $sExtKeyToRemote = $oAttDef->GetExtKeyToRemote();
+                        $me = $this->GetKey();
+                        $oSearch = DBSearch::FromOQL("SELECT $sLnkClass WHERE $sExtKeyToMe = '$me'");
+                        $oSet = new DBObjectSet($oSearch);
+                        if ($oSet->Count() == 0) 
+                        {
+                            return $oResultSet;
+                        }
+                        $oSet->Seek(0);
+                        $aRoleIDs = array();
+                        while ($oObject = $oSet->Fetch())
+                        {
+                            $aRoleIDs[] = $oObject->Get($sExtKeyToRemote);
+                        }
+                        $aConflictingRolesPairs = array();
+                        foreach ($aRoleIDs as $RoleID)
+                        {
+                            $oSearch = DBSearch::FromOQL("SELECT lnkSecurityRoleBidirectional WHERE left_securityrole_id = '$RoleID'");
+                            $oSet = new DBObjectSet($oSearch);
+                            if ($oSet->Count() != 0)
+                            {
+                                $oSet->Seek(0);
+                                while($oObject = $oSet->Fetch())
+                                {
+                                    $NewID = $oObject->Get('right_securityrole_id');
+                                    if (in_array($NewID,$aRoleIDs))
+                                    {
+  
+                                        $aNewPair = array($RoleID,$NewID);
+                                        $aNewPairSym = array($NewID,$RoleID);
+                                        if (!(in_array($aNewPair,$aConflictingRolesPairs) || in_array($aNewPairSym,$aConflictingRolesPairs)))
+                                        {
+                                            $aConflictingRolesPairs[] = $aNewPair;
+                                            $oResultSet->AddObject($oObject);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    return $oResultSet; 
+                } ]]></code>
+            </method>
+            <method id="GetRelationQueries" _delta="define">
+                <comment>/**
+                * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
+                * in case an extension attempts to redefine this function...     
+                */</comment>
+                <static>true</static>
+                <access>public</access>
+                <type>Overload-DBObject</type>
+                <code><![CDATA[ public static function GetRelationQueries($sRelCode){return parent::GetRelationQueries($sRelCode);} ]]></code>
+            </method>
+            <method id="DisplayBareRelations" _delta="define">
+                <static>false</static>
+                <access>public</access>
+                <type>Overload-cmdbAbstractObject</type>
+                <code><![CDATA[ function DisplayBareRelations(WebPage $oPage, $bEditMode = false)
+                    {
+                        parent::DisplayBareRelations($oPage, $bEditMode);
+                        try
+                        {
+                            $oSet = $this->GetPersonConflictingRoles();
+                            $iTotal = $oSet->Count();
+
+                            $sCount = ($iTotal > 0) ? ' ('.$iTotal.')' : '';
+                            $oPage->SetCurrentTab(Dict::S('Class:Person/Tab:ConflictingRoles').$sCount);
+                            $sBlockId = 'TEST';
+                            $oPage->add('<fieldset>');
+                            $oBlock = DisplayBlock::FromObjectSet($oSet, 'list');
+                            $oBlock->Display($oPage, $sBlockId, array('menu' => false));
+                            $oPage->add('</fieldset>');
+                        }
+                        catch (Exception $e)
+		                {
+                			throw $e;
+		                }
+                    }]]></code>
+            </method>
+        </methods>
         <presentation>
             <details _delta="redefine">
                 <items>

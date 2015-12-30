@@ -15,6 +15,7 @@ Dict::Add('RU RU', 'Russian', 'Русский', array(
 	'Class:BusinessProcess/Attribute:roles_list' => 'Роли',
 	'Class:Person/Attribute:roles_list' => 'Роли',
 	'Class:Ticket/Attribute:securityroles_list' => 'Влияет на роли',
+    'Class:Person/Tab:ConflictingRoles' => 'Конфликты',
 ));
 
 
