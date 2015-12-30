@@ -22,7 +22,7 @@
 * Установите права write на php файл конфигурации iTop (обычно /var/www/html/itop/conf/production/config-itop.php
 * Запустите процесс апдейта iTop в веб-браузере (http://www.yourhost.dom/itop/setup)
 * В шагах мастера установки выберите модуль Security Objects Configuration Management когда он появится. 
-* Для управления правами пользователю должен быть назначен профиль Role Manager (Добавляется в iTop после установки).
+* Для управления ролями пользователю должен быть назначен профиль Role Manager (Добавляется в iTop после установки).
 
 ### Связаться с автором ###
 * esguardian@outlook.com
