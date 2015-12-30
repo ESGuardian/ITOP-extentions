@@ -18,6 +18,7 @@
 
 ### Что нужно для установки ###
 
+* Если вы не знаете как установить сам iTop, можете воспользоваться скриптом из сниппета https://bitbucket.org/snippets/esguardian/78Raa 
 * Скопируйте папку esguardian-security-mgmt со всем содержимым в каталог itop/extensions на вашем веб-сервере iTop
 * Установите права write на php файл конфигурации iTop (обычно /var/www/html/itop/conf/production/config-itop.php
 * Запустите процесс апдейта iTop в веб-браузере (http://www.yourhost.dom/itop/setup)
