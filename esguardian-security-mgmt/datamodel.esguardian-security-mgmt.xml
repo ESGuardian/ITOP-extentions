@@ -3,12 +3,12 @@
   <constants>
   </constants>
   <classes>
-    <class id="SecurityRole"  _delta="define">
+    <class id="SecurityCI"  _delta="define">
         <parent>cmdbAbstractObject</parent>
         <properties>
             <category>bizmodel,searchable</category>
             <abstract>true</abstract>
-            <db_table>securityrole</db_table>
+            <db_table>securityci</db_table>
             <db_key_field>id</db_key_field>
             <db_final_class_field>finalclass</db_final_class_field>
             <naming>
@@ -76,7 +76,7 @@
                             }
 
                             $sCount = ($iTotal > 0) ? ' ('.$iTotal.')' : '';
-                            $oPage->SetCurrentTab(Dict::S('Class:SecurityRole/Tab:OpenedTickets').$sCount);
+                            $oPage->SetCurrentTab(Dict::S('Class:SecurityCI/Tab:OpenedTickets').$sCount);
 
                             foreach ($aSearches as $sSubClass => $oSearch)
                             {
@@ -113,6 +113,861 @@
                 <extkey_attcode>org_id</extkey_attcode>
                 <target_attcode>name</target_attcode>
             </field>
+            <field id="managers_list" xsi:type="AttributeLinkedSetIndirect">
+                <linked_class>lnkPersonAsManagerOfSecurityCI</linked_class>
+                <ext_key_to_me>securityci_id</ext_key_to_me>
+                <count_min>0</count_min>
+                <count_max>0</count_max>
+                <ext_key_to_remote>person_id</ext_key_to_remote>
+                <duplicates/>
+            </field>
+            <field id="documents_list" xsi:type="AttributeLinkedSetIndirect">
+                <linked_class>lnkDocumentToSecurityCI</linked_class>
+                <ext_key_to_me>securityci_id</ext_key_to_me>
+                <count_min>0</count_min>
+                <count_max>0</count_max>
+                <ext_key_to_remote>document_id</ext_key_to_remote>
+                <duplicates/>
+            </field>
+
+            <field id="tickets_list" xsi:type="AttributeLinkedSetIndirect">
+                <linked_class>lnkSecurityCIToTicket</linked_class>
+                <ext_key_to_me>securityci_id</ext_key_to_me>
+                <count_min>0</count_min>
+                <count_max>0</count_max>
+                <ext_key_to_remote>ticket_id</ext_key_to_remote>
+                <duplicates/>
+            </field>
+        </fields>
+        <presentation>
+            <details>
+                <items>
+                    <item id="name">
+                        <rank>10</rank>
+                    </item>
+                    <item id="org_id">
+                        <rank>20</rank>
+                    </item>
+                    <item id="managers_list">
+                        <rank>30</rank>
+                    </item>
+                    <item id="documents_list">
+                        <rank>70</rank>
+                    </item>
+                </items>
+            </details>
+            <search>
+                <items>
+                    <item id="finalclass">
+                        <rank>10</rank>
+                    </item>
+                    <item id="name">
+                        <rank>20</rank>
+                    </item>
+                    <item id="org_id">
+                        <rank>20</rank>
+                    </item>
+                </items>
+            </search>
+            <list>
+                <items>
+                    <item id="finalclass">
+                        <rank>10</rank>
+                    </item>
+                    <item id="name">
+                        <rank>20</rank>
+                    </item>
+                    <item id="org_id">
+                        <rank>20</rank>
+                    </item>
+                </items>
+            </list>
+        </presentation>
+    </class>
+    
+    <class id="lnkPersonAsManagerOfSecurityCI" _delta="define">
+      <parent>cmdbAbstractObject</parent>
+      <properties>
+        <is_link>1</is_link>
+        <category>bizmodel</category>
+        <abstract>false</abstract>
+        <key_type>autoincrement</key_type>
+        <db_table>lnkpersonasmanagerofsecurityci</db_table>
+        <db_key_field>id</db_key_field>
+        <db_final_class_field/>
+        <naming>
+          <attributes>
+            <attribute id="securityci_id"/>
+            <attribute id="person_id"/>
+          </attributes>
+        </naming>
+        <display_template/>
+        <icon/>
+        <reconciliation>
+          <attributes>
+            <attribute id="securityci_id"/>
+            <attribute id="person_id"/>
+          </attributes>
+        </reconciliation>
+      </properties>
+      <fields>
+        <field id="securityci_id" xsi:type="AttributeExternalKey">
+          <sql>securityci_id</sql>
+          <target_class>SecurityCI</target_class>
+          <is_null_allowed>false</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="securityci_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>securityci_id</extkey_attcode>
+          <target_attcode>name</target_attcode>
+        </field>
+        <field id="person_id" xsi:type="AttributeExternalKey">
+          <sql>person_id</sql>
+          <target_class>Person</target_class>
+          <is_null_allowed>false</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="person_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>person_id</extkey_attcode>
+          <target_attcode>name</target_attcode>
+        </field>
+      </fields>
+      <methods/>
+      <presentation>
+        <details>
+          <items>
+            <item id="securityci_id">
+              <rank>10</rank>
+            </item>
+            <item id="person_id">
+              <rank>20</rank>
+            </item>
+          </items>
+        </details>
+        <search>
+          <items>
+            <item id="securityci_id">
+              <rank>10</rank>
+            </item>
+            <item id="person_id">
+              <rank>20</rank>
+            </item>
+          </items>
+        </search>
+        <list>
+          <items>
+            <item id="securityci_id">
+              <rank>10</rank>
+            </item>
+            <item id="person_id">
+              <rank>20</rank>
+            </item>
+          </items>
+        </list>
+      </presentation>
+    </class>
+
+    <class id="SecurityRoleTemplate"  _delta="define">
+        <parent>SecurityCI</parent>
+        <properties>
+            <category>bizmodel,searchable</category>
+            <abstract>false</abstract>
+            <db_table>securityroletemplate</db_table>
+            <db_key_field>id</db_key_field>
+            <db_final_class_field/>
+            <naming>
+                <attributes>
+                    <attribute id="name"/>
+                </attributes>
+            </naming>
+            <display_template/>
+            <reconciliation>
+                <attributes>
+                    <attribute id="name"/>
+                    <attribute id="org_id"/>
+                    <attribute id="org_name"/>
+                </attributes>
+            </reconciliation>
+        </properties>
+        <methods>
+            <method id="GetConflictingRoles">
+                <comment>/**
+                * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
+                * in case an extension attempts to redefine this function...     
+                */</comment>
+                <static>false</static>
+                <access>public</access>
+                <type>Custom</type>
+                <code><![CDATA[ public function GetConflictingRoles()
+                {
+                    $sRoleListAttCode = 'roles_list';
+                    $oResultSet = DBObjectSet::FromScratch('lnkSecurityRoleBidirectional');
+                    if (MetaModel::IsValidAttCode(get_class($this), $sRoleListAttCode))
+                    {
+                        $oAttDef = MetaModel::GetAttributeDef(get_class($this), $sRoleListAttCode);
+                        $sLnkClass = $oAttDef->GetLinkedClass();
+                        $sExtKeyToMe = $oAttDef->GetExtKeyToMe();
+                        $sExtKeyToRemote = $oAttDef->GetExtKeyToRemote();
+                        $me = $this->GetKey();
+                        $oSearch = DBSearch::FromOQL("SELECT $sLnkClass WHERE $sExtKeyToMe = '$me'");
+                        $oSet = new DBObjectSet($oSearch);
+                        if ($oSet->Count() == 0) 
+                        {
+                            return $oResultSet;
+                        }
+                        $oSet->Seek(0);
+                        $aRoleIDs = array();
+                        while ($oObject = $oSet->Fetch())
+                        {
+                            $aRoleIDs[] = $oObject->Get($sExtKeyToRemote);
+                        }
+                        $aConflictingRolesPairs = array();
+                        foreach ($aRoleIDs as $RoleID)
+                        {
+                            $oSearch = DBSearch::FromOQL("SELECT lnkSecurityRoleBidirectional WHERE left_securityrole_id = '$RoleID'");
+                            $oSet = new DBObjectSet($oSearch);
+                            if ($oSet->Count() != 0)
+                            {
+                                $oSet->Seek(0);
+                                while($oObject = $oSet->Fetch())
+                                {
+                                    $NewID = $oObject->Get('right_securityrole_id');
+                                    if (in_array($NewID,$aRoleIDs))
+                                    {
+  
+                                        $aNewPair = array($RoleID,$NewID);
+                                        $aNewPairSym = array($NewID,$RoleID);
+                                        if (!(in_array($aNewPair,$aConflictingRolesPairs) || in_array($aNewPairSym,$aConflictingRolesPairs)))
+                                        {
+                                            $aConflictingRolesPairs[] = $aNewPair;
+                                            $oResultSet->AddObject($oObject);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    return $oResultSet; 
+                } ]]></code>
+            </method>
+     
+            <method id="DisplayBareRelations">
+                <static>false</static>
+                <access>public</access>
+                <type>Overload-SecurityCI</type>
+                <code><![CDATA[ function DisplayBareRelations(WebPage $oPage, $bEditMode = false)
+                    {
+                        parent::DisplayBareRelations($oPage, $bEditMode);
+                        try
+                        {
+                            $oSet = $this->GetConflictingRoles();
+                            $iTotal = $oSet->Count();
+
+                            $sCount = ($iTotal > 0) ? ' ('.$iTotal.')' : '';
+                            $oPage->SetCurrentTab(Dict::S('Class:SecurityRoleTemplate/Tab:ConflictingRoles').$sCount);
+                            $sBlockId = 'TEST';
+                            $oPage->add('<fieldset>');
+                            $oBlock = DisplayBlock::FromObjectSet($oSet, 'list');
+                            $oBlock->Display($oPage, $sBlockId, array('menu' => false));
+                            $oPage->add('</fieldset>');
+                        }
+                        catch (Exception $e)
+		                {
+                			throw $e;
+		                }
+                    }]]></code>
+            </method>
+        </methods>
+        <fields>
+            <field id="roles_list" xsi:type="AttributeLinkedSetIndirect" _delta="define">
+                <linked_class>lnkSecurityRoleTemplateToSecurityRole</linked_class>
+                <ext_key_to_me>securityroletemplate_id</ext_key_to_me>
+                <count_min>0</count_min>
+                <count_max>0</count_max>
+                <ext_key_to_remote>securityrole_id</ext_key_to_remote>
+                <duplicates/>
+            </field>
+            <field id="applyto_list" xsi:type="AttributeLinkedSetIndirect" _delta="define">
+                <linked_class>lnkApplySRTemplateToPerson</linked_class>
+                <ext_key_to_me>securityroletemplate_id</ext_key_to_me>
+                <count_min>0</count_min>
+                <count_max>0</count_max>
+                <ext_key_to_remote>person_id</ext_key_to_remote>
+                <duplicates/>
+            </field>
+            
+        </fields>
+        <presentation>
+            <details>
+                <items>
+                    <item id="name">
+                        <rank>10</rank>
+                    </item>
+                    <item id="org_id">
+                        <rank>20</rank>
+                    </item>
+
+                    <item id="description">
+                        <rank>30</rank>
+                    </item>
+                    <item id="managers_list">
+                        <rank>40</rank>
+                    </item> 
+                    <item id="roles_list">
+                        <rank>50</rank>
+                    </item> 
+                    <item id="applyto_list">
+                        <rank>60</rank>
+                    </item>                           
+                    <item id="documents_list">
+                        <rank>70</rank>
+                    </item>
+                    <item id="tickets_list">
+                        <rank>80</rank>
+                    </item>
+                </items>
+            </details>
+            <search>
+                <items>
+                    <item id="org_id">
+                        <rank>10</rank>
+                    </item>
+
+                    <item id="name">
+                        <rank>30</rank>
+                    </item>             
+                </items>
+            </search>
+            <list>
+                <items>
+                    <item id="org_id">
+                        <rank>10</rank>
+                    </item>
+
+                    <item id="name">
+                        <rank>30</rank>
+                    </item>             
+                </items>
+            </list>
+        </presentation>
+    </class>
+    
+      <class id="lnkSecurityRoleTemplateToSecurityRole" _delta="define">
+      <parent>cmdbAbstractObject</parent>
+      <properties>
+        <is_link>1</is_link>
+        <category>bizmodel</category>
+        <abstract>false</abstract>
+        <key_type>autoincrement</key_type>
+        <db_table>lnksecurityroletemplatetosecurityrole</db_table>
+        <db_key_field>id</db_key_field>
+        <db_final_class_field/>
+        <naming>
+          <attributes>
+            <attribute id="securityroletemplate_id"/>
+            <attribute id="securityrole_id"/>
+          </attributes>
+        </naming>
+        <display_template/>
+        <icon/>
+        <reconciliation>
+          <attributes>
+            <attribute id="securityroletemplate_id"/>
+            <attribute id="securityrole_id"/>
+          </attributes>
+        </reconciliation>
+      </properties>
+      <fields>
+        <field id="securityroletemplate_id" xsi:type="AttributeExternalKey">
+          <sql>securityroletemplate_id</sql>
+          <target_class>SecurityRoleTemplate</target_class>
+          <is_null_allowed>false</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="securityroletemplate_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>securityroletemplate_id</extkey_attcode>
+          <target_attcode>name</target_attcode>
+        </field>
+        <field id="securityrole_id" xsi:type="AttributeExternalKey">
+          <sql>securityrole_id</sql>
+          <target_class>SecurityRole</target_class>
+          <is_null_allowed>false</is_null_allowed>
+          <on_target_delete>DEL_AUTO</on_target_delete>
+        </field>
+        <field id="securityrole_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>securityrole_id</extkey_attcode>
+          <target_attcode>name</target_attcode>
+        </field>
+      </fields>
+      <methods>
+            <method id="GetLinkedPersonIDs">
+                <comment>/**
+                * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
+                * in case an extension attempts to redefine this function...     
+                */</comment>
+                <static>false</static>
+                <access>private</access>
+                <type>Custom</type>
+                <code><![CDATA[ private function GetLinkedPersonIDs(){
+                            $aResult = array();
+                            $TemlateID = $this->Get('securityroletemplate_id');
+                            $oSearch = DBSearch::FromOQL("SELECT lnkApplySRTemplateToPerson WHERE securityroletemplate_id = '$TemlateID'");
+                            $oSet = new DBObjectSet($oSearch);
+                            if ($oSet->Count() == 0) {return $aResult;}
+                            $oSet->Seek(0);
+                            while ($oObject = $oSet->Fetch())
+                            {
+                                $aResult[] = $oObject->Get('person_id');
+                            }                          
+                            return $aResult;
+                } ]]></code>
+            </method>
+            <method id="GetPersonRoleIDs">
+                <comment>/**
+                * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
+                * in case an extension attempts to redefine this function...     
+                */</comment>
+                <static>false</static>
+                <access>private</access>
+                <type>Custom</type>
+                <code><![CDATA[ private function GetPersonRoleIDs($PersonID){
+                            $aResult = array();
+                            $oSearch = DBSearch::FromOQL("SELECT lnkPersonToSecurityRole WHERE person_id = '$PersonID'");
+                            $oSet = new DBObjectSet($oSearch);
+                            if ($oSet->Count() == 0) {return $aResult;}
+                            $oSet->Seek(0);
+                            while ($oObject = $oSet->Fetch())
+                            {
+                                $aResult[] = $oObject->Get('securityrole_id');
+                            }                          
+                            return $aResult;
+                } ]]></code>
+            </method>
+            <method id="AddNewRoleForPerson">
+                <comment>/**
+                * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
+                * in case an extension attempts to redefine this function...     
+                */</comment>
+                <static>false</static>
+                <access>private</access>
+                <type>Custom</type>
+                <code><![CDATA[ private function AddNewRoleForPerson($PersonID,$RoleID){
+                            $NewPersonToSecurityRole = MetaModel::NewObject('lnkPersonToSecurityRole');
+                            $NewPersonToSecurityRole->Set('person_id',$PersonID);
+                            $NewPersonToSecurityRole->Set('securityrole_id',$RoleID);
+                            $NewPersonToSecurityRole->DBInsert();                              
+                            return;
+                } ]]></code>
+            </method>
+            <method id="DBInsert">
+                <comment>/**
+                * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
+                * in case an extension attempts to redefine this function...     
+                */</comment>
+                <static>false</static>
+                <access>public</access>
+                <type>Overload-DBObject</type>
+                <code><![CDATA[ public function DBInsert(){
+                            $ret = parent::DBInsert();
+                            $ThisRoleID = $this->Get('securityrole_id');
+                            $aPersonIDs = $this->GetLinkedPersonIDs();
+                            foreach ($aPersonIDs as $PersonID)
+                            {
+                                $aPersonRoleIDs = GetPersonRoleIDs($PersonID);
+                                if (!in_array($ThisRoleID,$aPersonRoleIDs))
+                                {
+                                    $this->AddNewRoleForPerson($PersonID,$ThisRoleID);
+                                }
+                            }                           
+                            return $ret;
+                } ]]></code>
+            </method>
+            <method id="GetLinkedPersonOtherTemlatesRoleIDs">
+                <comment>/**
+                * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
+                * in case an extension attempts to redefine this function...     
+                */</comment>
+                <static>false</static>
+                <access>private</access>
+                <type>Custom</type>
+                <code><![CDATA[ private function GetPersonOtherTemlatesRoleIDs($PersonID){
+                        $aResult = array();
+                        $aTemlateIDs = array();
+                        $TemplateID = $this->Get('securityroletemplate_id');
+                        $oSearch = DBSearch::FromOQL("SELECT lnkApplySRTemplateToPerson WHERE person_id = '$PersonID' AND securityroletemplate_id != '$TemplateID'");
+                        $oSet = new DBObjectSet($oSearch);
+                        if ($oSet->Count() == 0) {return $aResult;}
+                        $oSet->Seek(0);
+                        while ($oObject = $oSet->Fetch())
+                        {
+                            $aTemlateIDs[] = $oObject->Get('securityroletemplate_id');
+                        }
+                        foreach ($aTemlateIDs as $TemplateID)
+                        {
+                            $oSearch = DBSearch::FromOQL("SELECT lnkSecurityRoleTemplateToSecurityRole WHERE securityroletemplate_id = '$TemplateID'");
+                            $oSet = new DBObjectSet($oSearch);
+                            $oSet->Seek(0);
+                            while ($oObject = $oSet->Fetch())
+                            {
+                                $NewRoleID = $oObject->Get('securityrole_id');
+                                if (!in_array($NewRoleID,$aResult))
+                                {
+                                    $aResult[] = $NewRoleID;
+                                }
+                            }
+                        }                         
+                        return $aResult;
+                } ]]></code>
+            </method>
+            <method id="RemoveRoleFromLinkedPerson">
+                <comment>/**
+                * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
+                * in case an extension attempts to redefine this function...     
+                */</comment>
+                <static>false</static>
+                <access>private</access>
+                <type>Custom</type>
+                <code><![CDATA[ private function RemoveRoleFromPerson($PersonID,$RoleID){
+                        $oObjectSet = new DBObjectSet(DBObjectSearch::FromOQL("SELECT lnkPersonToSecurityRole WHERE person_id='$PersonID' AND  securityrole_id='$RoleID'"));
+                        $oObjectSet->Seek(0);
+                        while ($oObject = $oObjectSet->Fetch())
+                        {
+                            $oObject->DBDeleteSingleObject();
+                        }
+                        return;
+                } ]]></code>
+            </method>
+            <method id="AfterDelete">
+                <comment>/**
+                * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
+                * in case an extension attempts to redefine this function...     
+                */</comment>
+                <static>false</static>
+                <access>protected</access>
+                <type>Overload-DBObject</type>
+                <code><![CDATA[ protected function AfterDelete(){
+                        $ThisRoleID = $this->Get('securityrole_id');
+                        $aPersonIDs = $this->GetLinkedPersonIDs();
+                        foreach ($aPersonIDs as $PersonID)
+                        {
+                            $aOtherTemlatesRoleIDs = $this->GetPersonOtherTemlatesRoleIDs($PersonID);
+                            if (!in_array($ThisRoleID,$aOtherTemlatesRoleIDs))
+                            {
+                                $this->RemoveRoleFromPerson($PersonID,$ThisRoleID);
+                            }
+                        } 
+
+                        return;
+                } ]]></code>
+            </method>
+      </methods>
+      <presentation>
+        <details>
+          <items>
+            <item id="securityroletemplate_id">
+              <rank>10</rank>
+            </item>
+            <item id="securityrole_id">
+              <rank>20</rank>
+            </item>
+          </items>
+        </details>
+        <search>
+          <items>
+            <item id="securityroletemplate_id">
+              <rank>10</rank>
+            </item>
+            <item id="securityrole_id">
+              <rank>20</rank>
+            </item>
+          </items>
+        </search>
+        <list>
+          <items>
+            <item id="securityroletemplate_id">
+              <rank>10</rank>
+            </item>
+            <item id="securityrole_id">
+              <rank>20</rank>
+            </item>
+          </items>
+        </list>
+      </presentation>
+    </class>
+
+    <class id="lnkApplySRTemplateToPerson" _delta="define">
+        <parent>cmdbAbstractObject</parent>
+        <properties>
+            <is_link>1</is_link>
+            <category>bizmodel</category>
+            <abstract>false</abstract>
+            <key_type>autoincrement</key_type>
+            <db_table>lnkapplysrtemplatetoperson</db_table>
+            <db_key_field>id</db_key_field>
+            <db_final_class_field/>
+            <naming>
+                <attributes>
+                    <attribute id="securityroletemplate_id"/>
+                    <attribute id="person_id"/>
+                </attributes>
+            </naming>
+            <display_template/>
+            <icon/>
+            <reconciliation>
+                <attributes>
+                    <attribute id="securityroletemplate_id"/>
+                    <attribute id="person_id"/>
+                </attributes>
+            </reconciliation>
+        </properties>
+        <fields>
+            <field id="securityroletemplate_id" xsi:type="AttributeExternalKey">
+                <sql>securityroletemplate_id</sql>
+                <target_class>SecurityRoleTemplate</target_class>
+                <is_null_allowed>false</is_null_allowed>
+                <on_target_delete>DEL_AUTO</on_target_delete>
+            </field>
+            <field id="securityroletemplate_name" xsi:type="AttributeExternalField">
+                <extkey_attcode>securityroletemplate_id</extkey_attcode>
+                <target_attcode>name</target_attcode>
+            </field>
+            <field id="person_id" xsi:type="AttributeExternalKey">
+                <sql>person_id</sql>
+                <target_class>Person</target_class>
+                <is_null_allowed>false</is_null_allowed>
+                <on_target_delete>DEL_AUTO</on_target_delete>
+            </field>
+            <field id="person_name" xsi:type="AttributeExternalField">
+                <extkey_attcode>person_id</extkey_attcode>
+                <target_attcode>name</target_attcode>
+            </field>
+        </fields>
+        <methods>
+            <method id="GetLinkedPersonSecurityRoleIDs">
+                <comment>/**
+                * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
+                * in case an extension attempts to redefine this function...     
+                */</comment>
+                <static>false</static>
+                <access>private</access>
+                <type>Custom</type>
+                <code><![CDATA[ private function GetLinkedPersonSecurityRoleIDs(){
+                            $aResult = array();
+                            $PersonID = $this->Get('person_id');
+                            $oSearch = DBSearch::FromOQL("SELECT lnkPersonToSecurityRole WHERE person_id = '$PersonID'");
+                            $oSet = new DBObjectSet($oSearch);
+                            if ($oSet->Count() == 0) {return $aResult;}
+                            $oSet->Seek(0);
+                            while ($oObject = $oSet->Fetch())
+                            {
+                                $aResult[] = $oObject->Get('securityrole_id');
+                            }                          
+                            return $aResult;
+                } ]]></code>
+            </method>
+            <method id="GetTemplateSecurityRoleIDs">
+                <comment>/**
+                * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
+                * in case an extension attempts to redefine this function...     
+                */</comment>
+                <static>false</static>
+                <access>private</access>
+                <type>Custom</type>
+                <code><![CDATA[ private function GetTemplateSecurityRoleIDs(){
+                            $aResult = array();
+                            $TemplateID = $this->Get('securityroletemplate_id');
+                            $oSearch = DBSearch::FromOQL("SELECT lnkSecurityRoleTemplateToSecurityRole WHERE securityroletemplate_id = '$TemplateID'");
+                            $oSet = new DBObjectSet($oSearch);
+                            if ($oSet->Count() == 0) {return $aResult;}
+                            $oSet->Seek(0);
+                            while ($oObject = $oSet->Fetch())
+                            {
+                                $aResult[] = $oObject->Get('securityrole_id');
+                            }                          
+                            return $aResult;
+                } ]]></code>
+            </method>
+            <method id="AddNewRoleForLinkedPerson">
+                <comment>/**
+                * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
+                * in case an extension attempts to redefine this function...     
+                */</comment>
+                <static>false</static>
+                <access>private</access>
+                <type>Custom</type>
+                <code><![CDATA[ private function AddNewRoleForLinkedPerson($RoleID){
+                            $NewPersonToSecurityRole = MetaModel::NewObject('lnkPersonToSecurityRole');
+                            $NewPersonToSecurityRole->Set('person_id',$this->Get('person_id'));
+                            $NewPersonToSecurityRole->Set('securityrole_id',$RoleID);
+                            $NewPersonToSecurityRole->DBInsert();                              
+                            return;
+                } ]]></code>
+            </method>
+            
+            <method id="RemoveRoleFromLinkedPerson">
+                <comment>/**
+                * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
+                * in case an extension attempts to redefine this function...     
+                */</comment>
+                <static>false</static>
+                <access>private</access>
+                <type>Custom</type>
+                <code><![CDATA[ private function RemoveRoleFromLinkedPerson($RoleID){
+                        $LinkedPersonID = $this->Get('person_id');
+                        $oObjectSet = new DBObjectSet(DBObjectSearch::FromOQL("SELECT lnkPersonToSecurityRole WHERE person_id='$LinkedPersonID' AND  securityrole_id='$RoleID'"));
+                        $oObjectSet->Seek(0);
+                        while ($oObject = $oObjectSet->Fetch())
+                        {
+                            $oObject->DBDeleteSingleObject();
+                        }
+                        return;
+                } ]]></code>
+            </method>
+            <method id="DBInsert">
+                <comment>/**
+                * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
+                * in case an extension attempts to redefine this function...     
+                */</comment>
+                <static>false</static>
+                <access>public</access>
+                <type>Overload-DBObject</type>
+                <code><![CDATA[ public function DBInsert(){
+                            $ret = parent::DBInsert();
+                            $aPersonRoles = $this->GetLinkedPersonSecurityRoleIDs();
+                            $aTemlateRoles = $this->GetTemplateSecurityRoleIDs();
+                            foreach ($aTemlateRoles as $RoleID)
+                            {
+                                if (!in_array($RoleID,$aPersonRoles))
+                                {
+                                    $this->AddNewRoleForLinkedPerson($RoleID);
+                                }
+                            }                           
+                            return $ret;
+                } ]]></code>
+            </method>
+            <method id="GetLinkedPersonOtherTemlatesRoleIDs">
+                <comment>/**
+                * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
+                * in case an extension attempts to redefine this function...     
+                */</comment>
+                <static>false</static>
+                <access>private</access>
+                <type>Custom</type>
+                <code><![CDATA[ private function GetLinkedPersonOtherTemlatesRoleIDs(){
+                        $aResult = array();
+                        $aTemlateIDs = array();
+                        $PersonID = $this->Get('person_id');
+                        $TemplateID = $this->Get('securityroletemplate_id');
+                            
+                        $oSearch = DBSearch::FromOQL("SELECT lnkApplySRTemplateToPerson WHERE person_id = '$PersonID' AND securityroletemplate_id != '$TemplateID'");
+                        $oSet = new DBObjectSet($oSearch);
+                        if ($oSet->Count() == 0) {return $aResult;}
+                        $oSet->Seek(0);
+                        while ($oObject = $oSet->Fetch())
+                        {
+                            $aTemlateIDs[] = $oObject->Get('securityroletemplate_id');
+                        }
+                        foreach ($aTemlateIDs as $TemplateID)
+                        {
+                            $oSearch = DBSearch::FromOQL("SELECT lnkSecurityRoleTemplateToSecurityRole WHERE securityroletemplate_id = '$TemplateID'");
+                            $oSet = new DBObjectSet($oSearch);
+                            $oSet->Seek(0);
+                            while ($oObject = $oSet->Fetch())
+                            {
+                                $NewRoleID = $oObject->Get('securityrole_id');
+                                if (!in_array($NewRoleID,$aResult))
+                                {
+                                    $aResult[] = $NewRoleID;
+                                }
+                            }
+                        }                         
+                        return $aResult;
+                } ]]></code>
+            </method>
+            <method id="AfterDelete">
+                <comment>/**
+                * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
+                * in case an extension attempts to redefine this function...     
+                */</comment>
+                <static>false</static>
+                <access>protected</access>
+                <type>Overload-DBObject</type>
+                <code><![CDATA[ protected function AfterDelete(){
+                        $aPersonRoles = $this->GetLinkedPersonSecurityRoleIDs();
+                        $aTemlateRoles = $this->GetTemplateSecurityRoleIDs();
+                        $aOtherTemlatesRoles = $this->GetLinkedPersonOtherTemlatesRoleIDs();
+                        foreach ($aPersonRoles as $RoleID)
+                        {
+                            if ((in_array($RoleID,$aTemlateRoles)) && (!in_array($RoleID,$aOtherTemlatesRoles)))
+                            {
+                               $this->RemoveRoleFromLinkedPerson($RoleID);
+                            }
+                        } 
+                        return;
+                } ]]></code>
+            </method>        
+        </methods>
+        <presentation>
+            <details>
+                <items>
+                    <item id="securityroletemplate_id">
+                        <rank>10</rank>
+                    </item>
+                    <item id="person_id">
+                        <rank>20</rank>
+                    </item>
+                </items>
+            </details>
+            <search>
+                <items>
+                    <item id="securityroletemplate_id">
+                        <rank>10</rank>
+                    </item>
+                    <item id="person_id">
+                        <rank>20</rank>
+                    </item>
+                </items>
+            </search>
+            <list>
+                <items>
+                    <item id="securityroletemplate_id">
+                        <rank>10</rank>
+                    </item>
+                    <item id="person_id">
+                        <rank>20</rank>
+                    </item>
+                </items>
+            </list>
+        </presentation>
+    </class>  
+    
+    <class id="SecurityRole"  _delta="define">
+        <parent>SecurityCI</parent>
+        <properties>
+            <category>bizmodel,searchable</category>
+            <abstract>true</abstract>
+            <db_table>securityrole</db_table>
+            <db_key_field>id</db_key_field>
+            <db_final_class_field>finalclass</db_final_class_field>
+            <naming>
+                <attributes>
+                    <attribute id="name"/>
+                </attributes>
+            </naming>
+            <display_template/>
+            <reconciliation>
+                <attributes>
+                    <attribute id="name"/>
+                    <attribute id="org_id"/>
+                    <attribute id="org_name"/>
+                    <attribute id="finalclass"/>
+                </attributes>
+            </reconciliation>
+        </properties>
+        <methods/>
+            
+        <fields>
+            
             <field id="occupants_list" xsi:type="AttributeLinkedSetIndirect">
                 <linked_class>lnkPersonToSecurityRole</linked_class>
                 <ext_key_to_me>securityrole_id</ext_key_to_me>
@@ -121,14 +976,7 @@
                 <ext_key_to_remote>person_id</ext_key_to_remote>
                 <duplicates/>
             </field>
-            <field id="documents_list" xsi:type="AttributeLinkedSetIndirect">
-                <linked_class>lnkDocumentToSecurityRole</linked_class>
-                <ext_key_to_me>securityrole_id</ext_key_to_me>
-                <count_min>0</count_min>
-                <count_max>0</count_max>
-                <ext_key_to_remote>document_id</ext_key_to_remote>
-                <duplicates/>
-            </field>
+
             <field id="conflictingroles_list" xsi:type="AttributeLinkedSetIndirect">
                 <linked_class>lnkSecurityRoleBidirectional</linked_class>
                 <ext_key_to_me>left_securityrole_id</ext_key_to_me>
@@ -137,14 +985,7 @@
                 <ext_key_to_remote>right_securityrole_id</ext_key_to_remote>
                 <duplicates/>
             </field>
-            <field id="tickets_list" xsi:type="AttributeLinkedSetIndirect">
-                <linked_class>lnkSecurityRoleToTicket</linked_class>
-                <ext_key_to_me>securityrole_id</ext_key_to_me>
-                <count_min>0</count_min>
-                <count_max>0</count_max>
-                <ext_key_to_remote>ticket_id</ext_key_to_remote>
-                <duplicates/>
-            </field>
+
         </fields>
         <presentation>
             <details>
@@ -165,8 +1006,11 @@
             </details>
             <search>
                 <items>
-                    <item id="name">
+                    <item id="finalclass">
                         <rank>10</rank>
+                    </item>
+                    <item id="name">
+                        <rank>20</rank>
                     </item>
                     <item id="org_id">
                         <rank>20</rank>
@@ -177,6 +1021,9 @@
                 <items>
                     <item id="finalclass">
                         <rank>10</rank>
+                    </item>
+                    <item id="name">
+                        <rank>20</rank>
                     </item>
                     <item id="org_id">
                         <rank>20</rank>
@@ -484,12 +1331,12 @@
 
     <class id="Ticket">
         <fields>
-            <field id="securityroles_list" xsi:type="AttributeLinkedSetIndirect" _delta="define">
-                <linked_class>lnkSecurityRoleToTicket</linked_class>
+            <field id="securitycis_list" xsi:type="AttributeLinkedSetIndirect" _delta="define">
+                <linked_class>lnkSecurityCIToTicket</linked_class>
                 <ext_key_to_me>ticket_id</ext_key_to_me>
                 <count_min>0</count_min>
                 <count_max>0</count_max>
-                <ext_key_to_remote>securityrole_id</ext_key_to_remote>
+                <ext_key_to_remote>securityci_id</ext_key_to_remote>
                 <duplicates/>
             </field>
         </fields>
@@ -538,7 +1385,7 @@
                     <item id="functionalcis_list">
                         <rank>140</rank>
                     </item>
-                    <item id="securityroles_list">
+                    <item id="securitycis_list">
                         <rank>145</rank>
                     </item>
                     <item id="workorders_list">
@@ -556,7 +1403,7 @@
                     <item id="functionalcis_list">
                         <rank>10</rank>
                     </item>
-                    <item id="securityroles_list">
+                    <item id="securitycis_list">
                         <rank>15</rank>
                     </item>
                     <item id="contacts_list">
@@ -695,7 +1542,7 @@
                     <item id="functionalcis_list">
                         <rank>10</rank>
                     </item>
-                    <item id="securityroles_list">
+                    <item id="securitycis_list">
                         <rank>15</rank>
                     </item>
                     <item id="contacts_list">
@@ -846,7 +1693,7 @@
                     <item id="functionalcis_list">
                         <rank>10</rank>
                     </item>
-                    <item id="securityroles_list">
+                    <item id="securitycis_list">
                         <rank>15</rank>
                     </item>
                     <item id="contacts_list">
@@ -1308,8 +2155,7 @@
                 <access>public</access>
                 <type>Overload-DBObject</type>
                 <code><![CDATA[ public function DBInsert(){
-                            $this->DBInsertNoReload();
-                            $this->Reload();
+                            $ret = parent::DBInsert();
                             $oMyClone = clone $this;
                             $mem_left = $oMyClone->Get('left_securityrole_id');
                             $mem_right = $oMyClone->Get('right_securityrole_id');
@@ -1317,7 +2163,7 @@
                             $oMyClone->Set('right_securityrole_id',$mem_left);
                             $oMyClone->DBInsertNoReload();
                             $oMyClone->Reload();
-                            return $this->m_iKey;
+                            return $ret;
                 } ]]></code>
             </method>
             <method id="AfterDelete">
@@ -1377,19 +2223,19 @@
       </presentation>
     </class>
 
-    <class id="lnkDocumentToSecurityRole" _delta="define">
+    <class id="lnkDocumentToSecurityCI" _delta="define">
       <parent>cmdbAbstractObject</parent>
       <properties>
         <is_link>1</is_link>
         <category>bizmodel</category>
         <abstract>false</abstract>
         <key_type>autoincrement</key_type>
-        <db_table>lnkdocumenttosecurityrole</db_table>
+        <db_table>lnkdocumenttosecurityci</db_table>
         <db_key_field>id</db_key_field>
         <db_final_class_field/>
         <naming>
           <attributes>
-            <attribute id="securityrole_id"/>
+            <attribute id="securityci_id"/>
             <attribute id="document_id"/>
           </attributes>
         </naming>
@@ -1397,20 +2243,20 @@
         <icon/>
         <reconciliation>
           <attributes>
-            <attribute id="securityrole_id"/>
+            <attribute id="securityci_id"/>
             <attribute id="document_id"/>
           </attributes>
         </reconciliation>
       </properties>
       <fields>
-        <field id="securityrole_id" xsi:type="AttributeExternalKey">
-          <sql>securityrole_id</sql>
-          <target_class>SecurityRole</target_class>
+        <field id="securityci_id" xsi:type="AttributeExternalKey">
+          <sql>securityci_id</sql>
+          <target_class>SecurityCI</target_class>
           <is_null_allowed>false</is_null_allowed>
           <on_target_delete>DEL_AUTO</on_target_delete>
         </field>
-        <field id="securityrole_name" xsi:type="AttributeExternalField">
-          <extkey_attcode>securityrole_id</extkey_attcode>
+        <field id="securityci_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>securityci_id</extkey_attcode>
           <target_attcode>name</target_attcode>
         </field>
         <field id="document_id" xsi:type="AttributeExternalKey">
@@ -1428,7 +2274,7 @@
       <presentation>
         <details>
           <items>
-            <item id="securityrole_id">
+            <item id="securityci_id">
               <rank>10</rank>
             </item>
             <item id="document_id">
@@ -1438,7 +2284,7 @@
         </details>
         <search>
           <items>
-            <item id="securityrole_id">
+            <item id="securityci_id">
               <rank>10</rank>
             </item>
             <item id="document_id">
@@ -1448,7 +2294,7 @@
         </search>
         <list>
           <items>
-            <item id="securityrole_id">
+            <item id="securityci_id">
               <rank>10</rank>
             </item>
             <item id="document_id">
@@ -1459,20 +2305,20 @@
       </presentation>
     </class>
 
-    <class id="lnkSecurityRoleToTicket" _delta="define">
+    <class id="lnkSecurityCIToTicket" _delta="define">
       <parent>cmdbAbstractObject</parent>
       <properties>
         <is_link>1</is_link>
         <category>bizmodel</category>
         <abstract>false</abstract>
         <key_type>autoincrement</key_type>
-        <db_table>lnksecurityroletoticket</db_table>
+        <db_table>lnksecuritycitoticket</db_table>
         <db_key_field>id</db_key_field>
         <db_final_class_field/>
         <naming>
           <attributes>
             <attribute id="ticket_id"/>
-            <attribute id="securityrole_id"/>
+            <attribute id="securityci_id"/>
           </attributes>
         </naming>
         <display_template/>
@@ -1480,7 +2326,7 @@
         <reconciliation>
           <attributes>
             <attribute id="ticket_id"/>
-            <attribute id="securityrole_id"/>
+            <attribute id="securityci_id"/>
           </attributes>
         </reconciliation>
       </properties>
@@ -1499,14 +2345,14 @@
           <extkey_attcode>ticket_id</extkey_attcode>
           <target_attcode>title</target_attcode>
         </field>
-        <field id="securityrole_id" xsi:type="AttributeExternalKey">
-          <sql>securityrole_id</sql>
-          <target_class>SecurityRole</target_class>
+        <field id="securityci_id" xsi:type="AttributeExternalKey">
+          <sql>securityci_id</sql>
+          <target_class>SecurityCI</target_class>
           <is_null_allowed>false</is_null_allowed>
           <on_target_delete>DEL_AUTO</on_target_delete>
         </field>
-        <field id="securityrole_name" xsi:type="AttributeExternalField">
-          <extkey_attcode>securityrole_id</extkey_attcode>
+        <field id="securityci_name" xsi:type="AttributeExternalField">
+          <extkey_attcode>securityci_id</extkey_attcode>
           <target_attcode>name</target_attcode>
         </field>
         <field id="impact" xsi:type="AttributeString">
@@ -1533,7 +2379,7 @@
             <item id="ticket_id">
               <rank>10</rank>
             </item>
-            <item id="securityrole_id">
+            <item id="securityci_id">
               <rank>20</rank>
             </item>
             <item id="impact_code">
@@ -1546,7 +2392,7 @@
             <item id="ticket_id">
               <rank>10</rank>
             </item>
-            <item id="securityrole_id">
+            <item id="securityci_id">
               <rank>20</rank>
             </item>
             <item id="impact_code">
@@ -1559,7 +2405,7 @@
             <item id="ticket_id">
               <rank>10</rank>
             </item>
-            <item id="securityrole_id">
+            <item id="securityci_id">
               <rank>20</rank>
             </item>
             <item id="impact_code">
@@ -1571,37 +2417,41 @@
     </class>
   </classes>
     <menus>
-        <menu id="NewRole" xsi:type="NewObjectMenuNode" _delta="define">
+        <menu id="NewSecurityCI" xsi:type="NewObjectMenuNode" _delta="define">
             <rank>9</rank>
             <parent>ConfigManagement</parent>
-            <class>SecurityRole</class>
+            <class>SecurityCI</class>
         </menu>
-        <menu id="SearchRoles" xsi:type="SearchMenuNode" _delta="define">
+        <menu id="SearchSecurityCIs" xsi:type="SearchMenuNode" _delta="define">
             <rank>10</rank>
             <parent>ConfigManagement</parent>
-            <class>SecurityRole</class>
+            <class>SecurityCI</class>
         </menu>
     </menus>
   <user_rights>
     <groups>
         <group id="Ticketing">
             <classes>
-                <class id="lnkSecurityRoleToTicket"/>
+                <class id="lnkSecurityCIToTicket"/>
             </classes>
         </group>
-    <group id="SecurityRole" _delta="define">
+    <group id="SecurityCI" _delta="define">
             <classes>
+                <class id="SecurityRoleTemplate"/>
                 <class id="BusinessRole"/>
                 <class id="ApplicationRole"/>
                 <class id="lnkSecurityRoleBidirectional"/>
-                <class id="lnkDocumentToSecurityRole"/>
+                <class id="lnkDocumentToSecurityCI"/>
                 <class id="lnkPersonToSecurityRole"/>
+                <class id="lnkPersonAsManagerOfSecurityCI"/>
+                <class id="lnkSecurityRoleTemplateToSecurityRole"/>
+                <class id="lnkApplySRTemplateToPerson"/>
             </classes>
         </group>
     </groups>
     <profiles>
     <profile id="301" _delta="define">
-        <name>Role Manager</name>
+        <name>Security Configuration Manager</name>
         <description>Person in charge of the documentation of the managed Security Roles</description>
         <groups>
             <group id="General">
@@ -1618,7 +2468,7 @@
                     <action id="action:delete">allow</action>
                 </actions>
             </group>
-            <group id="SecurityRole">
+            <group id="SecurityCI">
                 <actions>
                     <action id="action:write">allow</action>
                     <action id="action:bulk write">allow</action>
