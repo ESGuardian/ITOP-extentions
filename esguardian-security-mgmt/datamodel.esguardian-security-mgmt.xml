@@ -115,7 +115,7 @@
                 <field id="org_id" xsi:type="AttributeExternalKey">
                     <sql>org_id</sql>
                     <target_class>Organization</target_class>
-                    <is_null_allowed>false</is_null_allowed>
+                    <is_null_allowed>true</is_null_allowed>
                     <on_target_delete>DEL_MANUAL</on_target_delete>
                 </field>
                 <field id="org_name" xsi:type="AttributeExternalField">
@@ -2512,6 +2512,1299 @@
                 </list>
             </presentation>
         </class>
+        
+        <class id="SecurityCheckListItem" _delta="define">
+            <parent>SecurityCI</parent>
+            <properties>
+                <category>bizmodel,searchable</category>
+                <abstract>true</abstract>
+                <key_type>autoincrement</key_type>
+                <db_table>securitychecklistitem</db_table>
+                <db_key_field>id</db_key_field>
+                <db_final_class_field/>
+                <naming>
+                    <attributes>
+                        <attribute id="name"/>
+                    </attributes>
+                </naming>
+                <display_template/>
+                <icon/>
+                <reconciliation>
+                    <attributes>
+                        <attribute id="name"/>
+                        <attribute id="finalclass"/>
+                    </attributes>
+                </reconciliation>
+            </properties>
+            <fields>
+                <field id="securitychecklist_id" xsi:type="AttributeExternalKey">
+                    <sql>securitychecklist_id</sql>
+                    <target_class>SecurityCheckList</target_class>
+                    <is_null_allowed>false</is_null_allowed>
+                    <on_target_delete>DEL_AUTO</on_target_delete>
+                </field>
+                <field id="securitychecklist_name" xsi:type="AttributeExternalField">
+                    <extkey_attcode>securitychecklist_id</extkey_attcode>
+                    <target_attcode>name</target_attcode>
+                </field>
+                <field id="scliequivalence_id" xsi:type="AttributeExternalKey">
+                    <sql>scliequivalence_id</sql>
+                    <target_class>SCLIEquivalence</target_class>
+                    <is_null_allowed>true</is_null_allowed>
+                    <on_target_delete>DEL_MANUAL</on_target_delete>
+                </field>
+                <field id="scliequivalence_name" xsi:type="AttributeExternalField">
+                    <extkey_attcode>scliequivalence_id</extkey_attcode>
+                    <target_attcode>name</target_attcode>
+                </field>
+                <field id="scliequivalence_description" xsi:type="AttributeExternalField">
+                    <extkey_attcode>scliequivalence_id</extkey_attcode>
+                    <target_attcode>description</target_attcode>
+                </field>
+                <field id="scli_instance_list" xsi:type="AttributeLinkedSet">
+                    <linked_class>SecurityCheckListItemInstance</linked_class>
+                    <ext_key_to_me>securitychecklistitem_id</ext_key_to_me>
+                    <count_min>0</count_min>
+                    <count_max>0</count_max>
+                </field>
+            </fields>
+            <methods>        
+                <method id="DisplayBareRelations" _delta="define">
+                    <static>false</static>
+                    <access>public</access>
+                    <type>Overload-cmdbAbstractObject</type>
+                    <code>
+                    <![CDATA[	
+                    function DisplayBareRelations(WebPage $oPage, $bEditMode = false)
+	                {
+		                parent::DisplayBareRelations($oPage, $bEditMode);                
+	                
+
+		                $ItemID = $this->GetKey();
+		                $sExtKeyToMe = 'securitychecklist_id';
+
+		                $sClass = 'SecurityCheckListItemInstance';
+		                $sExtKeyToMe = 'securitychecklistitem_id';
+		                $sStatusAtt = 'status';
+		                $sNotDone = 'not_done';
+		                $sDone = 'done';		                
+
+
+	                    $oSearchNotDone = DBSearch::FromOQL("SELECT $sClass WHERE $sExtKeyToMe = '$ItemID' AND $sStatusAtt = '$sNotDone'");
+	                    $oSetNotDone = new DBObjectSet($oSearchNotDone);
+	                    $oSearchDone = DBSearch::FromOQL("SELECT $sClass WHERE $sExtKeyToMe = '$ItemID' AND $sStatusAtt = '$sDone'");
+	                    $oSetDone = new DBObjectSet($oSearchDone);
+		                    
+		                $iTotal = $oSetNotDone->Count() + $oSetDone->Count();
+		                
+		                
+		                if ($iTotal != 0)
+		                {
+		                    $sCount = ' ('.$oSetNotDone->Count().'/'.$iTotal.')';
+		                }
+		                else
+		                {
+		                    $sCount = '';
+		                }
+		                
+		                $oPage->SetCurrentTab(Dict::S('Class:SecurityCheckListItem/Tab:scli_instance_list').$sCount);	                	                
+		                	                
+		                $sBlockId = $sClass.'_Uncomplited';
+		                $sBlockHeader = Dict::S('Class:'.$sClass.'/BlockHeader:Uncomplited');
+		                $oPage->add('<fieldset>');
+		                $oPage->add('<legend>'.$sBlockHeader.'</legend>');
+		                $oBlock = DisplayBlock::FromObjectSet($oSetNotDone, 'list');
+		                $oBlock->Display($oPage, $sBlockId, array('menu' => false));
+		                $oPage->add('</fieldset>');
+		                
+		                $sBlockId = $sClass.'_Complited';
+		                $sBlockHeader = Dict::S('Class:'.$sClass.'/BlockHeader:Complited');
+		                $oPage->add('<fieldset>');
+		                $oPage->add('<legend>'.$sBlockHeader.'</legend>');
+		                $oBlock = DisplayBlock::FromObjectSet($oSetDone, 'list');
+		                $oBlock->Display($oPage, $sBlockId, array('menu' => false));
+		                $oPage->add('</fieldset>');                
+		                
+	                }
+	                ]]>
+	                </code>
+                </method>
+            </methods>    
+            <presentation>
+                <details>
+                    <items>
+                        <item id="name">
+                            <rank>10</rank>
+                        </item>
+                        <item id="securitychecklist_id">
+                            <rank>20</rank>
+                        </item>
+                        <item id="description">
+                            <rank>30</rank>
+                        </item>
+                        <item id="scliequivalence_id">
+                            <rank>40</rank>
+                        </item>
+                        <item id="scliequivalence_description">
+                            <rank>50</rank>
+                        </item>
+                        <item id="managers_list">
+                            <rank>60</rank>
+                        </item>
+                        <item id="documents_list">
+                            <rank>70</rank>
+                        </item>                        
+                        <item id="tickets_list">
+                            <rank>90</rank>
+                        </item>
+                    </items>
+                </details>
+                <search>
+                    <items>
+                        <item id="finalclass">
+                            <rank>10</rank>
+                        </item>
+                        <item id="securitychecklist_id">
+                            <rank>20</rank>
+                        </item>
+                        <item id="name">
+                            <rank>30</rank>
+                        </item>
+                    </items>
+                </search>
+                <list>
+                    <items>
+                        <item id="finalclass">
+                            <rank>10</rank>
+                        </item>
+                        <item id="securitychecklist_id">
+                            <rank>20</rank>
+                        </item>
+                        <item id="name">
+                            <rank>30</rank>
+                        </item>
+                    </items>
+                </list>
+            </presentation>
+        </class>
+    
+        <class id="SCLIEquivalence" _delta="define">
+            <parent>SecurityCI</parent>
+            <properties>
+                <category>bizmodel,searchable</category>
+                <abstract>false</abstract>
+                <key_type>autoincrement</key_type>
+                <db_table>scliequivalence</db_table>
+                <db_key_field>id</db_key_field>
+                <db_final_class_field/>
+                <naming>
+                    <attributes>
+                        <attribute id="name"/>
+                    </attributes>
+                </naming>
+                <display_template/>
+                <icon/>
+                <reconciliation>
+                    <attributes>
+                        <attribute id="name"/>
+                    </attributes>
+                </reconciliation>
+            </properties>
+            <fields>            
+                <field id="scli_list" xsi:type="AttributeLinkedSet">
+                    <linked_class>SecurityCheckListItem</linked_class>
+                    <ext_key_to_me>scliequivalence_id</ext_key_to_me>
+                    <count_min>0</count_min>
+                    <count_max>0</count_max>
+                </field>
+            </fields>
+            <methods/>
+            <presentation>
+                <details>
+                    <items>
+                        <item id="name">
+                            <rank>10</rank>
+                        </item>                    
+                        <item id="description">
+                            <rank>30</rank>
+                        </item>                    
+                        <item id="managers_list">
+                            <rank>60</rank>
+                        </item>
+                        <item id="documents_list">
+                            <rank>70</rank>
+                        </item>
+                        <item id="scli_list">
+                            <rank>80</rank>
+                        </item>
+                        <item id="tickets_list">
+                            <rank>90</rank>
+                        </item>
+                    </items>
+                </details>
+                <search>
+                    <items>
+                        <item id="name">
+                            <rank>30</rank>
+                        </item>
+                    </items>
+                </search>
+                <list>
+                    <items>
+                        <item id="name">
+                            <rank>30</rank>
+                        </item>
+                    </items>
+                </list>
+            </presentation>
+        </class>
+    
+        <class id="OrganizationalSCLI" _delta="define">
+            <parent>SecurityCheckListItem</parent>
+            <properties>
+                <category>bizmodel,searchable</category>
+                <abstract>false</abstract>
+                <key_type>autoincrement</key_type>
+                <db_table>organizationalscli</db_table>
+                <db_key_field>id</db_key_field>
+                <db_final_class_field/>
+                <naming>
+                    <attributes>
+                        <attribute id="securitychecklist_name"/>
+                        <attribute id="name"/>
+                    </attributes>
+                </naming>
+                <display_template/>
+                <icon/>
+                <reconciliation>
+                    <attributes>
+                        <attribute id="name"/>
+                    </attributes>
+                </reconciliation>
+            </properties>
+            <fields>
+                <field id="scope" xsi:type="AttributeLinkedSetIndirect">
+                    <linked_class>lnkOrganizationToOrganizationalSCLI</linked_class>
+                    <ext_key_to_me>organizationalscli_id</ext_key_to_me>
+                    <count_min>0</count_min>
+                    <count_max>0</count_max>
+                    <ext_key_to_remote>org_id</ext_key_to_remote>
+                </field>
+            </fields>
+            <methods/>
+            <presentation>
+                <details>
+                    <items>
+                        <item id="name">
+                            <rank>10</rank>
+                        </item>
+                        <item id="securitychecklist_id">
+                            <rank>20</rank>
+                        </item>
+                        <item id="description">
+                            <rank>30</rank>
+                        </item>
+                        <item id="scliequivalence_id">
+                            <rank>40</rank>
+                        </item>
+                        <item id="scliequivalence_description">
+                            <rank>50</rank>
+                        </item>
+                        <item id="managers_list">
+                            <rank>60</rank>
+                        </item>
+                        <item id="documents_list">
+                            <rank>70</rank>
+                        </item>
+                        <item id="scope">
+                            <rank>80</rank>
+                        </item>                        
+                        <item id="tickets_list">
+                            <rank>100</rank>
+                        </item>
+                    </items>
+                </details>
+                <search>
+                    <items>
+                        <item id="securitychecklist_id">
+                            <rank>10</rank>
+                        </item>
+                        <item id="name">
+                            <rank>30</rank>
+                        </item>
+                    </items>
+                </search>
+                <list>
+                    <items>
+                        <item id="securitychecklist_id">
+                            <rank>10</rank>
+                        </item>
+                        <item id="name">
+                            <rank>30</rank>
+                        </item>
+                    </items>
+                </list>
+            </presentation>
+        </class>
+    
+        <class id="FunctionalSCLI" _delta="define">
+            <parent>SecurityCheckListItem</parent>
+            <properties>
+                <category>bizmodel,searchable</category>
+                <abstract>false</abstract>
+                <key_type>autoincrement</key_type>
+                <db_table>functionalscli</db_table>
+                <db_key_field>id</db_key_field>
+                <db_final_class_field/>
+                <naming>
+                    <attributes>
+                        <attribute id="securitychecklist_name"/>
+                        <attribute id="name"/>
+                    </attributes>
+                </naming>
+                <display_template/>
+                <icon/>
+                <reconciliation>
+                    <attributes>
+                        <attribute id="name"/>
+                    </attributes>
+                </reconciliation>
+            </properties>
+            <fields>
+                <field id="scope" xsi:type="AttributeLinkedSetIndirect">
+                    <linked_class>lnkGroupToFunctionalSCLI</linked_class>
+                    <ext_key_to_me>functionalscli_id</ext_key_to_me>
+                    <count_min>0</count_min>
+                    <count_max>0</count_max>
+                    <ext_key_to_remote>group_id</ext_key_to_remote>
+                </field>
+            </fields>
+            <methods/>
+            <presentation>
+                <details>
+                    <items>
+                        <item id="name">
+                            <rank>10</rank>
+                        </item>
+                        <item id="securitychecklist_id">
+                            <rank>20</rank>
+                        </item>
+                        <item id="description">
+                            <rank>30</rank>
+                        </item>
+                        <item id="scliequivalence_id">
+                            <rank>40</rank>
+                        </item>
+                        <item id="scliequivalence_description">
+                            <rank>50</rank>
+                        </item>
+                        <item id="managers_list">
+                            <rank>60</rank>
+                        </item>
+                        <item id="documents_list">
+                            <rank>70</rank>
+                        </item>
+                        <item id="scope">
+                            <rank>80</rank>
+                        </item>                        
+                        <item id="tickets_list">
+                            <rank>100</rank>
+                        </item>
+                    </items>
+                </details>
+                <search>
+                    <items>
+                        <item id="securitychecklist_id">
+                            <rank>10</rank>
+                        </item>
+                        <item id="name">
+                            <rank>30</rank>
+                        </item>
+                    </items>
+                </search>
+                <list>
+                    <items>
+                        <item id="securitychecklist_id">
+                            <rank>10</rank>
+                        </item>
+                        <item id="name">
+                            <rank>30</rank>
+                        </item>
+                    </items>
+                </list>
+            </presentation>
+        </class>
+    
+        <class id="SecurityCheckListItemInstance" _delta="define">
+            <parent>SecurityCI</parent>
+            <properties>
+                <category>bizmodel,searchable</category>
+                <abstract>true</abstract>
+                <key_type>autoincrement</key_type>
+                <db_table>securitychecklistiteminstance</db_table>
+                <db_key_field>id</db_key_field>
+                <db_final_class_field/>
+                <naming>
+                    <attributes>
+                        <attribute id="securitychecklist_name"/>
+                        <attribute id="scli_name"/>
+                    </attributes>
+                </naming>
+                <display_template/>
+                <icon/>
+                <reconciliation>
+                    <attributes>
+                        <attribute id="scli_name"/>
+                        <attribute id="finalclass"/>
+                    </attributes>
+                </reconciliation>
+            </properties>
+            <fields>
+                <field id="securitychecklistitem_id" xsi:type="AttributeExternalKey">
+                    <sql>securitychecklistitem_id</sql>
+                    <target_class>SecurityCheckListItem</target_class>
+                    <is_null_allowed>false</is_null_allowed>
+                    <on_target_delete>DEL_AUTO</on_target_delete>
+                </field>
+                <field id="scli_name" xsi:type="AttributeExternalField">
+                    <extkey_attcode>securitychecklistitem_id</extkey_attcode>
+                    <target_attcode>name</target_attcode>
+                </field>
+                <field id="scli_description" xsi:type="AttributeExternalField">
+                    <extkey_attcode>securitychecklistitem_id</extkey_attcode>
+                    <target_attcode>description</target_attcode>
+                </field>
+                <field id="scliequivalence_name" xsi:type="AttributeExternalField">
+                    <extkey_attcode>securitychecklistitem_id</extkey_attcode>
+                    <target_attcode>scliequivalence_name</target_attcode>
+                </field>
+                <field id="scliequivalence_description" xsi:type="AttributeExternalField">
+                    <extkey_attcode>securitychecklistitem_id</extkey_attcode>
+                    <target_attcode>scliequivalence_description</target_attcode>
+                </field>
+                <field id="securitychecklist_id" xsi:type="AttributeExternalField">
+                    <extkey_attcode>securitychecklistitem_id</extkey_attcode>
+                    <target_attcode>securitychecklist_id</target_attcode>
+                </field>            
+                <field id="securitychecklist_name" xsi:type="AttributeExternalField">
+                    <extkey_attcode>securitychecklistitem_id</extkey_attcode>
+                    <target_attcode>securitychecklist_name</target_attcode>
+                </field>
+                <field id="status" xsi:type="AttributeEnum">
+                    <values>
+                        <value id="done">done</value>
+                        <value id="not_done">not_done</value>
+                    </values>
+                    <sql>status</sql>
+                    <default_value>not_done</default_value>
+                    <is_null_allowed>false</is_null_allowed>
+                    <display_style>list</display_style>
+                </field>               
+            </fields>
+            <methods/>
+            <presentation>
+                <details>
+                    <items>
+                        <item id="scli_name">
+                            <rank>20</rank>
+                        </item>
+                        <item id="managers_list">
+                            <rank>30</rank>
+                        </item>
+                        <item id="documents_list">
+                            <rank>40</rank>
+                        </item>
+
+                        <item id="tickets_list">
+                            <rank>80</rank>
+                        </item>
+                    </items>
+                </details>
+                <search>
+                    <items>
+                        <item id="finalclass">
+                            <rank>10</rank>
+                        </item>
+                        <item id="status">
+                            <rank>20</rank>
+                        </item>                    
+                    </items>
+                </search>
+                <list>
+                    <items>
+                        <item id="finalclass">
+                            <rank>10</rank>
+                        </item>
+                        <item id="status">
+                            <rank>20</rank>
+                        </item>                    
+                    </items>
+                </list>
+            </presentation>
+        </class>
+    
+        <class id="InstanceOfOrganizationalSCLI" _delta="define">
+            <parent>SecurityCheckListItemInstance</parent>
+            <properties>
+                <category>bizmodel,searchable</category>
+                <abstract>false</abstract>
+                <key_type>autoincrement</key_type>
+                <db_table>instanceoforganizationalscli</db_table>
+                <db_key_field>id</db_key_field>
+                <db_final_class_field/>
+                <naming>
+                    <attributes>
+                        <attribute id="securitychecklist_name"/>
+                        <attribute id="scli_name"/>
+                        <attribute id="org_name"/>
+                    </attributes>
+                </naming>
+                <display_template/>
+                <icon/>
+                <reconciliation>
+                    <attributes>
+                        <attribute id="org_id"/>
+                        <attribute id="org_name"/>
+                        <attribute id="securitychecklistitem_id"/>
+                        <attribute id="scli_name"/>
+                    </attributes>
+                </reconciliation>
+            </properties>
+            <fields>
+                
+            </fields>
+            <methods/>
+            <presentation>
+                <details>
+                    <items>
+                        <item id="name">
+                            <rank>10</rank>
+                        </item>
+                        <item id="securitychecklistitem_id">
+                            <rank>20</rank>
+                        </item>
+                        <item id="securitychecklist_id">
+                            <rank>30</rank>
+                        </item>
+                        <item id="org_id">
+                            <rank>40</rank>
+                        </item>
+                        <item id="status">
+                            <rank>50</rank>
+                        </item>
+                        <item id="description">
+                            <rank>60</rank>
+                        </item>
+                        <item id="scli_description">
+                            <rank>70</rank>
+                        </item>
+                        <item id="scliequivalence_description">
+                            <rank>80</rank>
+                        </item>
+                        <item id="managers_list">
+                            <rank>90</rank>
+                        </item>
+                        <item id="documents_list">
+                            <rank>100</rank>
+                        </item>
+                        <item id="tickets_list">
+                            <rank>110</rank>
+                        </item>
+                    </items>
+                </details>
+                <search>
+                    <items>
+                        <item id="org_id">
+                            <rank>10</rank>
+                        </item>
+                        <item id="securitychecklist_id">
+                            <rank>20</rank>
+                        </item>
+                        <item id="securitychecklistitem_id">
+                            <rank>30</rank>
+                        </item>
+                        <item id="status">
+                            <rank>40</rank>
+                        </item>
+                    </items>
+                </search>
+                <list>
+                    <items>
+                        <item id="org_id">
+                            <rank>10</rank>
+                        </item>
+                        <item id="securitychecklist_id">
+                            <rank>20</rank>
+                        </item>
+                        <item id="securitychecklistitem_id">
+                            <rank>30</rank>
+                        </item>
+                        <item id="status">
+                            <rank>40</rank>
+                        </item>
+                    </items>
+                </list>
+            </presentation>
+        </class>
+    
+        <class id="InstanceOfFunctionalSCLI" _delta="define">
+            <parent>SecurityCheckListItemInstance</parent>
+            <properties>
+                <category>bizmodel,searchable</category>
+                <abstract>false</abstract>
+                <key_type>autoincrement</key_type>
+                <db_table>instanceoffunctionalscli</db_table>
+                <db_key_field>id</db_key_field>
+                <db_final_class_field/>
+                <naming>
+                    <attributes>
+                        <attribute id="securitychecklist_name"/>
+                        <attribute id="scli_name"/>
+                        <attribute id="functionalci_name"/>
+                    </attributes>
+                </naming>
+                <display_template/>
+                <icon/>
+                <reconciliation>
+                    <attributes>
+                        <attribute id="functionalci_id"/>
+                        <attribute id="functionalci_name"/>
+                        <attribute id="securitychecklistitem_id"/>
+                        <attribute id="scli_name"/>
+                    </attributes>
+                </reconciliation>
+            </properties>
+            <fields>
+                <field id="functionalci_id" xsi:type="AttributeExternalKey">
+                    <sql>functionalci_id</sql>
+                    <target_class>FunctionalCI</target_class>
+                    <is_null_allowed>false</is_null_allowed>
+                    <on_target_delete>DEL_AUTO</on_target_delete>
+                </field>
+                <field id="functionalci_name" xsi:type="AttributeExternalField">
+                    <extkey_attcode>functionalci_id</extkey_attcode>
+                    <target_attcode>name</target_attcode>
+                </field>
+            </fields>
+            <methods/>
+            <presentation>
+                <details>
+                    <items>
+                        <item id="name">
+                            <rank>10</rank>
+                        </item>
+                        <item id="securitychecklistitem_id">
+                            <rank>20</rank>
+                        </item>
+                        <item id="securitychecklist_id">
+                            <rank>30</rank>
+                        </item>
+                        <item id="functionalci_id">
+                            <rank>40</rank>
+                        </item>
+                        <item id="status">
+                            <rank>50</rank>
+                        </item>
+                        <item id="description">
+                            <rank>60</rank>
+                        </item>
+                        <item id="scli_description">
+                            <rank>70</rank>
+                        </item>
+                        <item id="scliequivalence_description">
+                            <rank>80</rank>
+                        </item>
+                        <item id="managers_list">
+                            <rank>90</rank>
+                        </item>
+                        <item id="documents_list">
+                            <rank>100</rank>
+                        </item>
+                        <item id="tickets_list">
+                            <rank>110</rank>
+                        </item>
+                    </items>
+                </details>
+                <search>
+                    <items>
+                        <item id="functionalci_id">
+                            <rank>10</rank>
+                        </item>
+                        <item id="securitychecklist_id">
+                            <rank>20</rank>
+                        </item>
+                        <item id="securitychecklistitem_id">
+                            <rank>30</rank>
+                        </item>
+                        <item id="status">
+                            <rank>40</rank>
+                        </item>
+                    </items>
+                </search>
+                <list>
+                    <items>
+                        <item id="functionalci_id">
+                            <rank>10</rank>
+                        </item>
+                        <item id="securitychecklist_id">
+                            <rank>20</rank>
+                        </item>
+                        <item id="securitychecklistitem_id">
+                            <rank>30</rank>
+                        </item>
+                        <item id="status">
+                            <rank>40</rank>
+                        </item>
+                    </items>
+                </list>
+            </presentation>
+        </class>
+        
+        <class id="FunctionalCI">      
+            <methods>        
+                <method id="DisplayBareRelations" _delta="redefine">
+                    <static>false</static>
+                    <access>public</access>
+                    <type>Overload-cmdbAbstractObject</type>
+                    <code>
+                    <![CDATA[	
+                    function DisplayBareRelations(WebPage $oPage, $bEditMode = false)
+	                {
+		                parent::DisplayBareRelations($oPage, $bEditMode);
+
+		                $sTicketListAttCode = 'tickets_list';
+
+		                if (MetaModel::IsValidAttCode(get_class($this), $sTicketListAttCode))
+		                {
+			                // Display one list per leaf class (the only way to display the status as of now)
+
+			                $oAttDef = MetaModel::GetAttributeDef(get_class($this), $sTicketListAttCode);
+			                $sLnkClass = $oAttDef->GetLinkedClass();
+			                $sExtKeyToMe = $oAttDef->GetExtKeyToMe();
+			                $sExtKeyToRemote = $oAttDef->GetExtKeyToRemote();
+
+			                $iTotal = 0;
+			                $aSearches = array();
+
+			                foreach (MetaModel::EnumChildClasses('Ticket') as $sSubClass)
+			                {
+				                if (!MetaModel::HasChildrenClasses($sSubClass))
+				                {
+					                $sStateAttCode = MetaModel::GetStateAttributeCode($sSubClass);
+					                if ($sStateAttCode != '')
+					                {
+						                $oSearch = DBSearch::FromOQL("SELECT $sSubClass AS t JOIN $sLnkClass AS lnk ON lnk.$sExtKeyToRemote = t.id WHERE $sExtKeyToMe = :myself AND $sStateAttCode NOT IN ('rejected', 'resolved', 'closed')", array('myself' => $this->GetKey()));
+						                $aSearches[$sSubClass] = $oSearch;
+
+						                $oSet = new DBObjectSet($oSearch);
+						                $iTotal += $oSet->Count();
+					                }
+				                }
+			                }
+
+			                $sCount = ($iTotal > 0) ? ' ('.$iTotal.')' : '';
+			                $oPage->SetCurrentTab(Dict::S('Class:FunctionalCI/Tab:OpenedTickets').$sCount);
+
+			                foreach ($aSearches as $sSubClass => $oSearch)
+			                {
+				                $sBlockId = __class__.'_opened_'.$sSubClass;
+		
+				                $oPage->add('<fieldset>');
+				                $oPage->add('<legend>'.MetaModel::GetName($sSubClass).'</legend>');
+				                $oBlock = new DisplayBlock($oSearch, 'list', false);
+				                $oBlock->Display($oPage, $sBlockId, array('menu' => false));
+				                $oPage->add('</fieldset>');
+			                }
+		                }
+		                
+		                // Search and display checklist item instance list
+		                
+		                $sClass = 'InstanceOfFunctionalSCLI';
+		                $MyID = $this->GetKey();
+		                $sExtKeyToMe = 'functionalci_id';
+		                $sStatusAtt = 'status';
+		                $sNotDone = 'not_done';
+		                $sDone = 'done';
+		                $oSearchNotDone = DBSearch::FromOQL("SELECT $sClass WHERE $sExtKeyToMe = '$MyID' AND $sStatusAtt = '$sNotDone'");
+		                $oSetNotDone = new DBObjectSet($oSearchNotDone);
+		                $oSearchDone = DBSearch::FromOQL("SELECT $sClass WHERE $sExtKeyToMe = '$MyID' AND $sStatusAtt = '$sDone'");
+		                $oSetDone = new DBObjectSet($oSearchDone);
+		                $iTotal = $oSetNotDone->Count() + $oSetDone->Count();
+		                $sCount = ($iTotal > 0) ? ' ('.$oSetNotDone->Count().'/'.$iTotal.')' : '';
+		                $oPage->SetCurrentTab(Dict::S('Class:FunctionalCI/Tab:CheckListItems').$sCount);
+		                $sBlockId = $sClass.'_Uncomplited';
+		                $sBlockHeader = Dict::S('Class:'.$sClass.'/BlockHeader:Uncomplited');
+		                $oPage->add('<fieldset>');
+		                $oPage->add('<legend>'.$sBlockHeader.'</legend>');
+		                $oBlock = new DisplayBlock($oSearchNotDone, 'list', false);
+		                $oBlock->Display($oPage, $sBlockId, array('menu' => false));
+		                $oPage->add('</fieldset>');
+		                $sBlockId = $sClass.'_Complited';
+		                $sBlockHeader = Dict::S('Class:'.$sClass.'/BlockHeader:Complited');
+		                $oPage->add('<fieldset>');
+		                $oPage->add('<legend>'.$sBlockHeader.'</legend>');
+		                $oBlock = new DisplayBlock($oSearchDone, 'list', false);
+		                $oBlock->Display($oPage, $sBlockId, array('menu' => false));
+		                $oPage->add('</fieldset>');                
+		                
+	                }
+	                ]]>
+	                </code>
+                </method>
+            </methods>      
+        </class>
+    
+        <class id="lnkOrganizationToOrganizationalSCLI" _delta="define">
+            <parent>cmdbAbstractObject</parent>
+            <properties>
+                <is_link>1</is_link>
+                <category>bizmodel</category>
+                <abstract>false</abstract>
+                <key_type>autoincrement</key_type>
+                <db_table>lnkorganizationtoorganizationalscli</db_table>
+                <db_key_field>id</db_key_field>
+                <db_final_class_field/>
+                <naming>
+                    <attributes>
+                        <attribute id="organizationalscli_id"/>
+                        <attribute id="org_id"/>
+                    </attributes>
+                </naming>
+                <display_template/>
+                <icon/>
+                <reconciliation>
+                    <attributes>
+                        <attribute id="organizationalscli_id"/>
+                        <attribute id="org_id"/>
+                    </attributes>
+                </reconciliation>
+            </properties>
+            <fields>
+                <field id="organizationalscli_id" xsi:type="AttributeExternalKey">
+                    <sql>organizationalscli_id</sql>
+                    <target_class>OrganizationalSCLI</target_class>
+                    <is_null_allowed>false</is_null_allowed>
+                    <on_target_delete>DEL_AUTO</on_target_delete>
+                </field>
+                <field id="organizationalscli_name" xsi:type="AttributeExternalField">
+                    <extkey_attcode>organizationalscli_id</extkey_attcode>
+                    <target_attcode>name</target_attcode>
+                </field>
+                <field id="org_id" xsi:type="AttributeExternalKey">
+                    <sql>org_id</sql>
+                    <target_class>Organization</target_class>
+                    <is_null_allowed>false</is_null_allowed>
+                    <on_target_delete>DEL_AUTO</on_target_delete>
+                </field>
+                <field id="org_name" xsi:type="AttributeExternalField">
+                    <extkey_attcode>org_id</extkey_attcode>
+                    <target_attcode>name</target_attcode>
+                </field>
+            </fields>
+            <methods/>
+            <presentation>
+                <details>
+                    <items>
+                        <item id="organizationalscli_id">
+                            <rank>10</rank>
+                        </item>
+                        <item id="org_id">
+                            <rank>20</rank>
+                        </item>
+                    </items>
+                </details>
+                <search>
+                    <items>
+                        <item id="organizationalscli_id">
+                            <rank>10</rank>
+                        </item>
+                        <item id="org_id">
+                            <rank>20</rank>
+                        </item>
+                    </items>
+                </search>
+                <list>
+                    <items>
+                        <item id="organizationalscli_id">
+                            <rank>10</rank>
+                        </item>
+                        <item id="org_id">
+                            <rank>20</rank>
+                        </item>
+                    </items>
+                </list>
+            </presentation>
+        </class>
+        
+        <class id="lnkGroupToFunctionalSCLI" _delta="define">
+            <parent>cmdbAbstractObject</parent>
+            <properties>
+                <is_link>1</is_link>
+                <category>bizmodel</category>
+                <abstract>false</abstract>
+                <key_type>autoincrement</key_type>
+                <db_table>lnkgrouptofunctionalscli</db_table>
+                <db_key_field>id</db_key_field>
+                <db_final_class_field/>
+                <naming>
+                    <attributes>
+                        <attribute id="functionalscli_id"/>
+                        <attribute id="group_id"/>
+                    </attributes>
+                </naming>
+                <display_template/>
+                <icon/>
+                <reconciliation>
+                    <attributes>
+                        <attribute id="functionalscli_id"/>
+                        <attribute id="group_id"/>
+                    </attributes>
+                </reconciliation>
+            </properties>
+            <fields>
+                <field id="functionalscli_id" xsi:type="AttributeExternalKey">
+                    <sql>functionalscli_id</sql>
+                    <target_class>FunctionalSCLI</target_class>
+                    <is_null_allowed>false</is_null_allowed>
+                    <on_target_delete>DEL_AUTO</on_target_delete>
+                </field>
+                <field id="functionalscli_name" xsi:type="AttributeExternalField">
+                    <extkey_attcode>functionalscli_id</extkey_attcode>
+                    <target_attcode>name</target_attcode>
+                </field>
+                <field id="group_id" xsi:type="AttributeExternalKey">
+                    <sql>group_id</sql>
+                    <target_class>Group</target_class>
+                    <is_null_allowed>false</is_null_allowed>
+                    <on_target_delete>DEL_AUTO</on_target_delete>
+                </field>
+                <field id="group_name" xsi:type="AttributeExternalField">
+                    <extkey_attcode>group_id</extkey_attcode>
+                    <target_attcode>name</target_attcode>
+                </field>
+            </fields>
+            <methods/>
+            <presentation>
+                <details>
+                    <items>
+                        <item id="functionalscli_id">
+                            <rank>10</rank>
+                        </item>
+                        <item id="group_id">
+                            <rank>20</rank>
+                        </item>
+                    </items>
+                </details>
+                <search>
+                    <items>
+                        <item id="functionalscli_id">
+                            <rank>10</rank>
+                        </item>
+                        <item id="group_id">
+                            <rank>20</rank>
+                        </item>
+                    </items>
+                </search>
+                <list>
+                    <items>
+                        <item id="functionalscli_id">
+                            <rank>10</rank>
+                        </item>
+                        <item id="group_id">
+                            <rank>20</rank>
+                        </item>
+                    </items>
+                </list>
+            </presentation>
+        </class>
+        
+        <class id="Group">            
+            <fields>
+                <field id="scli_list" xsi:type="AttributeLinkedSetIndirect" _delta="define">
+                    <linked_class>lnkGroupToFunctionalSCLI</linked_class>
+                    <ext_key_to_me>group_id</ext_key_to_me>
+                    <count_min>0</count_min>
+                    <count_max>0</count_max>
+                    <ext_key_to_remote>functionalscli_id</ext_key_to_remote>
+                </field>
+            </fields>
+            <presentation>
+                <details _delta="redefine">
+                    <items>
+                        <item id="name">
+                            <rank>10</rank>
+                        </item>
+                        <item id="status">
+                            <rank>20</rank>
+                        </item>
+                        <item id="org_id">
+                            <rank>30</rank>
+                        </item>
+                        <item id="type">
+                            <rank>40</rank>
+                        </item>
+                        <item id="description">
+                            <rank>50</rank>
+                        </item>
+                        <item id="parent_id">
+                            <rank>60</rank>
+                        </item>
+                        <item id="ci_list">
+                            <rank>70</rank>
+                        </item>
+                        <item id="scli_list">
+                            <rank>80</rank>
+                        </item>
+                    </items>
+                </details>        
+            </presentation>
+        </class>
+        
+        <class id="Organization">            
+            <fields>
+                <field id="scli_list" xsi:type="AttributeLinkedSetIndirect" _delta="define">
+                    <linked_class>lnkOrganizationToOrganizationalSCLI</linked_class>
+                    <ext_key_to_me>org_id</ext_key_to_me>
+                    <count_min>0</count_min>
+                    <count_max>0</count_max>
+                    <ext_key_to_remote>organizationalscli_id</ext_key_to_remote>
+                </field>
+            </fields>
+            <methods>        
+                <method id="DisplayBareRelations" _delta="define">
+                    <static>false</static>
+                    <access>public</access>
+                    <type>Overload-cmdbAbstractObject</type>
+                    <code>
+                    <![CDATA[	
+                    function DisplayBareRelations(WebPage $oPage, $bEditMode = false)
+	                {
+		                parent::DisplayBareRelations($oPage, $bEditMode);
+
+		                
+		                // Search and display checklist item instance list
+		                
+		                $sClass = 'InstanceOfOrganizationalSCLI';
+		                $MyID = $this->GetKey();
+		                $sExtKeyToMe = 'org_id';
+		                $sStatusAtt = 'status';
+		                $sNotDone = 'not_done';
+		                $sDone = 'done';
+		                $oSearchNotDone = DBSearch::FromOQL("SELECT $sClass WHERE $sExtKeyToMe = '$MyID' AND $sStatusAtt = '$sNotDone'");
+		                $oSetNotDone = new DBObjectSet($oSearchNotDone);
+		                $oSearchDone = DBSearch::FromOQL("SELECT $sClass WHERE $sExtKeyToMe = '$MyID' AND $sStatusAtt = '$sDone'");
+		                $oSetDone = new DBObjectSet($oSearchDone);
+		                $iTotal = $oSetNotDone->Count() + $oSetDone->Count();
+		                $sCount = ($iTotal > 0) ? ' ('.$oSetNotDone->Count().'/'.$iTotal.')' : '';
+		                $oPage->SetCurrentTab(Dict::S('Class:Organization/Tab:CheckListItems').$sCount);
+		                $sBlockId = $sClass.'_Uncomplited';
+		                $sBlockHeader = Dict::S('Class:'.$sClass.'/BlockHeader:Uncomplited');
+		                $oPage->add('<fieldset>');
+		                $oPage->add('<legend>'.$sBlockHeader.'</legend>');
+		                $oBlock = new DisplayBlock($oSearchNotDone, 'list', false);
+		                $oBlock->Display($oPage, $sBlockId, array('menu' => false));
+		                $oPage->add('</fieldset>');
+		                $sBlockId = $sClass.'_Complited';
+		                $sBlockHeader = Dict::S('Class:'.$sClass.'/BlockHeader:Complited');
+		                $oPage->add('<fieldset>');
+		                $oPage->add('<legend>'.$sBlockHeader.'</legend>');
+		                $oBlock = new DisplayBlock($oSearchDone, 'list', false);
+		                $oBlock->Display($oPage, $sBlockId, array('menu' => false));
+		                $oPage->add('</fieldset>');                
+		                
+	                }
+	                ]]>
+	                </code>
+                </method>
+            </methods>      
+            <presentation>
+                <details _delta="redefine">
+                    <items>
+                        <item id="name">
+                            <rank>10</rank>
+                        </item>
+                        <item id="code">
+                            <rank>20</rank>
+                        </item>
+                        <item id="status">
+                            <rank>30</rank>
+                        </item>
+                        <item id="parent_id">
+                            <rank>40</rank>
+                        </item>
+                        <item id="scli_list">
+                            <rank>80</rank>
+                        </item>
+                    </items>
+                </details>        
+            </presentation>
+        </class>
+        
+        <class id="SecurityCheckList" _delta="define">
+            <parent>SecurityCI</parent>
+            <properties>
+                <category>bizmodel,searchable</category>
+                <abstract>fale</abstract>
+                <key_type>autoincrement</key_type>
+                <db_table>securitychecklist</db_table>
+                <db_key_field>id</db_key_field>
+                <db_final_class_field/>
+                <naming>
+                    <attributes>
+                        <attribute id="name"/>
+                    </attributes>
+                </naming>
+                <display_template/>
+                <icon/>
+                <reconciliation>
+                    <attributes>
+                        <attribute id="name"/>
+                    </attributes>
+                </reconciliation>
+            </properties>
+            <fields>
+                <field id="scli_list" xsi:type="AttributeLinkedSet">
+                    <linked_class>SecurityCheckListItem</linked_class>
+                    <ext_key_to_me>securitychecklist_id</ext_key_to_me>
+                    <count_min>0</count_min>
+                    <count_max>0</count_max>
+                 </field>
+            </fields>
+            <methods>        
+                <method id="DisplayBareRelations" _delta="define">
+                    <static>false</static>
+                    <access>public</access>
+                    <type>Overload-cmdbAbstractObject</type>
+                    <code>
+                    <![CDATA[	
+                    function DisplayBareRelations(WebPage $oPage, $bEditMode = false)
+	                {
+		                parent::DisplayBareRelations($oPage, $bEditMode);
+
+		                
+		                // search for checklist items that have no instance
+		                
+		                $sClass = 'SecurityCheckListItem';
+		                $oItemNotHaveInstanceSet = DBObjectSet::FromScratch($sClass);
+		                $oItemHaveUncomplitedInstanceSet = DBObjectSet::FromScratch($sClass);
+		                $oItemHaveOnlyComplitedInstanceSet = DBObjectSet::FromScratch($sClass);
+		                $MyID = $this->GetKey();
+		                $sExtKeyToMe = 'securitychecklist_id';
+		                $oSearch = DBSearch::FromOQL("SELECT $sClass WHERE $sExtKeyToMe = '$MyID'");
+		                $oItemSet = new DBObjectSet($oSearch);
+		                $sClass = 'SecurityCheckListItemInstance';
+		                $sExtKeyToMe = 'securitychecklistitem_id';
+		                $sStatusAtt = 'status';
+		                $sNotDone = 'not_done';
+		                $sDone = 'done';		                
+		                $oItemSet->Seek(0);
+		                while ($oItem = $oItemSet->Fetch())
+		                {
+		                    $ItemID = $oItem->GetKey();
+		                    $oSearchNotDone = DBSearch::FromOQL("SELECT $sClass WHERE $sExtKeyToMe = '$ItemID' AND $sStatusAtt = '$sNotDone'");
+		                    $oSetNotDone = new DBObjectSet($oSearchNotDone);
+		                    $oSearchDone = DBSearch::FromOQL("SELECT $sClass WHERE $sExtKeyToMe = '$ItemID' AND $sStatusAtt = '$sDone'");
+		                    $oSetDone = new DBObjectSet($oSearchDone);
+		                    if ($oSetNotDone->Count() != 0)
+		                    {
+		                        $oItemHaveUncomplitedInstanceSet->AddObject($oItem);
+		                    }
+		                    elseif ($oSetDone->Count() != 0)
+		                    {
+		                        $oItemHaveOnlyComplitedInstanceSet->AddObject($oItem);
+		                    }
+		                    else
+		                    {
+		                        $oItemNotHaveInstanceSet->AddObject($oItem);
+		                    }
+		                    
+		                }
+		                
+		                
+		                
+		                
+		                if ($oItemNotHaveInstanceSet->Count() + $oItemHaveUncomplitedInstanceSet->Count() + $oItemHaveOnlyComplitedInstanceSet->Count() != 0)
+		                {
+		                    $sCount = ' ('.$oItemNotHaveInstanceSet->Count().' '.$oItemHaveUncomplitedInstanceSet->Count().' '.$oItemHaveOnlyComplitedInstanceSet->Count().')';
+		                }
+		                else
+		                {
+		                    $sCount = '';
+		                }
+		                
+		                $oPage->SetCurrentTab(Dict::S('Class:SecurityCheckList/Tab:GroupedCheckListItems').$sCount);
+		                $sClass = 'SecurityCheckListItem';
+		                
+		                $sBlockId = $sClass.'_Unassigned';
+		                $sBlockHeader = Dict::S('Class:'.$sClass.'/BlockHeader:Unassigned');
+		                $oPage->add('<fieldset>');
+		                $oPage->add('<legend>'.$sBlockHeader.'</legend>');
+		                $oBlock = DisplayBlock::FromObjectSet($oItemNotHaveInstanceSet, 'list');
+		                $oBlock->Display($oPage, $sBlockId, array('menu' => false));
+		                $oPage->add('</fieldset>');
+		                
+		                $sBlockId = $sClass.'_Uncomplited';
+		                $sBlockHeader = Dict::S('Class:'.$sClass.'/BlockHeader:Uncomplited');
+		                $oPage->add('<fieldset>');
+		                $oPage->add('<legend>'.$sBlockHeader.'</legend>');
+		                $oBlock = DisplayBlock::FromObjectSet($oItemHaveUncomplitedInstanceSet, 'list');
+		                $oBlock->Display($oPage, $sBlockId, array('menu' => false));
+		                $oPage->add('</fieldset>');
+		                
+		                $sBlockId = $sClass.'_Complited';
+		                $sBlockHeader = Dict::S('Class:'.$sClass.'/BlockHeader:Complited');
+		                $oPage->add('<fieldset>');
+		                $oPage->add('<legend>'.$sBlockHeader.'</legend>');
+		                $oBlock = DisplayBlock::FromObjectSet($oItemHaveOnlyComplitedInstanceSet, 'list');
+		                $oBlock->Display($oPage, $sBlockId, array('menu' => false));
+		                $oPage->add('</fieldset>');                
+		                
+	                }
+	                ]]>
+	                </code>
+                </method>
+            </methods>     
+            <presentation>
+                <details>
+                    <items>
+                        <item id="name">
+                            <rank>10</rank>
+                        </item>
+                        <item id="description">
+                            <rank>20</rank>
+                        </item>
+                        <item id="managers_list">
+                            <rank>30</rank>
+                        </item>
+                        <item id="documents_list">
+                            <rank>40</rank>
+                        </item>
+                        <item id="scli_list">
+                            <rank>60</rank>
+                        </item>
+                        <item id="tickets_list">
+                            <rank>80</rank>
+                        </item>
+                    </items>
+                </details>
+                <search>
+                    <items>
+                        <item id="name">
+                            <rank>30</rank>
+                        </item>
+                    </items>
+                </search>
+                <list>
+                    <items>
+                        <item id="name">
+                            <rank>30</rank>
+                        </item>
+                    </items>
+                </list>
+            </presentation>
+        </class>
+        
+    
     </classes>
     <menus>
         <menu id="NewSecurityCI" xsi:type="NewObjectMenuNode" _delta="define">
