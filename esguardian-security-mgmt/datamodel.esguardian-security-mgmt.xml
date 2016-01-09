@@ -192,6 +192,64 @@
                 </list>
             </presentation>
         </class>
+        
+        <class id="Document">      
+            <fields>        
+                <field id="scis_list" xsi:type="AttributeLinkedSetIndirect" _delta="define">
+                    <linked_class>lnkDocumentToSecurityCI</linked_class>
+                    <ext_key_to_me>document_id</ext_key_to_me>
+                    <count_min>0</count_min>
+                    <count_max>0</count_max>
+                    <ext_key_to_remote>securityci_id</ext_key_to_remote>
+                    <duplicates/>
+                </field>
+            </fields>        
+            <presentation>
+                <details>
+                    <items>            
+                        <item id="scis_list" _delta="define">
+                            <rank>55</rank>
+                        </item>            
+                    </items>
+                </details>        
+            </presentation>
+        </class>
+        
+        <class id="DocumentFile">     
+            <presentation>
+                <details>
+                    <items>            
+                        <item id="scis_list" _delta="define">
+                            <rank>65</rank>
+                        </item>            
+                    </items>
+                </details>        
+            </presentation>
+        </class>
+        
+        <class id="DocumentNote">     
+            <presentation>
+                <details>
+                    <items>            
+                        <item id="scis_list" _delta="define">
+                            <rank>65</rank>
+                        </item>            
+                    </items>
+                </details>        
+            </presentation>
+        </class>
+        
+        <class id="DocumentWeb">     
+            <presentation>
+                <details>
+                    <items>            
+                        <item id="scis_list" _delta="define">
+                            <rank>55</rank>
+                        </item>            
+                    </items>
+                </details>        
+            </presentation>
+        </class>
     
         <class id="lnkPersonAsManagerOfSecurityCI" _delta="define">
             <parent>cmdbAbstractObject</parent>
@@ -1312,45 +1370,9 @@
                 </field>
             </fields>
             <presentation>
-                <details _delta="redefine">
-                    <items>
-                        <item id="name">
-                            <rank>10</rank>
-                        </item>
-                        <item id="org_id">
-                            <rank>20</rank>
-                        </item>
-                        <item id="status">
-                            <rank>30</rank>
-                        </item>
-                        <item id="business_criticity">
-                            <rank>40</rank>
-                        </item>
-                        <item id="move2production">
-                            <rank>50</rank>
-                        </item>
-                        <item id="description">
-                            <rank>60</rank>
-                        </item>
-                        <item id="contacts_list">
-                            <rank>70</rank>
-                        </item>
-                        <item id="documents_list">
-                            <rank>80</rank>
-                        </item>
-                        <item id="functionalcis_list">
-                            <rank>100</rank>
-                        </item>
-                        <item id="businessprocess_list">
-                            <rank>110</rank>
-                        </item>
-                        <item id="providercontracts_list">
-                            <rank>120</rank>
-                        </item>
-                        <item id="services_list">
-                            <rank>130</rank>
-                        </item>
-                        <item id="roles_list">
+                <details>
+                    <items>                        
+                        <item id="roles_list" _delta="define">
                             <rank>140</rank>
                         </item>
                     </items>
@@ -1366,36 +1388,9 @@
                 </field>
             </fields>
             <presentation>
-                <details  _delta="redefine">
-                    <items>
-                        <item id="name">
-                            <rank>10</rank>
-                        </item>
-                        <item id="org_id">
-                            <rank>20</rank>
-                        </item>
-                        <item id="status">
-                            <rank>30</rank>
-                        </item>
-                        <item id="business_criticity">
-                            <rank>40</rank>
-                        </item>
-                        <item id="move2production">
-                            <rank>50</rank>
-                        </item>
-                        <item id="description">
-                            <rank>60</rank>
-                        </item>
-                        <item id="contacts_list">
-                            <rank>70</rank>
-                        </item>
-                        <item id="documents_list">
-                            <rank>80</rank>
-                        </item>
-                        <item id="applicationsolutions_list">
-                            <rank>100</rank>
-                        </item>
-                        <item id="roles_list">
+                <details>
+                    <items>                        
+                        <item id="roles_list" _delta="define">
                             <rank>110</rank>
                         </item>
                     </items>
@@ -1415,55 +1410,10 @@
                 </field>
             </fields>
             <presentation>
-                <details _delta="redefine">
-                    <items>
-                        <item id="ref">
-                            <rank>10</rank>
-                        </item>
-                        <item id="org_id">
-                            <rank>20</rank>
-                        </item>
-                        <item id="caller_id">
-                            <rank>30</rank>
-                        </item>
-                        <item id="team_id">
-                            <rank>40</rank>
-                        </item>
-                        <item id="agent_id">
-                            <rank>50</rank>
-                        </item>
-                        <item id="title">
-                            <rank>60</rank>
-                        </item>
-                        <item id="description">
-                            <rank>70</rank>
-                        </item>
-                        <item id="start_date">
-                            <rank>80</rank>
-                        </item>
-                        <item id="end_date">
-                            <rank>90</rank>
-                        </item>
-                        <item id="last_update">
-                            <rank>100</rank>
-                        </item>
-                        <item id="close_date">
-                            <rank>110</rank>
-                        </item>
-                        <item id="private_log">
-                            <rank>120</rank>
-                        </item>
-                        <item id="contacts_list">
-                            <rank>130</rank>
-                        </item>
-                        <item id="functionalcis_list">
-                            <rank>140</rank>
-                        </item>
-                        <item id="securitycis_list">
+                <details>
+                    <items>                        
+                        <item id="securitycis_list" _delta="define">
                             <rank>145</rank>
-                        </item>
-                        <item id="workorders_list">
-                            <rank>150</rank>
                         </item>
                     </items>
                 </details>
@@ -1472,288 +1422,22 @@
 
         <class id="RoutineChange">
             <presentation>
-                <details  _delta="redefine">
+                <details>
                     <items>
-                        <item id="functionalcis_list">
-                            <rank>10</rank>
-                        </item>
-                        <item id="securitycis_list">
+                        <item id="securitycis_list" _delta="define">
                             <rank>15</rank>
                         </item>
-                        <item id="contacts_list">
-                            <rank>20</rank>
-                        </item>
-                        <item id="workorders_list">
-                            <rank>30</rank>
-                        </item>
-                        <item id="related_request_list">
-                            <rank>40</rank>
-                        </item>
-                        <item id="related_incident_list">
-                            <rank>50</rank>
-                        </item>
-                        <item id="related_problems_list">
-                            <rank>60</rank>
-                        </item>
-                        <item id="child_changes_list">
-                            <rank>70</rank>
-                        </item>
-                        <item id="col:col1">
-                            <rank>80</rank>
-                            <items>
-                                <item id="fieldset:Ticket:baseinfo">
-                                    <rank>10</rank>
-                                    <items>
-                                        <item id="ref">
-                                            <rank>10</rank>
-                                        </item>
-                                        <item id="org_id">
-                                            <rank>20</rank>
-                                        </item>
-                                        <item id="status">
-                                            <rank>30</rank>
-                                        </item>
-                                        <item id="title">
-                                            <rank>40</rank>
-                                        </item>
-                                        <item id="description">
-                                            <rank>50</rank>
-                                        </item>
-                                    </items>
-                                </item>
-                                <item id="fieldset:Ticket:contact">
-                                    <rank>20</rank>
-                                    <items>
-                                        <item id="caller_id">
-                                            <rank>10</rank>
-                                        </item>
-                                        <item id="team_id">
-                                            <rank>20</rank>
-                                        </item>
-                                        <item id="agent_id">
-                                            <rank>30</rank>
-                                        </item>
-                                        <item id="supervisor_group_id">
-                                            <rank>40</rank>
-                                        </item>
-                                        <item id="supervisor_id">
-                                            <rank>50</rank>
-                                        </item>
-                                        <item id="manager_group_id">
-                                            <rank>60</rank>
-                                        </item>
-                                        <item id="manager_id">
-                                            <rank>70</rank>
-                                        </item>
-                                    </items>
-                                </item>
-                            </items>
-                        </item>
-                        <item id="col:col2">
-                            <rank>90</rank>
-                            <items>
-                                <item id="fieldset:Ticket:resolution">
-                                    <rank>10</rank>
-                                    <items>
-                                        <item id="reason">
-                                            <rank>10</rank>
-                                        </item>
-                                        <item id="impact">
-                                            <rank>20</rank>
-                                        </item>
-                                        <item id="outage">
-                                            <rank>30</rank>
-                                        </item>
-                                        <item id="fallback">
-                                            <rank>40</rank>
-                                        </item>
-                                    </items>
-                                </item>
-                                <item id="fieldset:Ticket:relation">
-                                    <rank>20</rank>
-                                    <items>
-                                        <item id="parent_id">
-                                            <rank>10</rank>
-                                        </item>
-                                    </items>
-                                </item>
-                            </items>
-                        </item>
-                        <item id="col:col3">
-                            <rank>100</rank>
-                            <items>
-                                <item id="fieldset:Ticket:date">
-                                    <rank>10</rank>
-                                    <items>
-                                        <item id="creation_date">
-                                            <rank>10</rank>
-                                        </item>
-                                        <item id="start_date">
-                                            <rank>20</rank>
-                                        </item>
-                                        <item id="end_date">
-                                            <rank>30</rank>
-                                        </item>
-                                        <item id="last_update">
-                                            <rank>40</rank>
-                                        </item>
-                                        <item id="close_date">
-                                            <rank>50</rank>
-                                        </item>
-                                    </items>
-                                </item>
-                            </items>
-                        </item>
-                    </items>
+                    </items>                        
                 </details>
             </presentation>
         </class>
 
         <class id="NormalChange">
             <presentation>
-                <details _delta="redefine">
+                <details>
                     <items>
-                        <item id="functionalcis_list">
-                            <rank>10</rank>
-                        </item>
-                        <item id="securitycis_list">
+                        <item id="securitycis_list" _delta="define">
                             <rank>15</rank>
-                        </item>
-                        <item id="contacts_list">
-                            <rank>20</rank>
-                        </item>
-                        <item id="workorders_list">
-                            <rank>30</rank>
-                        </item>
-                        <item id="related_request_list">
-                            <rank>40</rank>
-                        </item>
-                        <item id="related_incident_list">
-                            <rank>50</rank>
-                        </item>
-                        <item id="related_problems_list">
-                            <rank>60</rank>
-                        </item>
-                        <item id="child_changes_list">
-                            <rank>70</rank>
-                        </item>
-                        <item id="col:col1">
-                            <rank>80</rank>
-                            <items>
-                                <item id="fieldset:Ticket:baseinfo">
-                                    <rank>10</rank>
-                                    <items>
-                                        <item id="ref">
-                                            <rank>10</rank>
-                                        </item>
-                                        <item id="org_id">
-                                            <rank>20</rank>
-                                        </item>
-                                        <item id="status">
-                                            <rank>30</rank>
-                                        </item>
-                                        <item id="title">
-                                            <rank>40</rank>
-                                        </item>
-                                        <item id="description">
-                                            <rank>50</rank>
-                                        </item>
-                                        <item id="approval_comment">
-                                            <rank>60</rank>
-                                        </item>
-                                        <item id="acceptance_comment">
-                                               <rank>70</rank>
-                                        </item>
-                                    </items>
-                                </item>
-                                <item id="fieldset:Ticket:contact">
-                                    <rank>20</rank>
-                                    <items>
-                                        <item id="caller_id">
-                                            <rank>10</rank>
-                                        </item>
-                                        <item id="team_id">
-                                            <rank>20</rank>
-                                        </item>
-                                        <item id="agent_id">
-                                            <rank>30</rank>
-                                        </item>
-                                        <item id="supervisor_group_id">
-                                            <rank>40</rank>
-                                        </item>
-                                        <item id="supervisor_id">
-                                            <rank>50</rank>
-                                        </item>
-                                        <item id="manager_group_id">
-                                            <rank>60</rank>
-                                        </item>
-                                        <item id="manager_id">
-                                            <rank>70</rank>
-                                        </item>
-                                    </items>
-                                </item>
-                            </items>
-                        </item>
-                        <item id="col:col2">
-                            <rank>90</rank>
-                            <items>
-                                <item id="fieldset:Ticket:resolution">
-                                    <rank>10</rank>
-                                    <items>
-                                        <item id="reason">
-                                            <rank>10</rank>
-                                        </item>
-                                        <item id="impact">
-                                            <rank>20</rank>
-                                        </item>
-                                        <item id="outage">
-                                            <rank>30</rank>
-                                        </item>
-                                        <item id="fallback">
-                                            <rank>40</rank>
-                                        </item>
-                                    </items>
-                                </item>
-                                <item id="fieldset:Ticket:relation">
-                                    <rank>20</rank>
-                                    <items>
-                                        <item id="parent_id">
-                                            <rank>10</rank>
-                                        </item>
-                                    </items>
-                                </item>
-                            </items>
-                        </item>
-                        <item id="col:col3">
-                            <rank>100</rank>
-                            <items>
-                                <item id="fieldset:Ticket:date">
-                                <rank>10</rank>
-                                <items>
-                                        <item id="creation_date">
-                                            <rank>10</rank>
-                                        </item>
-                                        <item id="start_date">
-                                            <rank>20</rank>
-                                        </item>
-                                        <item id="end_date">
-                                            <rank>30</rank>
-                                        </item>
-                                        <item id="last_update">
-                                            <rank>40</rank>
-                                        </item>
-                                        <item id="approval_date">
-                                            <rank>50</rank>
-                                        </item>
-                                        <item id="acceptance_date">
-                                            <rank>60</rank>
-                                        </item>
-                                        <item id="close_date">
-                                            <rank>70</rank>
-                                        </item>
-                                    </items>
-                                </item>
-                            </items>
                         </item>
                     </items>
                 </details>
@@ -1762,143 +1446,10 @@
 
         <class id="EmergencyChange">
             <presentation>
-                <details _delta="redefine">
-                    <items>
-                        <item id="functionalcis_list">
-                            <rank>10</rank>
-                        </item>
-                        <item id="securitycis_list">
+                <details>
+                    <items>                        
+                        <item id="securitycis_list" _delta="define">
                             <rank>15</rank>
-                        </item>
-                        <item id="contacts_list">
-                            <rank>20</rank>
-                        </item>
-                        <item id="workorders_list">
-                            <rank>30</rank>
-                        </item>
-                        <item id="related_request_list">
-                            <rank>40</rank>
-                        </item>
-                        <item id="related_incident_list">
-                            <rank>50</rank>
-                        </item>
-                        <item id="related_problems_list">
-                            <rank>60</rank>
-                        </item>
-                        <item id="child_changes_list">
-                            <rank>70</rank>
-                        </item>
-                        <item id="col:col1">
-                            <rank>80</rank>
-                            <items>
-                                <item id="fieldset:Ticket:baseinfo">
-                                    <rank>10</rank>
-                                    <items>
-                                        <item id="ref">
-                                            <rank>10</rank>
-                                        </item>
-                                        <item id="org_id">
-                                            <rank>20</rank>
-                                        </item>
-                                        <item id="status">
-                                            <rank>30</rank>
-                                        </item>
-                                        <item id="title">
-                                            <rank>40</rank>
-                                        </item>
-                                        <item id="description">
-                                            <rank>50</rank>
-                                        </item>
-                                        <item id="approval_comment">
-                                            <rank>60</rank>
-                                        </item>
-                                    </items>
-                                </item>
-                                <item id="fieldset:Ticket:contact">
-                                    <rank>20</rank>
-                                    <items>
-                                        <item id="caller_id">
-                                            <rank>10</rank>
-                                        </item>
-                                        <item id="team_id">
-                                            <rank>20</rank>
-                                        </item>
-                                        <item id="agent_id">
-                                            <rank>30</rank>
-                                        </item>
-                                        <item id="supervisor_group_id">
-                                            <rank>40</rank>
-                                        </item>
-                                        <item id="supervisor_id">
-                                            <rank>50</rank>
-                                        </item>
-                                        <item id="manager_group_id">
-                                            <rank>60</rank>
-                                        </item>
-                                        <item id="manager_id">
-                                            <rank>70</rank>
-                                        </item>
-                                    </items>
-                                </item>
-                            </items>
-                        </item>
-                        <item id="col:col2">
-                            <rank>90</rank>
-                            <items>
-                                <item id="fieldset:Ticket:resolution">
-                                    <rank>10</rank>
-                                    <items>
-                                        <item id="reason">
-                                            <rank>10</rank>
-                                        </item>
-                                        <item id="impact">
-                                            <rank>20</rank>
-                                        </item>
-                                        <item id="outage">
-                                            <rank>30</rank>
-                                        </item>
-                                        <item id="fallback">
-                                            <rank>40</rank>
-                                        </item>
-                                    </items>
-                                </item>
-                                <item id="fieldset:Ticket:relation">
-                                    <rank>20</rank>
-                                    <items>
-                                        <item id="parent_id">
-                                            <rank>10</rank>
-                                        </item>
-                                    </items>
-                                </item>
-                            </items>
-                        </item>
-                        <item id="col:col3">
-                            <rank>100</rank>
-                            <items>
-                                <item id="fieldset:Ticket:date">
-                                    <rank>10</rank>
-                                    <items>
-                                        <item id="creation_date">
-                                            <rank>10</rank>
-                                        </item>
-                                        <item id="start_date">
-                                            <rank>20</rank>
-                                        </item>
-                                        <item id="end_date">
-                                            <rank>30</rank>
-                                        </item>
-                                        <item id="last_update">
-                                            <rank>40</rank>
-                                        </item>
-                                        <item id="approval_date">
-                                            <rank>50</rank>
-                                        </item>
-                                        <item id="close_date">
-                                            <rank>60</rank>
-                                        </item>
-                                    </items>
-                                </item>
-                            </items>
                         </item>
                     </items>
                 </details>
@@ -2030,75 +1581,10 @@
                 </method>
             </methods>
             <presentation>
-                <details _delta="redefine">
+                <details>
                     <items>
-                        <item id="team_list">
-                            <rank>10</rank>
-                        </item>
-                        <item id="tickets_list">
-                            <rank>20</rank>
-                        </item>
-                        <item id="cis_list">
-                            <rank>30</rank>
-                        </item>
-                        <item id="roles_list">
+                        <item id="roles_list" _delta="define">
                             <rank>35</rank>
-                        </item>
-                        <item id="col:col1">
-                            <rank>40</rank>
-                            <items>
-                                <item id="fieldset:Person:info">
-                                    <rank>10</rank>
-                                    <items>
-                                        <item id="name">
-                                            <rank>10</rank>
-                                        </item>
-                                        <item id="first_name">
-                                            <rank>20</rank>
-                                        </item>
-                                        <item id="org_id">
-                                            <rank>30</rank>
-                                        </item>
-                                        <item id="status">
-                                            <rank>40</rank>
-                                        </item>
-                                        <item id="location_id">
-                                            <rank>50</rank>
-                                        </item>
-                                        <item id="function">
-                                            <rank>60</rank>
-                                        </item>
-                                        <item id="manager_id">
-                                            <rank>70</rank>
-                                        </item>
-                                        <item id="employee_number">
-                                            <rank>80</rank>
-                                        </item>
-                                    </items>
-                                </item>
-                            </items>
-                        </item>
-                        <item id="col:col2">
-                            <rank>50</rank>
-                            <items>
-                                <item id="fieldset:Person:notifiy">
-                                    <rank>10</rank>
-                                    <items>
-                                        <item id="email">
-                                            <rank>10</rank>
-                                        </item>
-                                        <item id="notify">
-                                            <rank>20</rank>
-                                        </item>
-                                        <item id="phone">
-                                            <rank>30</rank>
-                                        </item>
-                                        <item id="mobile_phone">
-                                            <rank>40</rank>
-                                        </item>
-                                    </items>
-                                </item>
-                            </items>
                         </item>
                     </items>
                 </details>
@@ -2879,7 +2365,92 @@
                     <ext_key_to_remote>group_id</ext_key_to_remote>
                 </field>
             </fields>
-            <methods/>
+            <methods>
+                <method id="AfterUpdate">
+                    <comment>/**
+                    * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
+                    * in case an extension attempts to redefine this function...     
+                    */</comment>
+                    <static>false</static>
+                    <access>protected</access>
+                    <type>Overload-DBObject</type>
+                    <code>
+                    <![CDATA[ 
+                    protected function AfterUpdate()
+                    {
+                        // Если мы изменили класс эквивалентности, то надо пересчитать статус
+                        // для всех реализаций нашего и эквивалентных правил. 
+                        // Пересчет по принципу: если одна из реализаций для КЕ имеет статус "не выполнено",
+                        // То всем реализациям для этого КЕ присваивается статус "не выполнено".
+                        
+                        // Проверяем был ли изменен класс эквивалентности
+                        
+                        $aDelta = $this->ListChanges();
+                        if (!array_key_exists('scliequivalence_id',$aDelta))
+                        {
+                            return;
+                        }
+                        
+                        
+                        
+                        $scli_id = $this->GetKey();
+                        $eq_id = $this->Get('scliequivalence_id');
+                        
+                        if ($eq_id == null)
+                        {
+                            return;
+                        }
+                        
+                        // Определяем список реализаций нашего правила и собираем массив id KE
+                        
+                        $oSearch = DBSearch::FromOQL("SELECT InstanceOfFunctionalSCLI WHERE securitychecklistitem_id = '$scli_id'");
+                        $oSetInstance = new DBObjectSet($oSearch);
+                        if ($oSetInstance->Count() == 0)
+                        {
+                            return;
+                        }
+                        $oSetInstance->Seek(0);
+                        $aCI_ids = array();
+                        while ($oInstance = $oSetInstance->Fetch())
+                        {
+                            $aCI_ids[] = $oInstance->Get('functionalci_id');                       
+                        }
+                        
+                        foreach ($aCI_ids as $ci_id)
+                        {
+                            $oSearch = DBSearch::FromOQL("SELECT InstanceOfFunctionalSCLI WHERE securitychecklistitem_id = '$scli_id' AND functionalci_id ='$ci_id'");
+                            $oSet = new DBObjectSet($oSearch);
+                            $oMyInstance = $oSet->Fetch();
+                            $status = $oMyInstance->Get('status');
+                            
+                            // Ищем эквивалентные мне со статусом отличным от моего
+                            
+                            $oSearch = DBSearch::FromOQL("SELECT InstanceOfFunctionalSCLI WHERE scliequivalence_id = '$eq_id' AND functionalci_id ='$ci_id' AND status != '$status'");
+                            $oSet = new DBObjectSet($oSearch);
+                            if ($oSet->Count() != 0) // нашли
+                            {
+                                $oInstance = $oSet->Fetch(); // достаточно одного, статусы эквивалентных сменятся автоматически
+                                
+                                if ($status == 'done')
+                                {
+                                    $oMyInstance->Set('status','not_done');
+                                    $oMyInstance->DBWrite();
+                                }
+                                else
+                                {
+                                    $oInstance->Set('status','not_done');
+                                    $oInstance->DBWrite();
+                                }
+                                    
+                            }
+                            
+                        }
+                        
+                    } 
+                    ]]>
+                    </code>
+                </method>
+            </methods>
             <presentation>
                 <details>
                     <items>
@@ -2974,6 +2545,10 @@
                     <extkey_attcode>securitychecklistitem_id</extkey_attcode>
                     <target_attcode>description</target_attcode>
                 </field>
+                <field id="scliequivalence_id" xsi:type="AttributeExternalField">
+                    <extkey_attcode>securitychecklistitem_id</extkey_attcode>
+                    <target_attcode>scliequivalence_id</target_attcode>
+                </field>
                 <field id="scliequivalence_name" xsi:type="AttributeExternalField">
                     <extkey_attcode>securitychecklistitem_id</extkey_attcode>
                     <target_attcode>scliequivalence_name</target_attcode>
@@ -3001,7 +2576,9 @@
                     <display_style>list</display_style>
                 </field>               
             </fields>
-            <methods/>
+            <methods>
+                
+            </methods>
             <presentation>
                 <details>
                     <items>
@@ -3186,42 +2763,80 @@
                     <target_attcode>name</target_attcode>
                 </field>
             </fields>
-            <methods/>
+            <methods>
+                <method id="AfterUpdate">
+                    <comment>/**
+                    * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
+                    * in case an extension attempts to redefine this function...     
+                    */</comment>
+                    <static>false</static>
+                    <access>protected</access>
+                    <type>Overload-DBObject</type>
+                    <code>
+                    <![CDATA[ 
+                    protected function AfterUpdate()
+                    {
+                        $scli_id = $this->Get('securitychecklistitem_id');
+                        $eq_id = $this->Get('scliequivalence_id');
+                        $status = $this->Get('status');
+                        $ci_id = $this->Get('functionalci_id');
+                        if ($eq_id)
+                        {
+                            // Определяем список SCLI эквивалентных нам
+                            
+                            $oSearch = DBSearch::FromOQL("SELECT FunctionalSCLI WHERE scliequivalence_id = '$eq_id'");
+                            $oSet = new DBObjectSet($oSearch);
+                            $oSet->Seek(0);
+                            while ($oObject = $oSet->Fetch())
+                            {
+                                $searchSCLI_id = $oObject->GetKey();
+                                $oSearch = DBSearch::FromOQL("SELECT InstanceOfFunctionalSCLI WHERE securitychecklistitem_id = '$searchSCLI_id' AND functionalci_id = '$ci_id'");
+                                $oResultSet = new DBObjectSet($oSearch);
+                                $oResultSet->Seek(0);
+                                while ($oResult = $oResultSet->Fetch())
+                                {
+                                    if ($status != $oResult->Get('status'))
+                                    {
+                                        $oResult->Set('status',$status);
+                                        $oResult->DBWrite();
+                                    }
+                                }    
+                            }    
+                        }
+                    } 
+                    ]]>
+                    </code>
+                </method>
+            </methods>
             <presentation>
                 <details>
-                    <items>
-                        <item id="name">
+                    <items>                        
+                        <item id="securitychecklist_id">
                             <rank>10</rank>
-                        </item>
-                        <item id="securitychecklistitem_id">
+                        </item>                        
+                        <item id="status">
                             <rank>20</rank>
                         </item>
-                        <item id="securitychecklist_id">
+                        <item id="description">
                             <rank>30</rank>
                         </item>
-                        <item id="functionalci_id">
+                        <item id="scli_description">
                             <rank>40</rank>
                         </item>
-                        <item id="status">
+                        <item id="scliequivalence_id">
                             <rank>50</rank>
                         </item>
-                        <item id="description">
+                        <item id="scliequivalence_description">
                             <rank>60</rank>
                         </item>
-                        <item id="scli_description">
+                        <item id="managers_list">
                             <rank>70</rank>
                         </item>
-                        <item id="scliequivalence_description">
+                        <item id="documents_list">
                             <rank>80</rank>
                         </item>
-                        <item id="managers_list">
-                            <rank>90</rank>
-                        </item>
-                        <item id="documents_list">
-                            <rank>100</rank>
-                        </item>
                         <item id="tickets_list">
-                            <rank>110</rank>
+                            <rank>90</rank>
                         </item>
                     </items>
                 </details>
@@ -3483,7 +3098,154 @@
                     <target_attcode>name</target_attcode>
                 </field>
             </fields>
-            <methods/>
+            <methods>
+                <method id="DBInsert">
+                    <comment>/**
+                    * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
+                    * in case an extension attempts to redefine this function...     
+                    */</comment>
+                    <static>false</static>
+                    <access>public</access>
+                    <type>Overload-DBObject</type>
+                    <code>
+                    <![CDATA[ 
+                    public function DBInsert()
+                    {
+                        $ret = parent::DBInsert();                        
+                        $scli_id = $this->Get('functionalscli_id');
+                        
+                        // $aCI_ids = $this->GetCI_ids();
+                        
+                        $aCI_ids = array();                        
+                        $MyID = $this->Get('group_id');
+                        $oSearch = DBSearch::FromOQL("SELECT lnkGroupToCI WHERE group_id = '$MyID'");
+                        $oSet = new DBObjectSet($oSearch);
+                        $oSet->Seek(0);
+                        while ($oObject = $oSet->Fetch())
+                        {
+                            $aCI_ids[] = $oObject->Get('ci_id');
+                        }
+                        
+                        foreach ($aCI_ids as $ci_id)
+                        {
+
+                            $oNewInstance = MetaModel::NewObject('InstanceOfFunctionalSCLI');
+                            $oNewInstance->Set('name','-');
+                            $oNewInstance->Set('securitychecklistitem_id',$scli_id);
+                            $oNewInstance->Set('functionalci_id',$ci_id);
+                            $oNewInstance->Set('status','not_done');
+                            
+                            // Может так случиться, что реализация правила для этого КЕ уже существует, 
+                            // поскольку КЕ входит в другой скоп, которому также назначено это правило.
+                            // Проверим это прежде чем продолжить.
+                            
+                            $oSearch = DBSearch::FromOQL("SELECT InstanceOfFunctionalSCLI WHERE securitychecklistitem_id = '$scli_id' AND functionalci_id = '$ci_id'");
+                            $oSet = new DBObjectSet($oSearch);
+                            
+                            if ($oSet->Count() == 0) // Это новый экземпляр правила
+                            {
+                            
+                            
+                                // ищем существующие реализации правил, принадлежащих нашему классу эквивалентности,
+                                // имеющих значение status == done, возможно нам необходимо установить статус в done
+                                // для нового элемента реализации правила
+                                
+                                $oSearch = DBSearch::FromOQL("SELECT FunctionalSCLI WHERE id = '$scli_id'");
+                                $oSet = new DBObjectSet($oSearch);
+                                $oFunctionalSCLI = $oSet->Fetch();
+                                $eq_id = $oFunctionalSCLI->Get('scliequivalence_id');
+                                if ($eq_id)
+                                {
+                                    // Определяем список FunctionalSCLI эквивалентных нам
+                                    
+                                    $oSearch = DBSearch::FromOQL("SELECT FunctionalSCLI WHERE scliequivalence_id = '$eq_id'");
+                                    $oSet = new DBObjectSet($oSearch);
+                                    $oSet->Seek(0);
+                                    while ($oObject = $oSet->Fetch())
+                                    {
+                                        $searchSCLI_id = $oObject->GetKey();
+                                        $oSearch = DBSearch::FromOQL("SELECT InstanceOfFunctionalSCLI WHERE securitychecklistitem_id = '$searchSCLI_id' AND functionalci_id = '$ci_id' AND status = 'done'");
+                                        $oResultSet = new DBObjectSet($oSearch);
+                                        if ($oResultSet->Count() != 0)
+                                        {
+                                            $oNewInstance->Set('status','done');
+                                            $oNewInstance->Set('description','Статус установлен по найденному эквиваленту');
+                                            break;
+                                        }    
+                                    }     
+                                }
+                                $oNewInstance->DBInsertNoReload();
+                                $oNewInstance->Reload();
+                            }
+                        }                          
+                        return $ret;
+                    } 
+                    ]]>
+                    </code>
+                </method>
+                <method id="AfterDelete">
+                    <comment>/**
+                    * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
+                    * in case an extension attempts to redefine this function...     
+                    */</comment>
+                    <static>false</static>
+                    <access>protected</access>
+                    <type>Overload-DBObject</type>
+                    <code>
+                    <![CDATA[ 
+                    protected function AfterDelete()
+                    {
+                        $scli_id = $this->Get('functionalscli_id');
+                        $aCI_ids = array();                        
+                        $MyID = $this->Get('group_id');
+                        $oSearch = DBSearch::FromOQL("SELECT lnkGroupToCI WHERE group_id = '$MyID'");
+                        $oSet = new DBObjectSet($oSearch);
+                        $oSet->Seek(0);
+                        while ($oObject = $oSet->Fetch())
+                        {
+                            $aCI_ids[] = $oObject->Get('ci_id');
+                        }
+                        foreach ($aCI_ids as $ci_id)
+                        {
+                            $oSearch = DBSearch::FromOQL("SELECT InstanceOfFunctionalSCLI WHERE securitychecklistitem_id = '$scli_id' AND functionalci_id = '$ci_id'");
+                            $oSet = new DBObjectSet($oSearch);
+                            if ($oSet->Count() !=0 )
+                            {
+                                while ($oObject = $oSet->Fetch())
+                                {
+                                    // Мы собрались уничтожить реализацию правила для КЕ в удаленном скопе.
+                                    // Но возможно оно назначается для этого КЕ через другой скоп?
+                                    // Это надо проверить.
+                                    
+                                    $iTotal = 0;
+                                    
+                                    $oGroupSearch = DBSearch::FromOQL("SELECT lnkGroupToCI WHERE ci_id = '$ci_id' AND group_id != '$MyID'");
+                                    $oLinkSet = new DBObjectSet($oGroupSearch);
+                                    if ($oLinkSet->Count() != 0)
+                                    {
+                                        $oLinkSet->Seek(0);
+                                        
+                                        while ($oLink = $oLinkSet->Fetch())
+                                        {
+                                            $group_id = $oLink->Get('group_id');
+                                            $oScopeSearch = DBSearch::FromOQL("SELECT lnkGroupToFunctionalSCLI WHERE group_id = '$group_id' AND functionalscli_id = '$scli_id'");
+                                            $oScopeSet = new DBObjectSet($oScopeSearch);
+                                            $iTotal += $oScopeSet->Count();
+                                        }
+                                    }
+                                    if ($iTotal == 0) // Других назначений нет. Этот экземпляр надо уничтожить
+                                    {
+                                        $oObject->DBDeleteSingleObject();
+                                    }
+                                }
+                            }
+                        }
+                        
+                    } 
+                    ]]>
+                    </code>
+                </method>
+            </methods>
             <presentation>
                 <details>
                     <items>
@@ -3518,6 +3280,165 @@
             </presentation>
         </class>
         
+        <class id="lnkGroupToCI">      
+            <methods>
+                <method id="DBInsert" _delta="define">
+                    <comment>/**
+                    * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
+                    * in case an extension attempts to redefine this function...     
+                    */</comment>
+                    <static>false</static>
+                    <access>public</access>
+                    <type>Overload-DBObject</type>
+                    <code>
+                    <![CDATA[ 
+                    public function DBInsert()
+                    {
+                        $ret = parent::DBInsert();                        
+                        $ci_id = $this->Get('ci_id');
+                        $group_id = $this->Get('group_id');
+                        
+                        // Надо собрать все правила в скопах которых значится эта группа
+                        
+                        $aSCLI_ids = array();                        
+                        $MyID = $this->Get('group_id');
+                        $oSearch = DBSearch::FromOQL("SELECT lnkGroupToFunctionalSCLI WHERE group_id = '$MyID'");
+                        $oSet = new DBObjectSet($oSearch);
+                        $oSet->Seek(0);
+                        while ($oObject = $oSet->Fetch())
+                        {
+                            $aSCLI_ids[] = $oObject->Get('functionalscli_id');
+                        }
+                        
+                        foreach ($aSCLI_ids as $scli_id) // Правила собраны. Создаем элементы для каждого из них
+                        {
+
+                            $oNewInstance = MetaModel::NewObject('InstanceOfFunctionalSCLI');
+                            $oNewInstance->Set('name','-');
+                            $oNewInstance->Set('securitychecklistitem_id',$scli_id);
+                            $oNewInstance->Set('functionalci_id',$ci_id);
+                            $oNewInstance->Set('status','not_done');
+                            
+                            // Может так случиться, что реализация правила для этого КЕ уже существует, 
+                            // поскольку КЕ входит в другой скоп, которому также назначено это правило.
+                            // Проверим это прежде чем продолжить.
+                            
+                            $oSearch = DBSearch::FromOQL("SELECT InstanceOfFunctionalSCLI WHERE securitychecklistitem_id = '$scli_id' AND functionalci_id = '$ci_id'");
+                            $oSet = new DBObjectSet($oSearch);
+                            
+                            if ($oSet->Count() == 0) // Это новый экземпляр правила
+                            {
+                            
+                            
+                                // ищем существующие реализации правил, принадлежащих нашему классу эквивалентности,
+                                // имеющих значение status == done, возможно нам необходимо установить статус в done
+                                // для нового элемента реализации правила
+                                
+                                $oSearch = DBSearch::FromOQL("SELECT FunctionalSCLI WHERE id = '$scli_id'");
+                                $oSet = new DBObjectSet($oSearch);
+                                $oFunctionalSCLI = $oSet->Fetch();
+                                $eq_id = $oFunctionalSCLI->Get('scliequivalence_id');
+                                if ($eq_id)
+                                {
+                                    // Определяем список FunctionalSCLI эквивалентных нам
+                                    
+                                    $oSearch = DBSearch::FromOQL("SELECT FunctionalSCLI WHERE scliequivalence_id = '$eq_id'");
+                                    $oSet = new DBObjectSet($oSearch);
+                                    $oSet->Seek(0);
+                                    while ($oObject = $oSet->Fetch())
+                                    {
+                                        $searchSCLI_id = $oObject->GetKey();
+                                        $oSearch = DBSearch::FromOQL("SELECT InstanceOfFunctionalSCLI WHERE securitychecklistitem_id = '$searchSCLI_id' AND functionalci_id = '$ci_id' AND status = 'done'");
+                                        $oResultSet = new DBObjectSet($oSearch);
+                                        if ($oResultSet->Count() != 0)
+                                        {
+                                            $oNewInstance->Set('status','done');
+                                            $oNewInstance->Set('description','Статус установлен по найденному эквиваленту');
+                                            break;
+                                        }    
+                                    }     
+                                }
+                                $oNewInstance->DBInsertNoReload();
+                                $oNewInstance->Reload();
+                            }
+                        }                          
+                        return $ret;
+                    } 
+                    ]]>
+                    </code>
+                </method>
+                <method id="AfterDelete" _delta="define">
+                    <comment>/**
+                    * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
+                    * in case an extension attempts to redefine this function...     
+                    */</comment>
+                    <static>false</static>
+                    <access>protected</access>
+                    <type>Overload-DBObject</type>
+                    <code>
+                    <![CDATA[ 
+                    protected function AfterDelete()
+                    {
+                        $ci_id = $this->Get('ci_id');
+                        $group_id = $this->Get('group_id');
+                        
+                        // Мы убрали КЕ из группы. Надо проверить не является ли эта группа
+                        // скопом каких-либо правил ИБ. Если да, то надо убрать элементы реализации правил,
+                        // ранее созданные для этого КЕ
+                        
+                        $aSCLI_ids = array();                        
+                        $MyID = $this->Get('group_id');
+                        $oSearch = DBSearch::FromOQL("SELECT lnkGroupToFunctionalSCLI WHERE group_id = '$MyID'");
+                        $oSet = new DBObjectSet($oSearch);
+                        $oSet->Seek(0);
+                        while ($oObject = $oSet->Fetch())
+                        {
+                            $aSCLI_ids[] = $oObject->Get('functionalscli_id');
+                        }
+                        foreach ($aSCLI_ids as $scli_id) // Правила собраны. Ищем и удаляем элементы для каждого
+                        {
+                            $oSearch = DBSearch::FromOQL("SELECT InstanceOfFunctionalSCLI WHERE securitychecklistitem_id = '$scli_id' AND functionalci_id = '$ci_id'");
+                            $oSet = new DBObjectSet($oSearch);
+                            if ($oSet->Count() !=0 )
+                            {
+                                while ($oObject = $oSet->Fetch())
+                                {
+                                    // Мы собрались уничтожить реализацию правила для КЕ в удаленного из скопа.
+                                    // Но возможно это же правило назначается для этого КЕ через другой скоп?
+                                    // Это надо проверить.
+                                    
+                                    $iTotal = 0;
+                                    
+                                    $oGroupSearch = DBSearch::FromOQL("SELECT lnkGroupToCI WHERE ci_id = '$ci_id' AND group_id != '$MyID'");
+                                    $oLinkSet = new DBObjectSet($oGroupSearch);
+                                    if ($oLinkSet->Count() != 0)
+                                    {
+                                        $oLinkSet->Seek(0);
+                                        
+                                        while ($oLink = $oLinkSet->Fetch())
+                                        {
+                                            $group_id = $oLink->Get('group_id');
+                                            $oScopeSearch = DBSearch::FromOQL("SELECT lnkGroupToFunctionalSCLI WHERE group_id = '$group_id' AND functionalscli_id = '$scli_id'");
+                                            $oScopeSet = new DBObjectSet($oScopeSearch);
+                                            $iTotal += $oScopeSet->Count();
+                                        }
+                                    }
+                                    if ($iTotal == 0) // Других назначений нет. Этот экземпляр надо уничтожить
+                                    {
+                                        $oObject->DBDeleteSingleObject();
+                                    }
+                                }
+                            }
+                        }
+                        
+                    } 
+                    ]]>
+                    </code>
+                </method>
+            </methods>
+        </class>
+
+        
         <class id="Group">            
             <fields>
                 <field id="scli_list" xsi:type="AttributeLinkedSetIndirect" _delta="define">
@@ -3529,30 +3450,9 @@
                 </field>
             </fields>
             <presentation>
-                <details _delta="redefine">
-                    <items>
-                        <item id="name">
-                            <rank>10</rank>
-                        </item>
-                        <item id="status">
-                            <rank>20</rank>
-                        </item>
-                        <item id="org_id">
-                            <rank>30</rank>
-                        </item>
-                        <item id="type">
-                            <rank>40</rank>
-                        </item>
-                        <item id="description">
-                            <rank>50</rank>
-                        </item>
-                        <item id="parent_id">
-                            <rank>60</rank>
-                        </item>
-                        <item id="ci_list">
-                            <rank>70</rank>
-                        </item>
-                        <item id="scli_list">
+                <details>
+                    <items>                        
+                        <item id="scli_list" _delta="define">
                             <rank>80</rank>
                         </item>
                     </items>
@@ -3618,21 +3518,9 @@
                 </method>
             </methods>      
             <presentation>
-                <details _delta="redefine">
-                    <items>
-                        <item id="name">
-                            <rank>10</rank>
-                        </item>
-                        <item id="code">
-                            <rank>20</rank>
-                        </item>
-                        <item id="status">
-                            <rank>30</rank>
-                        </item>
-                        <item id="parent_id">
-                            <rank>40</rank>
-                        </item>
-                        <item id="scli_list">
+                <details>
+                    <items>                        
+                        <item id="scli_list" _delta="define">
                             <rank>80</rank>
                         </item>
                     </items>
@@ -3803,8 +3691,6 @@
                 </list>
             </presentation>
         </class>
-        
-    
     </classes>
     <menus>
         <menu id="NewSecurityCI" xsi:type="NewObjectMenuNode" _delta="define">
