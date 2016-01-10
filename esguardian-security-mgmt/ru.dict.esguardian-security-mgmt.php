@@ -20,7 +20,7 @@ Dict::Add('RU RU', 'Russian', 'Русский', array(
     'Class:Ticket/Attribute:securitycis_list' => 'КЭБы',
 	'Class:Ticket/Attribute:securitycis_list+' => 'Конфигурационные элементы безопасности связанные с этим тикетом',
 	'Class:Document/Attribute:scis_list' => 'КЭБы',
-	'Class:Document/Attribute:scis_list+' => 'Конфигурационные элементы безопасности связанные с этим тикетом',
+	'Class:Document/Attribute:scis_list+' => 'Конфигурационные элементы безопасности связанные с этим документом',
 	'Class:Organization/Attribute:scli_list' => 'Правила ИБ',
 	'Class:Organization/Attribute:scli_list+' => 'Список правил информационной безопасности',
 	'Class:Group/Attribute:scli_list' => 'Правила ИБ',
@@ -278,8 +278,8 @@ Dict::Add('RU RU', 'Russian', 'Русский', array(
 	'Class:SecurityCheckListItem/Attribute:scli_instance_list+' => 'Список проверок, необходимых для данного правила',
 	'Class:SecurityCheckListItem/Tab:scli_instance_list' => 'Статус проверок',
 	'Class:SecurityCheckListItem/BlockHeader:Unassigned' => 'Не назначено',
-	'Class:SecurityCheckListItem/BlockHeader:Uncomplited' => 'Есть невыполненные проверки',
-	'Class:SecurityCheckListItem/BlockHeader:Complited' => 'Все проверки выполнены',
+	'Class:SecurityCheckListItem/BlockHeader:Uncompleted' => 'Есть невыполненные проверки',
+	'Class:SecurityCheckListItem/BlockHeader:completed' => 'Все проверки выполнены',
 ));
 
 //
@@ -342,8 +342,8 @@ Dict::Add('RU RU', 'Russian', 'Русский', array(
 	'Class:SecurityCheckListItemInstance/Attribute:status/Value:done+' => 'done',
 	'Class:SecurityCheckListItemInstance/Attribute:status/Value:not_done' => 'Не выполнено',
 	'Class:SecurityCheckListItemInstance/Attribute:status/Value:not_done+' => 'not done',
-	'Class:SecurityCheckListItemInstance/BlockHeader:Uncomplited' => 'Невыполненные проверки',
-	'Class:SecurityCheckListItemInstance/BlockHeader:Complited' => 'Выполненные проверки',
+	'Class:SecurityCheckListItemInstance/BlockHeader:Uncompleted' => 'Невыполненные проверки',
+	'Class:SecurityCheckListItemInstance/BlockHeader:completed' => 'Выполненные проверки',
 ));
 
 //
@@ -353,8 +353,8 @@ Dict::Add('RU RU', 'Russian', 'Русский', array(
 Dict::Add('RU RU', 'Russian', 'Русский', array(
 	'Class:InstanceOfOrganizationalSCLI' => 'Проверка орг.меры',
 	'Class:InstanceOfOrganizationalSCLI+' => 'Проверка (реализация) организационного павила',
-	'Class:InstanceOfOrganizationalSCLI/BlockHeader:Uncomplited' => 'Невыполненные проверки',
-	'Class:InstanceOfOrganizationalSCLI/BlockHeader:Complited' => 'Выполненные проверки',
+	'Class:InstanceOfOrganizationalSCLI/BlockHeader:Uncompleted' => 'Невыполненные проверки',
+	'Class:InstanceOfOrganizationalSCLI/BlockHeader:completed' => 'Выполненные проверки',
 ));
 
 //
@@ -368,8 +368,8 @@ Dict::Add('RU RU', 'Russian', 'Русский', array(
 	'Class:InstanceOfFunctionalSCLI/Attribute:functionalci_id+' => 'КЕ к которому применяется проверка',
 	'Class:InstanceOfFunctionalSCLI/Attribute:functionalci_name' => 'КЕ',
 	'Class:InstanceOfFunctionalSCLI/Attribute:functionalci_name+' => 'КЕ к которому применяется проверка',
-	'Class:InstanceOfFunctionalSCLI/BlockHeader:Uncomplited' => 'Невыполненные проверки',
-	'Class:InstanceOfFunctionalSCLI/BlockHeader:Complited' => 'Выполненные проверки',
+	'Class:InstanceOfFunctionalSCLI/BlockHeader:Uncompleted' => 'Невыполненные проверки',
+	'Class:InstanceOfFunctionalSCLI/BlockHeader:completed' => 'Выполненные проверки',
 ));
 
 //

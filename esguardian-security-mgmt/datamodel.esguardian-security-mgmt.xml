@@ -2095,16 +2095,16 @@
 		                
 		                $oPage->SetCurrentTab(Dict::S('Class:SecurityCheckListItem/Tab:scli_instance_list').$sCount);	                	                
 		                	                
-		                $sBlockId = $sClass.'_Uncomplited';
-		                $sBlockHeader = Dict::S('Class:'.$sClass.'/BlockHeader:Uncomplited');
+		                $sBlockId = $sClass.'_Uncompleted';
+		                $sBlockHeader = Dict::S('Class:'.$sClass.'/BlockHeader:Uncompleted');
 		                $oPage->add('<fieldset>');
 		                $oPage->add('<legend>'.$sBlockHeader.'</legend>');
 		                $oBlock = DisplayBlock::FromObjectSet($oSetNotDone, 'list');
 		                $oBlock->Display($oPage, $sBlockId, array('menu' => false));
 		                $oPage->add('</fieldset>');
 		                
-		                $sBlockId = $sClass.'_Complited';
-		                $sBlockHeader = Dict::S('Class:'.$sClass.'/BlockHeader:Complited');
+		                $sBlockId = $sClass.'_completed';
+		                $sBlockHeader = Dict::S('Class:'.$sClass.'/BlockHeader:completed');
 		                $oPage->add('<fieldset>');
 		                $oPage->add('<legend>'.$sBlockHeader.'</legend>');
 		                $oBlock = DisplayBlock::FromObjectSet($oSetDone, 'list');
@@ -2277,7 +2277,93 @@
                     <ext_key_to_remote>org_id</ext_key_to_remote>
                 </field>
             </fields>
-            <methods/>
+            <methods>
+                <method id="AfterUpdate">
+                    <comment>/**
+                    * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
+                    * in case an extension attempts to redefine this function...     
+                    */</comment>
+                    <static>false</static>
+                    <access>protected</access>
+                    <type>Overload-DBObject</type>
+                    <code>
+                    <![CDATA[ 
+                    protected function AfterUpdate()
+                    {
+                        // Если мы изменили класс эквивалентности, то надо пересчитать статус
+                        // для всех реализаций нашего и эквивалентных правил. 
+                        // Пересчет по принципу: если одна из реализаций имеет статус "не выполнено",
+                        // То всем реализациям для этой Организации присваивается статус "не выполнено".
+                        
+                        // Проверяем был ли изменен класс эквивалентности
+                        
+                        $aDelta = $this->ListChanges();
+                        if (!array_key_exists('scliequivalence_id',$aDelta))
+                        {
+                            return;
+                        }
+                        
+                        
+                        
+                        $scli_id = $this->GetKey();
+                        $eq_id = $this->Get('scliequivalence_id');
+                        
+                        if ($eq_id == null) //Если класс эквивалентности установлен в "неопределен" то и делать ничего не надо
+                        {
+                            return;
+                        }
+                        
+                        // Определяем список реализаций нашего правила и собираем массив id организаций
+                        // в которых будем искать эквиваленты
+                        
+                        $oSearch = DBSearch::FromOQL("SELECT InstanceOfOrganizationalSCLI WHERE securitychecklistitem_id = '$scli_id'");
+                        $oSetInstance = new DBObjectSet($oSearch);
+                        if ($oSetInstance->Count() == 0)
+                        {
+                            return;
+                        }
+                        $oSetInstance->Seek(0);
+                        $aOrg_ids = array();
+                        while ($oInstance = $oSetInstance->Fetch())
+                        {
+                            $aOrg_ids[] = $oInstance->Get('org_id');                       
+                        }
+                        
+                        foreach ($aOrg_ids as $org_id) // теперь проходим по всем организациям
+                        {
+                            $oSearch = DBSearch::FromOQL("SELECT InstanceOfOrganizationalSCLI WHERE securitychecklistitem_id = '$scli_id' AND org_id ='$org_id'");
+                            $oSet = new DBObjectSet($oSearch);
+                            $oMyInstance = $oSet->Fetch();
+                            $status = $oMyInstance->Get('status'); // читаем статус своей реализации
+                            
+                            // Ищем эквивалентные мне со статусом отличным от моего
+                            
+                            $oSearch = DBSearch::FromOQL("SELECT InstanceOfOrganizationalSCLI WHERE scliequivalence_id = '$eq_id' AND org_id ='$org_id' AND status != '$status'");
+                            $oSet = new DBObjectSet($oSearch);
+                            if ($oSet->Count() != 0) // нашли
+                            {
+                                $oInstance = $oSet->Fetch(); // достаточно одного, статусы эквивалентных сменятся автоматически
+                                
+                                if ($status == 'done')
+                                {
+                                    $oMyInstance->Set('status','not_done');
+                                    $oMyInstance->DBWrite();
+                                }
+                                else
+                                {
+                                    $oInstance->Set('status','not_done');
+                                    $oInstance->DBWrite();
+                                }
+                                    
+                            }
+                            
+                        }
+                        
+                    } 
+                    ]]>
+                    </code>
+                </method>
+            </methods>
             <presentation>
                 <details>
                     <items>
@@ -2650,42 +2736,84 @@
             <fields>
                 
             </fields>
-            <methods/>
+            <methods>
+                <method id="AfterUpdate">
+                    <comment>/**
+                    * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
+                    * in case an extension attempts to redefine this function...     
+                    */</comment>
+                    <static>false</static>
+                    <access>protected</access>
+                    <type>Overload-DBObject</type>
+                    <code>
+                    <![CDATA[ 
+                    protected function AfterUpdate()
+                    {
+                        // Проверяем был ли изменен статус, если нет, то ничего не делаем
+                        
+                        $aDelta = $this->ListChanges();
+                        if (!array_key_exists('status',$aDelta))
+                        {
+                            return;
+                        }
+                        
+                        $scli_id = $this->Get('securitychecklistitem_id');
+                        $eq_id = $this->Get('scliequivalence_id');
+                        $status = $this->Get('status');
+                        $org_id = $this->Get('org_id');
+                    
+                        // Определяем список реализаций эквивалентных нам правил и меняем их статус
+                        
+                        if ($eq_id == null)
+                        {
+                            return;
+                        }
+                        
+                        $oSearch = DBSearch::FromOQL("SELECT InstanceOfOrganizationalSCLI WHERE scliequivalence_id = '$eq_id' AND org_id = '$org_id'");
+                        $oResultSet = new DBObjectSet($oSearch);
+                        $oResultSet->Seek(0);
+                        while ($oResult = $oResultSet->Fetch())
+                        {
+                            if ($status != $oResult->Get('status'))
+                            {
+                                $oResult->Set('status',$status);
+                                $oResult->DBWrite();
+                            }
+                        }    
+                    } 
+                    ]]>
+                    </code>
+                </method>
+            </methods>
             <presentation>
                 <details>
-                    <items>
-                        <item id="name">
+                    <items>                        
+                        <item id="securitychecklist_id">
                             <rank>10</rank>
-                        </item>
-                        <item id="securitychecklistitem_id">
+                        </item>                        
+                        <item id="status">
                             <rank>20</rank>
                         </item>
-                        <item id="securitychecklist_id">
+                        <item id="description">
                             <rank>30</rank>
                         </item>
-                        <item id="org_id">
+                        <item id="scli_description">
                             <rank>40</rank>
                         </item>
-                        <item id="status">
+                        <item id="scliequivalence_id">
                             <rank>50</rank>
                         </item>
-                        <item id="description">
+                        <item id="scliequivalence_description">
                             <rank>60</rank>
                         </item>
-                        <item id="scli_description">
+                        <item id="managers_list">
                             <rank>70</rank>
                         </item>
-                        <item id="scliequivalence_description">
+                        <item id="documents_list">
                             <rank>80</rank>
                         </item>
-                        <item id="managers_list">
-                            <rank>90</rank>
-                        </item>
-                        <item id="documents_list">
-                            <rank>100</rank>
-                        </item>
                         <item id="tickets_list">
-                            <rank>110</rank>
+                            <rank>90</rank>
                         </item>
                     </items>
                 </details>
@@ -2776,6 +2904,14 @@
                     <![CDATA[ 
                     protected function AfterUpdate()
                     {
+                        // Проверяем был ли изменен статус, если нет, то ничего не делаем
+                        
+                        $aDelta = $this->ListChanges();
+                        if (!array_key_exists('status',$aDelta))
+                        {
+                            return;
+                        }
+                        
                         $scli_id = $this->Get('securitychecklistitem_id');
                         $eq_id = $this->Get('scliequivalence_id');
                         $status = $this->Get('status');
@@ -2947,15 +3083,15 @@
 		                $iTotal = $oSetNotDone->Count() + $oSetDone->Count();
 		                $sCount = ($iTotal > 0) ? ' ('.$oSetNotDone->Count().'/'.$iTotal.')' : '';
 		                $oPage->SetCurrentTab(Dict::S('Class:FunctionalCI/Tab:CheckListItems').$sCount);
-		                $sBlockId = $sClass.'_Uncomplited';
-		                $sBlockHeader = Dict::S('Class:'.$sClass.'/BlockHeader:Uncomplited');
+		                $sBlockId = $sClass.'_Uncompleted';
+		                $sBlockHeader = Dict::S('Class:'.$sClass.'/BlockHeader:Uncompleted');
 		                $oPage->add('<fieldset>');
 		                $oPage->add('<legend>'.$sBlockHeader.'</legend>');
 		                $oBlock = new DisplayBlock($oSearchNotDone, 'list', false);
 		                $oBlock->Display($oPage, $sBlockId, array('menu' => false));
 		                $oPage->add('</fieldset>');
-		                $sBlockId = $sClass.'_Complited';
-		                $sBlockHeader = Dict::S('Class:'.$sClass.'/BlockHeader:Complited');
+		                $sBlockId = $sClass.'_completed';
+		                $sBlockHeader = Dict::S('Class:'.$sClass.'/BlockHeader:completed');
 		                $oPage->add('<fieldset>');
 		                $oPage->add('<legend>'.$sBlockHeader.'</legend>');
 		                $oBlock = new DisplayBlock($oSearchDone, 'list', false);
@@ -3016,7 +3152,97 @@
                     <target_attcode>name</target_attcode>
                 </field>
             </fields>
-            <methods/>
+            <methods>
+                <method id="AfterInsert">
+                    <comment>/**
+                    * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
+                    * in case an extension attempts to redefine this function...     
+                    */</comment>
+                    <static>false</static>
+                    <access>protected</access>
+                    <type>Overload-DBObject</type>
+                    <code>
+                    <![CDATA[ 
+                    protected function AfterInsert()
+                    {
+                        // Создаем реализацию правила для прилинкованной организации
+                                             
+                        $scli_id = $this->Get('organizationalscli_id');
+                    
+                        $org_id = $this->Get('org_id');
+                    
+
+                        $oNewInstance = MetaModel::NewObject('InstanceOfOrganizationalSCLI');
+                        $oNewInstance->Set('name','-');
+                        $oNewInstance->Set('securitychecklistitem_id',$scli_id);
+                        $oNewInstance->Set('org_id',$org_id);
+                        $oNewInstance->Set('status','not_done');
+                        
+                        // В отличии от тех. мер где скопом является группа КЕ и возможны пересечения скопов, 
+                        // для орг. мер, скоп - это организация. Нам не надо искать возможные дубли
+                        // реализаций правила созданные из-за пересечения скопов. Здесь не бывает пересечений.
+                    
+                        // ищем существующие реализации правил, принадлежащих нашему классу эквивалентности,
+                        // имеющих значение status == done, возможно нам необходимо установить статус в done
+                        // для нового элемента реализации правила
+                        
+                        // Выясняем id нашего эквивалента
+                        
+                        $oSearch = DBSearch::FromOQL("SELECT OrganizationalSCLI WHERE id = '$scli_id'");
+                        $oSet = new DBObjectSet($oSearch);
+                        $oObject = $oSet->Fetch();
+                        $eq_id = $oObject->Get('scliequivalence_id');
+                        if ($eq_id)
+                        {
+                            // Определяем список эквивалентных нам имеющих статус "выполнено"
+
+                            $oSearch = DBSearch::FromOQL("SELECT InstanceOfOrganizationalSCLI WHERE scliequivalence_id = '$eq_id' AND org_id = '$org_id' AND status = 'done'");
+                            $oResultSet = new DBObjectSet($oSearch);
+                            if ($oResultSet->Count() != 0) // Список не пуст. Устанавливаем статус "выполнено"
+                            {
+                                $oNewInstance->Set('status','done');
+                                $oNewInstance->Set('description','Статус установлен по найденному эквиваленту');
+                            }    
+
+                        }
+                        $oNewInstance->DBWrite();
+                    } 
+                    ]]>
+                    </code>
+                </method>
+                <method id="AfterDelete">
+                    <comment>/**
+                    * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
+                    * in case an extension attempts to redefine this function...     
+                    */</comment>
+                    <static>false</static>
+                    <access>protected</access>
+                    <type>Overload-DBObject</type>
+                    <code>
+                    <![CDATA[ 
+                    protected function AfterDelete()
+                    {
+                        // Уничтожаем реализации правила для этого скопа
+                        
+                        $scli_id = $this->Get('organizationalscli_id');
+                    
+                        $org_id = $this->Get('org_id');
+                        
+                        $oSearch = DBSearch::FromOQL("SELECT InstanceOfOrganizationalSCLI WHERE securitychecklistitem_id = '$scli_id' AND org_id = '$org_id'");
+                        $oSet = new DBObjectSet($oSearch);
+                        $oSet->Seek(0);
+                        
+                        while ($oObject = $oSet->Fetch())
+                        {
+                        
+                            $oObject->DBDeleteSingleObject();
+                        }                       
+                        
+                    } 
+                    ]]>
+                    </code>
+                </method>
+            </methods>
             <presentation>
                 <details>
                     <items>
@@ -3497,15 +3723,15 @@
 		                $iTotal = $oSetNotDone->Count() + $oSetDone->Count();
 		                $sCount = ($iTotal > 0) ? ' ('.$oSetNotDone->Count().'/'.$iTotal.')' : '';
 		                $oPage->SetCurrentTab(Dict::S('Class:Organization/Tab:CheckListItems').$sCount);
-		                $sBlockId = $sClass.'_Uncomplited';
-		                $sBlockHeader = Dict::S('Class:'.$sClass.'/BlockHeader:Uncomplited');
+		                $sBlockId = $sClass.'_Uncompleted';
+		                $sBlockHeader = Dict::S('Class:'.$sClass.'/BlockHeader:Uncompleted');
 		                $oPage->add('<fieldset>');
 		                $oPage->add('<legend>'.$sBlockHeader.'</legend>');
 		                $oBlock = new DisplayBlock($oSearchNotDone, 'list', false);
 		                $oBlock->Display($oPage, $sBlockId, array('menu' => false));
 		                $oPage->add('</fieldset>');
-		                $sBlockId = $sClass.'_Complited';
-		                $sBlockHeader = Dict::S('Class:'.$sClass.'/BlockHeader:Complited');
+		                $sBlockId = $sClass.'_completed';
+		                $sBlockHeader = Dict::S('Class:'.$sClass.'/BlockHeader:completed');
 		                $oPage->add('<fieldset>');
 		                $oPage->add('<legend>'.$sBlockHeader.'</legend>');
 		                $oBlock = new DisplayBlock($oSearchDone, 'list', false);
@@ -3574,8 +3800,8 @@
 		                
 		                $sClass = 'SecurityCheckListItem';
 		                $oItemNotHaveInstanceSet = DBObjectSet::FromScratch($sClass);
-		                $oItemHaveUncomplitedInstanceSet = DBObjectSet::FromScratch($sClass);
-		                $oItemHaveOnlyComplitedInstanceSet = DBObjectSet::FromScratch($sClass);
+		                $oItemHaveUncompletedInstanceSet = DBObjectSet::FromScratch($sClass);
+		                $oItemHaveOnlycompletedInstanceSet = DBObjectSet::FromScratch($sClass);
 		                $MyID = $this->GetKey();
 		                $sExtKeyToMe = 'securitychecklist_id';
 		                $oSearch = DBSearch::FromOQL("SELECT $sClass WHERE $sExtKeyToMe = '$MyID'");
@@ -3595,11 +3821,11 @@
 		                    $oSetDone = new DBObjectSet($oSearchDone);
 		                    if ($oSetNotDone->Count() != 0)
 		                    {
-		                        $oItemHaveUncomplitedInstanceSet->AddObject($oItem);
+		                        $oItemHaveUncompletedInstanceSet->AddObject($oItem);
 		                    }
 		                    elseif ($oSetDone->Count() != 0)
 		                    {
-		                        $oItemHaveOnlyComplitedInstanceSet->AddObject($oItem);
+		                        $oItemHaveOnlycompletedInstanceSet->AddObject($oItem);
 		                    }
 		                    else
 		                    {
@@ -3611,9 +3837,9 @@
 		                
 		                
 		                
-		                if ($oItemNotHaveInstanceSet->Count() + $oItemHaveUncomplitedInstanceSet->Count() + $oItemHaveOnlyComplitedInstanceSet->Count() != 0)
+		                if ($oItemNotHaveInstanceSet->Count() + $oItemHaveUncompletedInstanceSet->Count() + $oItemHaveOnlycompletedInstanceSet->Count() != 0)
 		                {
-		                    $sCount = ' ('.$oItemNotHaveInstanceSet->Count().' '.$oItemHaveUncomplitedInstanceSet->Count().' '.$oItemHaveOnlyComplitedInstanceSet->Count().')';
+		                    $sCount = ' ('.$oItemNotHaveInstanceSet->Count().' '.$oItemHaveUncompletedInstanceSet->Count().' '.$oItemHaveOnlycompletedInstanceSet->Count().')';
 		                }
 		                else
 		                {
@@ -3631,19 +3857,19 @@
 		                $oBlock->Display($oPage, $sBlockId, array('menu' => false));
 		                $oPage->add('</fieldset>');
 		                
-		                $sBlockId = $sClass.'_Uncomplited';
-		                $sBlockHeader = Dict::S('Class:'.$sClass.'/BlockHeader:Uncomplited');
+		                $sBlockId = $sClass.'_Uncompleted';
+		                $sBlockHeader = Dict::S('Class:'.$sClass.'/BlockHeader:Uncompleted');
 		                $oPage->add('<fieldset>');
 		                $oPage->add('<legend>'.$sBlockHeader.'</legend>');
-		                $oBlock = DisplayBlock::FromObjectSet($oItemHaveUncomplitedInstanceSet, 'list');
+		                $oBlock = DisplayBlock::FromObjectSet($oItemHaveUncompletedInstanceSet, 'list');
 		                $oBlock->Display($oPage, $sBlockId, array('menu' => false));
 		                $oPage->add('</fieldset>');
 		                
-		                $sBlockId = $sClass.'_Complited';
-		                $sBlockHeader = Dict::S('Class:'.$sClass.'/BlockHeader:Complited');
+		                $sBlockId = $sClass.'_completed';
+		                $sBlockHeader = Dict::S('Class:'.$sClass.'/BlockHeader:completed');
 		                $oPage->add('<fieldset>');
 		                $oPage->add('<legend>'.$sBlockHeader.'</legend>');
-		                $oBlock = DisplayBlock::FromObjectSet($oItemHaveOnlyComplitedInstanceSet, 'list');
+		                $oBlock = DisplayBlock::FromObjectSet($oItemHaveOnlycompletedInstanceSet, 'list');
 		                $oBlock->Display($oPage, $sBlockId, array('menu' => false));
 		                $oPage->add('</fieldset>');                
 		                
@@ -3711,23 +3937,36 @@
                     <class id="lnkSecurityCIToTicket"/>
                 </classes>
             </group>
-        <group id="SecurityCI" _delta="define">
-            <classes>
-                <class id="SecurityRoleTemplate"/>
-                <class id="BusinessRole"/>
-                <class id="ApplicationRole"/>
-                <class id="lnkSecurityRoleBidirectional"/>
-                <class id="lnkDocumentToSecurityCI"/>
-                <class id="lnkPersonToSecurityRole"/>
-                <class id="lnkPersonAsManagerOfSecurityCI"/>
-                <class id="lnkSecurityRoleTemplateToSecurityRole"/>
-                <class id="lnkApplySRTemplateToPerson"/>
-            </classes>
+            <group id="SecurityRoles" _delta="define">
+                <classes>
+                    <class id="SecurityRoleTemplate"/>
+                    <class id="BusinessRole"/>
+                    <class id="ApplicationRole"/>
+                    <class id="lnkSecurityRoleBidirectional"/>
+                    <class id="lnkDocumentToSecurityCI"/>
+                    <class id="lnkPersonToSecurityRole"/>
+                    <class id="lnkPersonAsManagerOfSecurityCI"/>
+                    <class id="lnkSecurityRoleTemplateToSecurityRole"/>
+                    <class id="lnkApplySRTemplateToPerson"/>                    
+                </classes>
+            </group>
+            <group id="SecurityCheckLists" _delta="define">
+                <classes>
+                    <class id="OrganizationalSCLI"/>
+                    <class id="FunctionalSCLI"/>
+                    <class id="SCLIEquivalence"/>
+                    <class id="InstanceOfOrganizationalSCLI"/>
+                    <class id="InstanceOfFunctionalSCLI"/>
+                    <class id="SecurityCheckList"/>
+                    <class id="SecurityCheckListItem"/>                    
+                    <class id="lnkOrganizationToOrganizationalSCLI"/>
+                    <class id="lnkGroupToFunctionalSCLI"/>                    
+                </classes>
             </group>
         </groups>
         <profiles>
             <profile id="301" _delta="define">
-                <name>Security Configuration Manager</name>
+                <name>Security Role Manager</name>
                 <description>Person in charge of the documentation of the managed Security Roles</description>
                 <groups>
                     <group id="General">
@@ -3744,7 +3983,40 @@
                             <action id="action:delete">allow</action>
                         </actions>
                     </group>
-                    <group id="SecurityCI">
+                    <group id="SecurityRoles">
+                        <actions>
+                            <action id="action:write">allow</action>
+                            <action id="action:bulk write">allow</action>
+                            <action id="action:delete">allow</action>
+                        </actions>
+                    </group>
+                    <group id="*">
+                        <actions>
+                            <action id="action:read">allow</action>
+                            <action id="action:bulk read">allow</action>
+                        </actions>
+                    </group>
+                </groups>
+            </profile>
+            <profile id="302" _delta="define">
+                <name>Security CheckList Manager</name>
+                <description>Person in charge of CheckList Rules and Checks mamagement</description>
+                <groups>
+                    <group id="General">
+                        <actions>
+                            <action id="action:write">allow</action>
+                            <action id="action:bulk write">allow</action>
+                            <action id="action:delete">allow</action>
+                        </actions>
+                    </group>
+                    <group id="Documentation">
+                        <actions>
+                            <action id="action:write">allow</action>
+                            <action id="action:bulk write">allow</action>
+                            <action id="action:delete">allow</action>
+                        </actions>
+                    </group>
+                    <group id="SecurityCheckLists">
                         <actions>
                             <action id="action:write">allow</action>
                             <action id="action:bulk write">allow</action>
