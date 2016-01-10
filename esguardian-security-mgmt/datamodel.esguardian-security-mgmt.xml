@@ -2055,66 +2055,7 @@
                 </field>
             </fields>
             <methods>        
-                <method id="DisplayBareRelations" _delta="define">
-                    <static>false</static>
-                    <access>public</access>
-                    <type>Overload-cmdbAbstractObject</type>
-                    <code>
-                    <![CDATA[	
-                    function DisplayBareRelations(WebPage $oPage, $bEditMode = false)
-	                {
-		                parent::DisplayBareRelations($oPage, $bEditMode);                
-	                
-
-		                $ItemID = $this->GetKey();
-		                $sExtKeyToMe = 'securitychecklist_id';
-
-		                $sClass = 'SecurityCheckListItemInstance';
-		                $sExtKeyToMe = 'securitychecklistitem_id';
-		                $sStatusAtt = 'status';
-		                $sNotDone = 'not_done';
-		                $sDone = 'done';		                
-
-
-	                    $oSearchNotDone = DBSearch::FromOQL("SELECT $sClass WHERE $sExtKeyToMe = '$ItemID' AND $sStatusAtt = '$sNotDone'");
-	                    $oSetNotDone = new DBObjectSet($oSearchNotDone);
-	                    $oSearchDone = DBSearch::FromOQL("SELECT $sClass WHERE $sExtKeyToMe = '$ItemID' AND $sStatusAtt = '$sDone'");
-	                    $oSetDone = new DBObjectSet($oSearchDone);
-		                    
-		                $iTotal = $oSetNotDone->Count() + $oSetDone->Count();
-		                
-		                
-		                if ($iTotal != 0)
-		                {
-		                    $sCount = ' ('.$oSetNotDone->Count().'/'.$iTotal.')';
-		                }
-		                else
-		                {
-		                    $sCount = '';
-		                }
-		                
-		                $oPage->SetCurrentTab(Dict::S('Class:SecurityCheckListItem/Tab:scli_instance_list').$sCount);	                	                
-		                	                
-		                $sBlockId = $sClass.'_Uncompleted';
-		                $sBlockHeader = Dict::S('Class:'.$sClass.'/BlockHeader:Uncompleted');
-		                $oPage->add('<fieldset>');
-		                $oPage->add('<legend>'.$sBlockHeader.'</legend>');
-		                $oBlock = DisplayBlock::FromObjectSet($oSetNotDone, 'list');
-		                $oBlock->Display($oPage, $sBlockId, array('menu' => false));
-		                $oPage->add('</fieldset>');
-		                
-		                $sBlockId = $sClass.'_completed';
-		                $sBlockHeader = Dict::S('Class:'.$sClass.'/BlockHeader:completed');
-		                $oPage->add('<fieldset>');
-		                $oPage->add('<legend>'.$sBlockHeader.'</legend>');
-		                $oBlock = DisplayBlock::FromObjectSet($oSetDone, 'list');
-		                $oBlock->Display($oPage, $sBlockId, array('menu' => false));
-		                $oPage->add('</fieldset>');                
-		                
-	                }
-	                ]]>
-	                </code>
-                </method>
+                
             </methods>    
             <presentation>
                 <details>
@@ -2278,6 +2219,66 @@
                 </field>
             </fields>
             <methods>
+                <method id="DisplayBareRelations" _delta="define">
+                    <static>false</static>
+                    <access>public</access>
+                    <type>Overload-cmdbAbstractObject</type>
+                    <code>
+                    <![CDATA[	
+                    function DisplayBareRelations(WebPage $oPage, $bEditMode = false)
+	                {
+		                parent::DisplayBareRelations($oPage, $bEditMode);                
+	                
+
+		                $ItemID = $this->GetKey();
+		                $sExtKeyToMe = 'securitychecklist_id';
+
+		                $sClass = 'InstanceOfOrganizationalSCLI';
+		                $sExtKeyToMe = 'securitychecklistitem_id';
+		                $sStatusAtt = 'status';
+		                $sNotDone = 'not_done';
+		                $sDone = 'done';		                
+
+
+	                    $oSearchNotDone = DBSearch::FromOQL("SELECT $sClass WHERE $sExtKeyToMe = '$ItemID' AND $sStatusAtt = '$sNotDone'");
+	                    $oSetNotDone = new DBObjectSet($oSearchNotDone);
+	                    $oSearchDone = DBSearch::FromOQL("SELECT $sClass WHERE $sExtKeyToMe = '$ItemID' AND $sStatusAtt = '$sDone'");
+	                    $oSetDone = new DBObjectSet($oSearchDone);
+		                    
+		                $iTotal = $oSetNotDone->Count() + $oSetDone->Count();
+		                
+		                
+		                if ($iTotal != 0)
+		                {
+		                    $sCount = ' ('.$oSetNotDone->Count().'/'.$iTotal.')';
+		                }
+		                else
+		                {
+		                    $sCount = '';
+		                }
+		                
+		                $oPage->SetCurrentTab(Dict::S('Class:SecurityCheckListItem/Tab:scli_instance_list').$sCount);	                	                
+		                	                
+		                $sBlockId = $sClass.'_Uncompleted';
+		                $sBlockHeader = Dict::S('Class:'.$sClass.'/BlockHeader:Uncompleted');
+		                $oPage->add('<fieldset>');
+		                $oPage->add('<legend>'.$sBlockHeader.'</legend>');
+		                $oBlock = DisplayBlock::FromObjectSet($oSetNotDone, 'list');
+		                $oBlock->Display($oPage, $sBlockId, array('menu' => false));
+		                $oPage->add('</fieldset>');
+		                
+		                $sBlockId = $sClass.'_completed';
+		                $sBlockHeader = Dict::S('Class:'.$sClass.'/BlockHeader:completed');
+		                $oPage->add('<fieldset>');
+		                $oPage->add('<legend>'.$sBlockHeader.'</legend>');
+		                $oBlock = DisplayBlock::FromObjectSet($oSetDone, 'list');
+		                $oBlock->Display($oPage, $sBlockId, array('menu' => false));
+		                $oPage->add('</fieldset>');                
+		                
+	                }
+	                ]]>
+	                </code>
+                </method>
                 <method id="AfterUpdate">
                     <comment>/**
                     * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
@@ -2452,6 +2453,66 @@
                 </field>
             </fields>
             <methods>
+                <method id="DisplayBareRelations" _delta="define">
+                    <static>false</static>
+                    <access>public</access>
+                    <type>Overload-cmdbAbstractObject</type>
+                    <code>
+                    <![CDATA[	
+                    function DisplayBareRelations(WebPage $oPage, $bEditMode = false)
+	                {
+		                parent::DisplayBareRelations($oPage, $bEditMode);                
+	                
+
+		                $ItemID = $this->GetKey();
+
+
+		                $sClass = 'InstanceOfFunctionalSCLI';
+		                $sExtKeyToMe = 'securitychecklistitem_id';
+		                $sStatusAtt = 'status';
+		                $sNotDone = 'not_done';
+		                $sDone = 'done';		                
+
+
+	                    $oSearchNotDone = DBSearch::FromOQL("SELECT $sClass WHERE $sExtKeyToMe = '$ItemID' AND $sStatusAtt = '$sNotDone'");
+	                    $oSetNotDone = new DBObjectSet($oSearchNotDone);
+	                    $oSearchDone = DBSearch::FromOQL("SELECT $sClass WHERE $sExtKeyToMe = '$ItemID' AND $sStatusAtt = '$sDone'");
+	                    $oSetDone = new DBObjectSet($oSearchDone);
+		                    
+		                $iTotal = $oSetNotDone->Count() + $oSetDone->Count();
+		                
+		                
+		                if ($iTotal != 0)
+		                {
+		                    $sCount = ' ('.$oSetNotDone->Count().'/'.$iTotal.')';
+		                }
+		                else
+		                {
+		                    $sCount = '';
+		                }
+		                
+		                $oPage->SetCurrentTab(Dict::S('Class:SecurityCheckListItem/Tab:scli_instance_list').$sCount);	                	                
+		                	                
+		                $sBlockId = $sClass.'_Uncompleted';
+		                $sBlockHeader = Dict::S('Class:'.$sClass.'/BlockHeader:Uncompleted');
+		                $oPage->add('<fieldset>');
+		                $oPage->add('<legend>'.$sBlockHeader.'</legend>');
+		                $oBlock = DisplayBlock::FromObjectSet($oSetNotDone, 'list');
+		                $oBlock->Display($oPage, $sBlockId, array('menu' => false));
+		                $oPage->add('</fieldset>');
+		                
+		                $sBlockId = $sClass.'_completed';
+		                $sBlockHeader = Dict::S('Class:'.$sClass.'/BlockHeader:completed');
+		                $oPage->add('<fieldset>');
+		                $oPage->add('<legend>'.$sBlockHeader.'</legend>');
+		                $oBlock = DisplayBlock::FromObjectSet($oSetDone, 'list');
+		                $oBlock->Display($oPage, $sBlockId, array('menu' => false));
+		                $oPage->add('</fieldset>');                
+		                
+	                }
+	                ]]>
+	                </code>
+                </method>
                 <method id="AfterUpdate">
                     <comment>/**
                     * Placeholder for backward compatibility (iTop &lt;= 2.1.0)

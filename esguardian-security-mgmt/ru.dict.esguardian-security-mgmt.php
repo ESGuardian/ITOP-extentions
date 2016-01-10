@@ -263,17 +263,17 @@ Dict::Add('RU RU', 'Russian', 'Русский', array(
 
 Dict::Add('RU RU', 'Russian', 'Русский', array(
 	'Class:SecurityCheckListItem' => 'Правило',
-	'Class:SecurityCheckListItem+' => 'Элемент чеклиста',
-	'Class:SecurityCheckListItem/Attribute:securitychecklist_id' => 'Чеклист',
+	'Class:SecurityCheckListItem+' => 'Элемент Чек-листа',
+	'Class:SecurityCheckListItem/Attribute:securitychecklist_id' => 'Чек-лист',
 	'Class:SecurityCheckListItem/Attribute:securitychecklist_id+' => '',
-	'Class:SecurityCheckListItem/Attribute:securitychecklist_name' => 'Чеклист',
+	'Class:SecurityCheckListItem/Attribute:securitychecklist_name' => 'Чек-лист',
 	'Class:SecurityCheckListItem/Attribute:securitychecklist_name+' => '',
 	'Class:SecurityCheckListItem/Attribute:scliequivalence_id' => 'Эквивалент',
-	'Class:SecurityCheckListItem/Attribute:scliequivalence_id+' => 'Элемент, задающий эквивалентность правил из разных чеклистов',
+	'Class:SecurityCheckListItem/Attribute:scliequivalence_id+' => 'Элемент, задающий эквивалентность правил из разных Чек-листов',
 	'Class:SecurityCheckListItem/Attribute:scliequivalence_name' => 'Эквивалент',
-	'Class:SecurityCheckListItem/Attribute:scliequivalence_name+' => 'Название элемента, задающего эквивалентность правил из разных чеклистов',
+	'Class:SecurityCheckListItem/Attribute:scliequivalence_name+' => 'Название элемента, задающего эквивалентность правил из разных Чек-листов',
 	'Class:SecurityCheckListItem/Attribute:scliequivalence_description' => 'Описание эквивалента',
-	'Class:SecurityCheckListItem/Attribute:scliequivalence_description+' => 'Описание элемента, задающего эквивалентность правил из разных чеклистов',
+	'Class:SecurityCheckListItem/Attribute:scliequivalence_description+' => 'Описание элемента, задающего эквивалентность правил из разных Чек-листов',
 	'Class:SecurityCheckListItem/Attribute:scli_instance_list' => 'Проверки',
 	'Class:SecurityCheckListItem/Attribute:scli_instance_list+' => 'Список проверок, необходимых для данного правила',
 	'Class:SecurityCheckListItem/Tab:scli_instance_list' => 'Статус проверок',
@@ -288,7 +288,7 @@ Dict::Add('RU RU', 'Russian', 'Русский', array(
 
 Dict::Add('RU RU', 'Russian', 'Русский', array(
 	'Class:OrganizationalSCLI' => 'Орг. мера',
-	'Class:OrganizationalSCLI+' => 'Организационная мера - применимое к организации правило (элемент чеклиста).',
+	'Class:OrganizationalSCLI+' => 'Организационная мера - применимое к организации правило (элемент Чек-листа).',
 	'Class:OrganizationalSCLI/Attribute:scope' => 'Область',
 	'Class:OrganizationalSCLI/Attribute:scope+' => 'Область применения (scope) правила - организация',
 ));
@@ -299,7 +299,7 @@ Dict::Add('RU RU', 'Russian', 'Русский', array(
 
 Dict::Add('RU RU', 'Russian', 'Русский', array(
 	'Class:FunctionalSCLI' => 'Тех. мера',
-	'Class:FunctionalSCLI+' => 'Техническая мера - применимое к функциональному КЕ правило (элемент чеклиста).',
+	'Class:FunctionalSCLI+' => 'Техническая мера - применимое к функциональному КЕ правило (элемент Чек-листа).',
 	'Class:FunctionalSCLI/Attribute:scope' => 'Область',
 	'Class:FunctionalSCLI/Attribute:scope+' => 'Область применения (scope) правила - группа КЕ.',
 ));
@@ -310,7 +310,7 @@ Dict::Add('RU RU', 'Russian', 'Русский', array(
 
 Dict::Add('RU RU', 'Russian', 'Русский', array(
 	'Class:SCLIEquivalence' => 'Эквивалент правил',
-	'Class:SCLIEquivalence+' => 'Элемент, задающий эквивалентность правил из разных чеклистов',
+	'Class:SCLIEquivalence+' => 'Элемент, задающий эквивалентность правил из разных Чек-листов',
 	'Class:SCLIEquivalence/Attribute:scli_list' => 'Список правил',
 	'Class:SCLIEquivalence/Attribute:scli_list+' => 'Список эквивалентных правил',
 ));
@@ -323,7 +323,7 @@ Dict::Add('RU RU', 'Russian', 'Русский', array(
 	'Class:SecurityCheckListItemInstance' => 'Проверка',
 	'Class:SecurityCheckListItemInstance+' => 'Проверка (реализация) правила',
 	'Class:SecurityCheckListItemInstance/Attribute:securitychecklistitem_id' => 'Правило',
-	'Class:SecurityCheckListItemInstance/Attribute:securitychecklistitem_id+' => 'Элемент чеклиста',
+	'Class:SecurityCheckListItemInstance/Attribute:securitychecklistitem_id+' => 'Элемент Чек-листа',
 	'Class:SecurityCheckListItemInstance/Attribute:scli_name' => 'Правило',
 	'Class:SecurityCheckListItemInstance/Attribute:scli_name+' => '',
 	'Class:SecurityCheckListItemInstance/Attribute:scli_description' => 'Описание правила',
@@ -332,9 +332,9 @@ Dict::Add('RU RU', 'Russian', 'Русский', array(
 	'Class:SecurityCheckListItemInstance/Attribute:scliequivalence_name+' => '',
 	'Class:SecurityCheckListItemInstance/Attribute:scliequivalence_description' => 'Описание эквивалента',
 	'Class:SecurityCheckListItemInstance/Attribute:scliequivalence_description+' => '',
-	'Class:SecurityCheckListItemInstance/Attribute:securitychecklist_id' => 'Чеклист',
+	'Class:SecurityCheckListItemInstance/Attribute:securitychecklist_id' => 'Чек-лист',
 	'Class:SecurityCheckListItemInstance/Attribute:securitychecklist_id+' => '',
-	'Class:SecurityCheckListItemInstance/Attribute:securitychecklist_name' => 'Чеклист',
+	'Class:SecurityCheckListItemInstance/Attribute:securitychecklist_name' => 'Чек-лист',
 	'Class:SecurityCheckListItemInstance/Attribute:securitychecklist_name+' => '',
 	'Class:SecurityCheckListItemInstance/Attribute:status' => 'Статус',
 	'Class:SecurityCheckListItemInstance/Attribute:status+' => '',
@@ -377,10 +377,10 @@ Dict::Add('RU RU', 'Russian', 'Русский', array(
 //
 
 Dict::Add('RU RU', 'Russian', 'Русский', array(
-	'Class:SecurityCheckList' => 'Чеклист',
+	'Class:SecurityCheckList' => 'Чек-лист',
 	'Class:SecurityCheckList+' => 'Список требований информационной безопасности',
 	'Class:SecurityCheckList/Attribute:scli_list' => 'Правила',
-	'Class:SecurityCheckList/Attribute:scli_list+' => 'Список правил проверки - элементы чеклиста',
+	'Class:SecurityCheckList/Attribute:scli_list+' => 'Список правил проверки - элементы Чек-листа',
 	'Class:SecurityCheckList/Tab:GroupedCheckListItems' => 'Статусы правил',
 ));
 
@@ -425,10 +425,10 @@ Dict::Add('RU RU', 'Russian', 'Русский', array(
 Dict::Add('RU RU', 'Russian', 'Русский', array(
 	'Menu:SecurityConfigManagement' =>'Управление элементами безопасности',
 	'Menu:SecurityConfigManagement+' =>'Управление конфигурационными элементами безопасности',
-	'Menu:NewSecurityCheckList' =>'Создать Чеклист',
+	'Menu:NewSecurityCheckList' =>'Создать Чек-лист',
 	'Menu:NewSecurityCheckList+' =>'Создать список правил (требований) безопасности',
 	'Menu:NewSecurityCheckListItem' =>'Создать правило',
-	'Menu:NewSecurityCheckListItem+' =>'Создать правило безопасности (элемент чеклиста)',
+	'Menu:NewSecurityCheckListItem+' =>'Создать правило безопасности (элемент Чек-листа)',
 	'Menu:NewBusinessRole' =>'Создать бизнес-роль',
 	'Menu:NewBusinessRole+' =>'Создать роль в бизнес-процессе',
 	'Menu:NewApplicationRole' =>'Создать прикладную роль',
