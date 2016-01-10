@@ -423,8 +423,18 @@ Dict::Add('RU RU', 'Russian', 'Русский', array(
 //
 
 Dict::Add('RU RU', 'Russian', 'Русский', array(
-	'Menu:NewSecurityCI' => 'Создать КЭБ',
-	'Menu:NewSecurityCI+' => 'Создать конфигурационный элемент безопасности',
+	'Menu:SecurityConfigManagement' =>'Управление элементами безопасности',
+	'Menu:SecurityConfigManagement+' =>'Управление конфигурационными элементами безопасности',
+	'Menu:NewSecurityCheckList' =>'Создать Чеклист',
+	'Menu:NewSecurityCheckList+' =>'Создать список правил (требований) безопасности',
+	'Menu:NewSecurityCheckListItem' =>'Создать правило',
+	'Menu:NewSecurityCheckListItem+' =>'Создать правило безопасности (элемент чеклиста)',
+	'Menu:NewBusinessRole' =>'Создать бизнес-роль',
+	'Menu:NewBusinessRole+' =>'Создать роль в бизнес-процессе',
+	'Menu:NewApplicationRole' =>'Создать прикладную роль',
+	'Menu:NewApplicationRole+' =>'Создать роль в прикладном решении',
+	'Menu:NewSecurityRoleTemplate' => 'Создать шаблон ролей',
+	'Menu:NewSecurityRoleTemplate+' => 'Создать шаблон ролей',
 	'Menu:SearchSecurityCIs' => 'Найти КЭБ',
 	'Menu:SearchSecurityCIs+' => 'Найти конфигурационный элемент безопасности',
 ));

@@ -464,8 +464,18 @@ Dict::Add('EN US', 'English', 'English', array(
 //
 
 Dict::Add('EN US', 'English', 'English', array(
-	'Menu:NewSecurityCI' => 'Create SCI',
-	'Menu:NewSecurityCI+' => 'Create Security Configuration Item',
+	'Menu:SecurityConfigManagement' =>'Security configuration management',
+	'Menu:SecurityConfigManagement+' =>'',
+	'Menu:NewSecurityCheckList' =>'New Checklist',
+	'Menu:NewSecurityCheckList+' =>'',
+	'Menu:NewSecurityCheckListItem' =>'New Rule',
+	'Menu:NewSecurityCheckListItem+' =>'',
+	'Menu:NewBusinessRole' =>'New Business Role',
+	'Menu:NewBusinessRole+' =>'Create new role in business process',
+	'Menu:NewApplicationRole' =>'New Application Role',
+	'Menu:NewApplicationRole+' =>'Create new role in application solution',
+	'Menu:NewSecurityRoleTemplate' => 'New role template',
+	'Menu:NewSecurityRoleTemplate+' => '',
 	'Menu:SearchSecurityCIs' => 'Search SCIs',
 	'Menu:SearchSecurityCIs+' => 'Search Security Configuration Items',
 ));
