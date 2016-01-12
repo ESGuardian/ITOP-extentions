@@ -2798,6 +2798,24 @@
                 
             </fields>
             <methods>
+                <method id="DisplayBareProperties" _delta="define">
+                    <static>false</static>
+                    <access>public</access>
+                    <type>Overload-cmdbAbstractObject</type>
+                    <code>
+                    <![CDATA[ 
+                    function DisplayBareProperties(WebPage $oPage, $bEditMode = false, $sx = '', $aExtraParams = array())
+                    {
+                        $aExtraFlags = (isset($aExtraParams['fieldsFlags'])) ? $aExtraParams['fieldsFlags'] : array();
+                        // Запрещаем редактировать атрибуты кроме "status" и "description"
+		                $aExtraFlags['securitychecklistitem_id'] |= OPT_ATT_READONLY;
+		                $aExtraFlags['org_id'] |= OPT_ATT_READONLY;
+		                $aExtraParams['fieldsFlags'] = $aExtraFlags;
+		                parent::DisplayBareProperties($oPage, $bEditMode, $sx, $aExtraParams);
+                    }
+                    ]]>
+                    </code>
+                </method>
                 <method id="AfterUpdate">
                     <comment>/**
                     * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
@@ -2851,30 +2869,36 @@
                     <items>                        
                         <item id="securitychecklist_id">
                             <rank>10</rank>
-                        </item>                        
-                        <item id="status">
+                        </item> 
+                        <item id="securitychecklistitem_id">
                             <rank>20</rank>
                         </item>
-                        <item id="description">
+                        <item id="org_id">
                             <rank>30</rank>
-                        </item>
-                        <item id="scli_description">
+                        </item>                        
+                        <item id="status">
                             <rank>40</rank>
                         </item>
-                        <item id="scliequivalence_id">
+                        <item id="description">
                             <rank>50</rank>
                         </item>
-                        <item id="scliequivalence_description">
+                        <item id="scli_description">
                             <rank>60</rank>
                         </item>
-                        <item id="managers_list">
+                        <item id="scliequivalence_id">
                             <rank>70</rank>
                         </item>
-                        <item id="documents_list">
+                        <item id="scliequivalence_description">
                             <rank>80</rank>
                         </item>
-                        <item id="tickets_list">
+                        <item id="managers_list">
                             <rank>90</rank>
+                        </item>
+                        <item id="documents_list">
+                            <rank>100</rank>
+                        </item>
+                        <item id="tickets_list">
+                            <rank>110</rank>
                         </item>
                     </items>
                 </details>
@@ -2953,6 +2977,24 @@
                 </field>
             </fields>
             <methods>
+                <method id="DisplayBareProperties" _delta="define">
+                    <static>false</static>
+                    <access>public</access>
+                    <type>Overload-cmdbAbstractObject</type>
+                    <code>
+                    <![CDATA[ 
+                    function DisplayBareProperties(WebPage $oPage, $bEditMode = false, $sx = '', $aExtraParams = array())
+                    {
+                        $aExtraFlags = (isset($aExtraParams['fieldsFlags'])) ? $aExtraParams['fieldsFlags'] : array();
+                        // Запрещаем редактировать атрибуты кроме "status" и "description"
+		                $aExtraFlags['securitychecklistitem_id'] |= OPT_ATT_READONLY;
+		                $aExtraFlags['functionalci_id'] |= OPT_ATT_READONLY;
+		                $aExtraParams['fieldsFlags'] = $aExtraFlags;
+		                parent::DisplayBareProperties($oPage, $bEditMode, $sx, $aExtraParams);
+                    }
+                    ]]>
+                    </code>
+                </method>
                 <method id="AfterUpdate">
                     <comment>/**
                     * Placeholder for backward compatibility (iTop &lt;= 2.1.0)
@@ -3010,30 +3052,36 @@
                     <items>                        
                         <item id="securitychecklist_id">
                             <rank>10</rank>
-                        </item>                        
-                        <item id="status">
+                        </item> 
+                        <item id="securitychecklistitem_id">
                             <rank>20</rank>
                         </item>
-                        <item id="description">
+                        <item id="functionalci_id">
                             <rank>30</rank>
-                        </item>
-                        <item id="scli_description">
+                        </item>                        
+                        <item id="status">
                             <rank>40</rank>
                         </item>
-                        <item id="scliequivalence_id">
+                        <item id="description">
                             <rank>50</rank>
                         </item>
-                        <item id="scliequivalence_description">
+                        <item id="scli_description">
                             <rank>60</rank>
                         </item>
-                        <item id="managers_list">
+                        <item id="scliequivalence_id">
                             <rank>70</rank>
                         </item>
-                        <item id="documents_list">
+                        <item id="scliequivalence_description">
                             <rank>80</rank>
                         </item>
-                        <item id="tickets_list">
+                        <item id="managers_list">
                             <rank>90</rank>
+                        </item>
+                        <item id="documents_list">
+                            <rank>100</rank>
+                        </item>
+                        <item id="tickets_list">
+                            <rank>110</rank>
                         </item>
                     </items>
                 </details>
@@ -3738,7 +3786,7 @@
             </fields>
             <presentation>
                 <details>
-                    <items>                        
+                    <items>                        Prefi
                         <item id="scli_list" _delta="define">
                             <rank>80</rank>
                         </item>
