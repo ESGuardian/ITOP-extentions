@@ -2808,8 +2808,8 @@
                     {
                         $aExtraFlags = (isset($aExtraParams['fieldsFlags'])) ? $aExtraParams['fieldsFlags'] : array();
                         // Запрещаем редактировать атрибуты кроме "status" и "description"
-		                $aExtraFlags['securitychecklistitem_id'] |= OPT_ATT_READONLY;
-		                $aExtraFlags['org_id'] |= OPT_ATT_READONLY;
+		                $aExtraFlags['securitychecklistitem_id'] = isset($aExtraFlags['securitychecklistitem_id']) ? $aExtraFlags['securitychecklistitem_id'] | OPT_ATT_READONLY : OPT_ATT_READONLY;
+		                $aExtraFlags['org_id'] = isset ($aExtraFlags['org_id']) ? $aExtraFlags['org_id'] | OPT_ATT_READONLY : OPT_ATT_READONLY;
 		                $aExtraParams['fieldsFlags'] = $aExtraFlags;
 		                parent::DisplayBareProperties($oPage, $bEditMode, $sx, $aExtraParams);
                     }
@@ -2987,8 +2987,8 @@
                     {
                         $aExtraFlags = (isset($aExtraParams['fieldsFlags'])) ? $aExtraParams['fieldsFlags'] : array();
                         // Запрещаем редактировать атрибуты кроме "status" и "description"
-		                $aExtraFlags['securitychecklistitem_id'] |= OPT_ATT_READONLY;
-		                $aExtraFlags['functionalci_id'] |= OPT_ATT_READONLY;
+		                $aExtraFlags['securitychecklistitem_id'] = isset($aExtraFlags['securitychecklistitem_id']) ? $aExtraFlags['securitychecklistitem_id'] | OPT_ATT_READONLY : OPT_ATT_READONLY;
+		                $aExtraFlags['functionalci_id'] = isset ($aExtraFlags['functionalci_id']) ? $aExtraFlags['functionalci_id'] | OPT_ATT_READONLY : OPT_ATT_READONLY;
 		                $aExtraParams['fieldsFlags'] = $aExtraFlags;
 		                parent::DisplayBareProperties($oPage, $bEditMode, $sx, $aExtraParams);
                     }
