@@ -5,11 +5,11 @@
 
 SetupWebPage::AddModule(
 	__FILE__, // Path to the current file, all other file names are relative to the directory containing this file
-	'esguardian-security-mgmt/1.2.0',
+	'esguardian-checklist-mgmt/1.2.0',
 	array(
 		// Identification
 		//
-		'label' => 'Security Objects Configuration Management',
+		'label' => 'Security Checklists Management',
 		'category' => 'business',
 
 		// Setup
@@ -17,7 +17,8 @@ SetupWebPage::AddModule(
 		'dependencies' => array(
 			'itop-tickets/2.2.0',
 			'itop-config-mgmt/2.2.0',
-			'itop-change-mgmt-itil/2.2.0'
+			'itop-change-mgmt-itil/2.2.0',        
+			'esguardian-security-mgmt/1.2.0'
 		),
 		'mandatory' => false,
 		'visible' => true,
@@ -25,7 +26,7 @@ SetupWebPage::AddModule(
 		// Components
 		//
 		'datamodel' => array(
-			'model.esguardian-security-mgmt.php'
+			'model.esguardian-checklist-mgmt.php'
 		),
 		'webservice' => array(
 			
