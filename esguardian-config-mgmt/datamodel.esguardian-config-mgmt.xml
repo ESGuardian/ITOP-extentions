@@ -1,15 +1,116 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <itop_design xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
-  <constants>
-  </constants>
-  <classes>
-  </classes>
-  <menus>
-  </menus>
-  <user_rights>
-    <groups>
-    </groups>
-    <profiles>
-    </profiles>
-  </user_rights>
+    <constants>
+    </constants>
+    <classes>
+    <class id="ESGuardianFileStore" _delta="define">
+        <parent>SoftwareInstance</parent>
+        <properties>
+            <category>bizmodel,searchable</category>
+            <abstract>false</abstract>
+            <key_type>autoincrement</key_type>
+            <db_table>esguardianfilestore</db_table>
+            <db_key_field>id</db_key_field>
+            <db_final_class_field/>
+            <naming>
+                <attributes>
+                    <attribute id="name"/>
+                    <attribute id="system_name"/>
+                </attributes>
+            </naming>
+            <display_template/>
+            <icon></icon>
+            <reconciliation>
+                <attributes>
+                    <attribute id="name"/>
+                    <attribute id="org_id"/>
+                    <attribute id="organization_name"/>
+                    <attribute id="system_id"/>
+                    <attribute id="system_name"/>
+                </attributes>
+            </reconciliation>
+        </properties>
+        <fields/>
+        <methods/>
+        <presentation>
+            <details>
+                <items>
+                    <item id="name">
+                        <rank>10</rank>
+                    </item>
+                    <item id="org_id">
+                        <rank>20</rank>
+                    </item>
+                    <item id="status">
+                        <rank>30</rank>
+                    </item>
+                    <item id="business_criticity">
+                        <rank>40</rank>
+                    </item>
+                    <item id="system_id">
+                        <rank>50</rank>
+                    </item>
+                    <item id="path">
+                        <rank>80</rank>
+                    </item>
+                    <item id="move2production">
+                        <rank>90</rank>
+                    </item>
+                    <item id="description">
+                        <rank>100</rank>
+                    </item>
+                    <item id="contacts_list">
+                        <rank>110</rank>
+                    </item>
+                    <item id="documents_list">
+                        <rank>120</rank>
+                    </item>
+                    <item id="applicationsolution_list">
+                        <rank>140</rank>
+                    </item>                    
+                </items>
+            </details>
+            <search>
+                <items>
+                    <item id="name">
+                        <rank>10</rank>
+                    </item>
+                    <item id="org_id">
+                        <rank>20</rank>
+                    </item>
+                    <item id="business_criticity">
+                        <rank>30</rank>
+                    </item>
+                    <item id="move2production">
+                        <rank>40</rank>
+                    </item>
+                </items>
+            </search>
+            <list>
+                <items>
+                    <item id="name">
+                        <rank>10</rank>
+                    </item>
+                    <item id="system_id">
+                        <rank>20</rank>
+                    </item>
+                    <item id="org_id">
+                        <rank>30</rank>
+                    </item>
+                    <item id="business_criticity">
+                        <rank>40</rank>
+                    </item>                
+                </items>
+            </list>
+      </presentation>
+    </class>
+    </classes>
+    <menus>
+    </menus>
+    <user_rights>
+        <groups>
+        </groups>
+        <profiles>
+        </profiles>
+    </user_rights>
 </itop_design>
